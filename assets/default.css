@@ -57,11 +57,12 @@ table {
 	border-spacing: 0;
 }
 
-
 /*global*/
 html {
-	font-family: Helvetica;
-	background-color: #ddd;
+	font-family: "Open Sans", sans-serif;
+	/*background-color: #000711; */
+	background-color: #000307;
+	color: #fff;
 }
 
 pre {
@@ -74,134 +75,212 @@ pre {
 	padding: 5;
 }
 
-/*full-screen on most normal things*/
-.center
-{
-	text-align: center;
+h1,h2,h3,h4,h5,h6 {
+	font-family: 'EB Garamond', serif;
+	margin-bottom: 10px;
 }
 
-.container
-{
-	width: 59%;
-	background-color: #333;
-	color: white;
+h1 { font-size: 4em; }
+h2 { font-size: 3.5em; }
+h3 { font-size: 3.0em; }
+h4 { font-size: 2.7em; }
+h5 { font-size: 2.4em; }
+h6 { font-size: 2.0em; }
+
+
+header {
+	position: fixed;
+	min-width: 60px;
+	max-width: 140px;
+	min-height: 80px;
+	padding-left: 10px;
+/*
+	top: 90%;
+	height: 5%;
+*/
+	top: 0%;
 	height: 100%;
-	float: left;
+	width: 10%;
+	z-index: 99;
 }
 
-.other-container
-{
+header ul {
+	position: absolute;
+	bottom: 0%;
+	height: 10%;
+}
+
+header li {
 	position: relative;
-	width: 39%;
-	padding-top: 10;
-	margin-bottom: 10;
+}
+
+header li a {
+	font-family: 'EB Garamond', serif;
+	color: white;
+	text-transform: capitalize;
+	text-decoration: none;
+	font-size: 15px;
+	font-weight: bold;
+	line-height: 1.5em;	
+	transition: background-color 0.3s, color 0.3s;
+	padding-right: 30px;
+	background: rgba(0, 7, 17, 0.7);
+}
+
+header li a:hover {
+	color: black;
+	/*background-color: #fff;*/
+	background: rgba(255, 255, 255, 1);
+}
+
+/*slap the icon on here, let's see what happens...*/
+header .icon {
+	font-family: 'EB Garamond', serif;
+	width: 50px;
+	height: 50px;
+	border: 5px solid white;
+	border-radius: 35px;
+	display: inline-block;
+	color: white;
+	text-align: center;
+	font-size: 17px;
+	position: relative;
+	top: 10px;
+	left: -4px;
+	margin: 0 auto;
+	background: rgba(0, 3, 7, 1);
+}
+
+header .icon span {
+	position: relative;
+	top: 10px;
+}
+
+header .icon span:nth-child(2) {
+	position: relative;
+	font-size: 9px;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
+	left: 1px;
+}
+
+footer {
+
+}
+
+.project li {
+	width: 100%;
+	height: 100%;
+}
+
+.project li .full {
+	width: 75%;
+	height: 80%;
+	margin: 0 auto;
+	margin-top: 30%; 
+	min-width: 300px;
+	min-height: 300px;
+}
+
+.project li .half {
+	position: relative;
+	display: inline-block;
+	margin-top: 0%;
+	margin-right: 2%;
+	width: 38%;
+}
+
+.project li .half p {
+	font-size: 0.7em;
+	margin-bottom: 10px;
+	font-family: 'EB Garamond', serif;
+}
+
+.project li .images {
+	display: inline-block;
+	width: 55%; 
 	float: right;
 }
 
-.container-section
-{
-	position: relative;
-	width: 95%;
-	padding-top: 10;
+.project li .images li {
 	margin: 0 auto;
-	margin-bottom: 10;
+	vertical-align: top;
+	display: inline-block;
+	width: 30%;
+	height: auto;
+	position: relative;
+	margin-left: 1%;
+	margin-right: 1%;
+	margin-bottom: 7px;
 }
 
-.container-dark-line {
-	border-top: 5px solid #333;
+.project li .images li:nth-child(1) {
+	display: inline-block;
+	width: 100%;
+	height: auto;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+	filter: sepia(0%);
+	transition: filter 0.2s background-color 0.2s;
 }
 
-.container-light-line {
-	border-top: 5px solid #ccc;
+.project li .images li:not(:nth-child(1)):hover {
+	opacity: 0.8;
+	filter: sepia(60%);
+	background-color: orange;
 }
 
-.container p
-{
-	font-size: 1.5em;
+.project li .images li img {
+	width: 100%;
 }
 
-h1, h2, h3, h4, h5 {
-	transition: font-size 0.2s;	
+.project li:nth-child(even) .half {
+	float: right;
 }
 
-p {
-	transition: font-size 0.2s,
-							width 0.2s;
+.project li:nth-child(even) .images {
+	float: left;
 }
 
-a {
-	transition: background-color 0.2s,
-							color 0.2s;
+.middle {
+	font-family: 'EB Garamond', serif;
+	width: 70%;
+	min-width: 300px;
+	margin: 0 auto;
+	margin-top: 15%;
 }
 
-h1 { font-size: 16em; font-weight: bold; text-align: center; }
-h2 { font-size: 5em; }
-h3 { font-size: 4em; }
-h4 { font-size: 3em; }
-h5 { font-size: 2em; }
-
-a {
-	font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
-	line-height: 40px;
-	background-color: #333;
-	font-size: 1.4em;
-	color: white;
-	text-align: center;
-	padding: 10px;
+.middle ul.langs {
+	list-style: inside; 	
+	list-style-type: disc; 	
+	line-height: 1.2em;
+	margin-bottom: 40px;
 }
 
-a:hover {
-	background-color: white;
-	color: black;
+.middle ul.contact {
+	font-size: 1.2em;
 }
 
-p {
-	font-family: "Lucida Console", "Lucida Sans Typewriter", monaco, "Bitstream Vera Sans Mono", monospace;
-	font-size: 1.4em;
-	margin-top: 30px;
+.middle ul.contact li:nth-child(1) {
+	font-weight: bold;
+	text-decoration: underline;
+	line-height: 1.7em;
 }
 
-ul li {
-	margin: 5;
-	margin-left: 0;
+.middle p {
+	margin-bottom: 10px;
 }
 
-.gets
-{
-	transition: display 0.2s;
-	display: none;
+.middle ul {
+	margin-bottom: 20px;
 }
 
 
-/*mobile*/
-@media ( max-width: 736px ) {
-	.container {
-		width: 100%;
-		height: 100%;
-		padding-bottom: 20px;
-	}
 
-	.other-container {
-		background-color: #ccc;
-		width: 100%;
-		height: 100%;
-		padding-bottom: 20px;
-	}
 
-	h1 { font-size: 8em; 
-			 font-weight: bold; padding-bottom: 30; padding-top: 100px; }
 
-	.gets
-	{
-		display: block;
-		position: absolute;
-		bottom: 10;
-		right: 10;
-	}
-}
 
-@media (min-width: 737px) and ( max-width: 1200px ) {
-	h1 { font-size: 10em; 
-			 font-weight: bold; 
-			 padding-top: 100px; }
-}
+
+
+

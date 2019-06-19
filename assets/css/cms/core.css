@@ -1,0 +1,749 @@
+/*cms.css*/
+html {
+
+}
+
+.head /*header*/ {
+	display: inline-block;
+	width: 100%;
+	height: 30px;
+	color: black;
+	text-transform: capitalize;
+}
+
+header {
+	background-color: white;
+	display: inline-block;
+	width: 100%;
+	height: 35px;
+	color: black;
+	text-transform: uppercase;
+	border-bottom: 1px solid black;
+	position: fixed;
+	z-index: 99;
+}
+
+footer {
+	border-top: 1px solid black;
+}
+
+header div {
+	display: inline-block;
+	vertical-align: top;
+	position: relative;
+	top: 0px;
+}
+
+header .bubble {
+	width: 30px;
+	height: 30px;
+	border: 1px solid black;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	-gecko-border-radius: 15px;
+	overflow: hidden;
+}
+
+header .bubble > img {
+	width: 100%;	
+	height: 100%;	
+}
+
+header .menu {
+	width: 150px;
+	float: right;
+	position: relative;
+	left: -15px;	
+}
+
+ul.head-links {
+	position: relative;
+	align-items: center;
+	display: flex;
+	height: 30px;
+	text-transform: uppercase;
+	font-family: Helvetica, sans-serif;
+}
+
+a.head-link, a.head-link:hover, a.head-link:visited { 
+	color: black;	
+	text-decoration: none; 
+	font-weight: bold;
+	height: 100%;
+}
+
+a.head-link:hover { 
+	/*text-decoration: underline;	*/
+}
+
+li.head-link {
+	padding-left: 10px; 
+	padding-right: 10px; 
+	padding: 10px; 
+	transition: background-color 0.1s;
+}
+
+li.head-link:hover {
+	background-color: black;
+	color: white;
+}
+
+
+/*
+footer {
+	border-top: 5px solid black;
+}
+footer {
+	position: relative;
+	width: 100%;
+	height: 100px;
+	top: 30px;
+	border: 2px solid black;
+	padding: 0px;
+	margin: 0px;
+}
+*/
+
+/*User Content Drop area*/
+.container { /*The finalized content section*/
+	position: relative;
+	width: 80%;
+	max-width: 999px; 
+	min-width: 320px; 
+	min-height: 90%;
+	margin: 0 auto;
+	top: 60px;
+	font-family: Helvetica, sans-serif;
+	margin-bottom: 100px;
+}
+
+ul.container-navigation {
+	list-style: none;
+	background-color: #777;
+	padding: 10px;
+	background: rgba( 160, 160, 160, 0.8 );
+}
+
+ul.container-navigation li {
+	display: inline-block;
+	margin-right: 10px;	
+	background: #ccc;
+	padding: 3px;
+}
+
+ul.container-navigation li a {
+	text-transform: capitalize;
+	text-decoration: none;
+	color: #333;
+}
+
+ul.container-navigation li a:hover {
+	text-decoration: underline;
+}
+
+.container-section {
+	font-size: 0.7em;
+	border: 3px solid black;
+	margin-bottom: 20px;	
+	padding-left: 30px;
+	padding-right: 30px;
+	padding-bottom: 30px;
+	padding-top: 20px;
+	height: auto;
+	min-height: 20px;
+	transition: height 0.2s, border-color 0.2s;
+}
+
+.hider-section h2 ,
+.container-section h2 {
+	background-color: #ddd;
+	text-transform: capitalize;
+	width: auto;
+	display: inline-block;
+	position: relative;
+	top: -12px;
+	left: -5px;
+	padding: 4px;
+	padding-left: 10px;
+	padding-right: 10px;
+	font-weight: bold;
+	font-size: 1.3em;
+	letter-spacing: -1px;
+}
+
+.container h1 {
+	color: #ccc;
+	z-index: -99;
+	font-size: 5em;
+	position: relative;
+	left: -25px;
+	height: 50px;
+	top: -20px;
+	font-style: italic;
+	font-weight: bold;
+	letter-spacing: -5px;
+	/*
+	text-transform: capitalize;
+	*/
+}
+
+/*
+.container-section .container-section--collapse {
+	background: #ddd;
+	width: 40px;	
+	height: 40px;	
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	-gecko-border-radius: 20px;
+	float: right;
+	position: relative;
+	top: -20px;
+}
+
+.container-section .container-section--collapse .container-section--icon {
+	border-bottom: 5px solid black;	
+	border-right: 5px solid black;	
+	width: 10px;	
+	height: 10px;	
+	position: relative;
+	margin: 0 auto;
+	top: 10px;
+	transform: rotate(45deg);
+	transition: transform 0.2s;
+	z-index: 0;
+}
+
+.container-section .container-section--collapsed .container-section--icon {
+	transform: rotate(-135deg);
+}
+*/
+
+.hider-section {
+	width: 90%;
+	display: block;
+	height: 30px;
+	margin: 0 auto;
+	position: relative;
+	top: 25px;
+}
+
+.hider-section .container-section--collapse {
+	background: #ddd;
+	width: 40px;	
+	height: 40px;	
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	-gecko-border-radius: 20px;
+	float: right;
+	position: relative;
+	top: -20px;
+}
+
+.hider-section .container-section--collapse .container-section--icon {
+	border-bottom: 5px solid black;	
+	border-right: 5px solid black;	
+	width: 10px;	
+	height: 10px;	
+	position: relative;
+	margin: 0 auto;
+	top: 10px;
+	transform: rotate(45deg);
+	transition: transform 0.2s;
+	z-index: 0;
+}
+
+.hider-section .container-section--collapsed .container-section--icon {
+	transform: rotate(-135deg);
+}
+
+.drop-area {  /*The drop area*/
+	height: 200px; width: 100%; 
+	border: 2px solid #aaa; 
+	box-sizing: border-box; 
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.input-group {
+	display: -webkit-flex;	
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+.input-group div {
+	min-height: 50px;
+	width: 75%;
+}
+
+.input-group div div {
+	position: relative;
+	top: -10px;
+	padding: 1%;
+	width: 98%;
+	min-height: 50px;
+	background-color: #ddd;
+}
+
+.input-group div div li {
+	border: 1px solid #222;
+	background-color: #aaa;
+	color: black;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-gecko-border-radius: 3px;
+	font-size: 0.7em;
+	box-shadow: 5px 5px 5px 2px #999;
+	margin-right: 10px;
+	margin-bottom: 8px;
+	width: auto;
+	display: inline-block;
+	padding: 5px;
+	transition: background-color 0.2s;
+}
+
+.input-group div div li::after {
+	content: " x";
+}
+
+.input-group div div li:hover {
+	background-color: #ddd;
+	text-decoration: underline;
+}
+
+.input-group input {
+	-webkit-transition: width 2s;
+	transition: width 2s;
+}
+
+.input-group input:hover,
+.input-group input:focus {
+	outline: none;	
+	color: black;
+	width: 100%;
+}
+
+
+.content-group {
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+label.input-member {
+	flex: 1 0 0;
+}
+
+input.input-member {
+	flex: 3 0 0;
+	border: 0;
+	border-bottom: 2px solid #888;
+	margin-bottom: 20px; 
+	padding-left: 1%; 
+	padding-top: 10px; 
+	padding-bottom: 10px; 
+/*
+	-webkit-transition: background 0.2s;
+	transition: background 0.2s;
+*/
+	-webkit-transition: /*flex 0.2s,*/ font-size 0.2s, background-color 0.3s;
+	transition: /*flex 0.2s,*/ font-size 0.2s, background-color 0.3s;
+}
+
+
+div.check {
+	display: -webkit-flex;	
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+label.check {
+	flex: 1 0 0;
+}
+
+input.check {
+	flex: 2 0 0;
+}
+
+#drop {
+	font-size: 1.0em;
+	-webkit-transition: /*flex 0.2s,*/ font-size 0.2s, border-color 0.3s, height 0.4s;
+	transition: /*flex 0.2s,*/ font-size 0.2s, border-color 0.3s, height 0.4s;
+}
+
+#drop:focus
+{
+	font-size: 2.0em;
+	border-color: blue;
+	height: 400px;
+}
+
+input.input-member:focus {
+	/*flex: 10 0 0;*/
+	background-color: #fffeee;
+	font-size: 1.7em;
+}
+
+input.metas 
+{ font-size: 0.8em; width: 100%; }
+
+input.title 
+{
+	padding-left: 1%;
+	font-size: 1.5em; 
+	position: relative; 
+	padding-top: 10px; 
+	padding-bottom: 10px; 
+	width: 100%; 
+}
+
+select.input-member {
+	flex: 3 0 0;
+	padding: 1%; 
+	font-size: 1.0em; 
+	width: 50%; 
+}
+
+button.input-member
+{
+	position: relative;
+	background-color: #aaa;
+	border: 0px;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-gecko-border-radius: 5px;
+	font-size: 1.3em;
+	width: 150px;
+	height: 50px;
+}
+
+ul.admin-selection {
+	display: flex;
+	flex-direction: column;
+}
+
+a.admin-selection { text-decoration: none; color: white; }
+
+li.admin-selection
+{
+	width: 80%;
+	margin: 0 auto;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-gecko-border-radius: 10px;
+	height: 35px;
+	padding-top: 20px;
+	margin-bottom: 10px;
+	padding-left: 10px;
+	/*animation: span 1s linear infinite;
+	animation-play-state: paused;*/
+
+	/*This is a lot damn shorter, but the sine doesn't look as good or as smooth*/
+	transition-timing-function: linear;
+	-webkit-transition: padding-left 0.2s;
+	transition: padding-left 0.2s;
+}
+
+li.admin-selection:hover
+{
+	background: #aaa;
+	color: white;
+	padding-left: 30px;
+	padding-right: 0px;
+	/*animation-play-state: running;*/
+}
+
+
+/*
+@keyframes spin
+{
+	100% { transform: rotate( 1turn ); }
+}*/
+
+li.as-alt-0 { background-color: #777; }
+li.as-alt-1 { background-color: #999; }
+
+h3.input-break {
+	border-bottom: 2px solid black;
+	margin-bottom: 10px;
+	margin-top: 20px;
+	padding-bottom: 10px;
+}
+
+.content-shroud,
+.content-draft
+{
+	position: relative;
+	background: #ffffee;
+	padding: 10px;
+	margin-left: -10px;
+	width: 95%;
+	left: 2.5%;
+}
+
+.content-shroud
+{
+	background-color: #eee;
+	z-index: 99;
+	opacity: 0.2;
+	height: 300px;
+	position: absolute;
+}
+
+p.content-regular,
+audio.content-regular,
+video.content-regular,
+img.content-regular {
+	position: relative;
+	width: 100%;
+}
+
+input.admin-search {
+	font-size: 1.3em;
+	width: 60%;
+	border: 0;
+	margin-bottom: 10;
+	outline: none;
+	min-width: 250px;
+	border-bottom: 5px solid black;
+}
+
+/*heads that expand*/
+.js-param-expand {
+	border-bottom: 2px solid black;
+	border-left: 2px solid black;
+	height: 20px;
+	width: 20px;
+	top: 0px;
+	position: relative;
+	text-align: center;
+	transform: rotate(-45deg);
+	transition: transform 0.2s, top 0.2s;
+	left: 50px;	
+}
+
+.js-param-expanded {
+	top: 10px;
+	transform: rotate(135deg);
+	position: relative;
+	left: 55px;	
+}
+
+.params-table {
+	display: block;
+}
+
+.settings-table {
+	display: block;
+	height: 0px;
+	transition: height 0.2s;
+	margin-bottom: 30px;
+	border: 1px solid black;
+	border-radius: 0 0 20px 20px; 
+}
+
+.js-param-expanded + .params-table {
+	display: block;
+}
+
+.js-hide {
+	display: none;	
+}
+
+.js-min {
+	height: 5px;	
+	overflow: hidden;
+	border: 3px solid #ccc;
+	opacity: 0.5;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+.js-unhide {
+	display: block;	
+	min-height: 100px;
+}
+
+.settings-left { 
+	width: 80%; 
+}
+
+.settings-right { 
+	display: inline-block; 
+	float: right; 
+	width: 20%; 
+	top: 0px; 
+	height: 20px; 
+}
+
+/*settings content blocks*/
+.admin .hold {
+	width: 40px;
+	height: 40px;
+	border-radius: 20px;
+	-moz-border-radius: 20px;
+	-gecko-border-radius: 20px;
+	overflow: hidden;
+}
+
+
+.admin h3 {
+	font-size: 1.3em;
+	display: block;
+	font-weight:bold;
+	margin-bottom: 20px;
+}
+
+
+.js-log {
+	background-color: cyan;
+}
+
+.js-stub {
+	border: 1px solid green;
+	width: 100%;
+	position: relative;
+	margin-bottom: 10px;
+	margin-top: 10px;
+}
+
+.js-stub img ,
+.js-stub video ,
+.js-stub audio {
+	width: 50%;
+	position: relative;
+	left: 25%;
+}
+
+.js-stub .remove {
+	width: 30px;
+	height: 30px;
+	border: 1px solid white;
+}
+
+.js-stub .config {
+	width: 30px;
+	height: 30px;
+	border: 1px solid white;
+}
+
+/*
+p.content-regular ,
+img.content-regular ,
+video.content-regular ,
+*/
+.content-regular {
+	padding: 10px; 
+	border: 1px solid #ccc;
+	background: rgba( 210,210,210,0.5 );
+	padding-top: 10px; 
+	margin-bottom: 10px;
+	position: relative;
+	transition: 
+		width 0.3s
+	, font-size 0.3s
+	, position 0.3s
+	;
+}
+
+.content-regular p {
+	font-size: 1.3em;
+	line-height: 20px;
+	font-family: "Times New Roman", serif;
+}
+
+.content-regular img {
+	width: 100%;
+}
+
+.content-active {
+	position: relative;
+	font-size: 1.6em;
+	width: 120%;
+	left: -10%;
+	z-index: 99;
+	background-color: #fff;
+	color: black;
+}
+
+.content-active p {
+	line-height: 30px;
+	padding-top: 45px; 
+	padding-bottom: 20px;
+}
+
+.content-shroud {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 0;
+	background: rgba( 200, 200, 200, 0.3 );
+}
+
+.content-regular .icons {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	transition: background 0.1s;
+	background: rgba( 0, 0, 0, 0.3 );	
+	text-align: center;
+	display:none;
+}
+
+.content-regular:hover .icons {
+	background: rgba( 12, 200, 12, 0.1 );	
+	display:block;
+}
+
+.content-icon {
+	display: inline-block;
+	margin: 0 auto;
+	height: 60px;
+	width: 60px;
+	border-radius: 30px;
+	-moz-border-radius: 30px;
+	-gecko-border-radius: 30px;
+	position: relative;
+	top: 50%;
+	margin-top: -30px;
+	margin-left: 10px;
+	opacity: 0.7;
+	transition: opacity 0.1s;
+}
+
+.content-icon:hover {
+	opacity: 1;
+}
+
+.delete {
+	background: rgb( 200, 30, 30 );	
+}
+
+.edit {
+	background: rgb( 0, 30, 30  );	
+}
+
+.content-regular-header {
+	display: none;
+}
+
+.content-active .content-regular-header {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 40px;
+	width: 100%;
+	border-bottom: 1px solid #ccc;
+	/*box-shadow: 3px 3px 3px 2px #ccc;*/
+}

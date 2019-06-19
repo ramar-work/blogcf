@@ -1,0 +1,31 @@
+/*cms-list.css - The list view for seeing old posts*/
+li.admin-leader 
+{ 
+	background: #262728;
+	text-align: center;
+	color     : white;  }
+
+
+li.admin-selection
+{
+	display: flex;
+}
+
+li.admin-selection > div
+{
+	flex: 4 0 0;
+	border: 2px solid cyan;
+}
+ 
+li.admin-selection > ul li
+{
+	flex: 2 0 0;
+	border: 2px solid cyan;
+	display: inline-block;
+	align-items: right;
+	font-size: 0.7em;
+	text-align: right;
+	position: relative;
+} 
+
+

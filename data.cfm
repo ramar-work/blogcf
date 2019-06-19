@@ -20,10 +20,12 @@ manifest = {
 
 /*----------------- USER-MODIFIABLE STUFF ------------------*/
 /*Turn on debugging, yes or no?*/
-,"debug"  = 0  
+,"debug"  = 0
+
+,"host"  = "collinsdesign.com" 
 
 /*Set a description for this new application*/
-,"description"  = "__DESCRIPTION__" 
+,"description"  = "All About Design & Development" 
 
 /*Set a primary author for SEO purposes*/
 ,"author"  = "Buddy Noone" 
@@ -70,7 +72,9 @@ manifest = {
 /*Here are the application's routes or endpoints.*/
 ,"routes" = {
 
-	"default"= { model="default", view = "default" }
+	"default"= {model="default", view = ["head","default","tail"]}
+, "contact"= {model="contact", view = ["head","contact","tail"]}
+, "blog"= {model="blog", view = ["head","blog","tail"]}
 
  } /*end routes*/
 };

@@ -1,0 +1,91 @@
+/*cms-list-table.css - The list view for seeing old posts in table form*/
+table.admin
+{
+	width: 100%;
+	padding: 1;	
+	margin: 0;
+	font-family: Georgia, arial, sans-serif;
+	line-height: 1.4em;
+	border-collapse: collapse;
+}
+
+table.admin > caption
+{
+	background: #E0E0E0;
+	margin: 0;
+	border-bottom: none;
+	padding: 6px 16px;
+	font-weight: bold;
+}
+
+table.admin th,
+table.admin td
+{
+	text-align: left;
+	padding: 5;	
+}
+
+table.admin th { 
+	font-size: 0.8em; 
+	font-weight: bold; 
+}
+
+table.admin tr
+{
+	border-bottom: 5px solid white;
+	transition: background-color 0.3s;
+}
+
+table.admin tr:hover
+{
+	background-color: #1affff; /*cyan*/
+	border-bottom: 5px solid white;
+}
+
+table.admin td.name
+{
+	background-color: #e6ffff; /*lighter cyan*/
+	width: 60%;
+	min-width: 250px;
+}
+
+table.admin tr:hover > td.name
+{
+	background-color: #1affff; /*cyan*/
+}
+
+button.admin-leader 
+{ 
+	width     : 60%;
+	min-width : 250px;
+	padding   : 10px;
+	top:      : -5px;
+	position  : relative;
+	margin-bottom: 10;
+	background: #262728;
+	text-align: left;
+	font-size : 1.1em;
+	color     : white;  
+	font-family: Georgia, arial, sans-serif;
+	border    : 0;
+	transition: background-color 0.2s;
+}
+
+button.admin-leader:hover
+{
+	background: #aaa;
+}
+
+button.admin-leader:active
+{
+	background: #fff;
+	color: #000;
+	outline: none;
+}
+
+a.admin-selection { 
+	color: black; 
+	font-weight: normal;
+}
+a.admin-selection:hover { color: black; text-decoration: underline; font-weight: bold; }
+

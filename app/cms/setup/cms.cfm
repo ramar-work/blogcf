@@ -1,0 +1,1 @@
+<cfset cms.setup()>

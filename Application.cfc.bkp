@@ -19,16 +19,6 @@ All Application.cfc rules are specified here.
  * ---------------------------------------------- */
  --->
 component {
-	/*
-	this.datasources = {
-		"rcdb" = {
-				class: 'org.gjt.mm.mysql.Driver'
-			, connectionString: 'jdbc:mysql://localhost:3306/rcdb?useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=true&allowMultiQueries=true'
-			, username: 'root'
-			, password: ''
-		}
-	};
-	*/	
 
 	function onApplicationStart() {
 		application.defaultdatasource = "rcdb";

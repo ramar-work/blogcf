@@ -1,0 +1,90 @@
+/*login.css*/
+.container {
+	position: relative;
+	padding: 10px;
+	min-height: 350px;
+	height: 50%;
+	top: 25%;
+	width: 400px;
+	min-width: 300px;
+	margin: 0 auto;
+	border: 1px solid #ddd;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-gecko-border-radius: 5px;
+	overflow: hidden;
+	transition: height 0.3s;
+	box-shadow: 5px 5px 5px #eee;
+}
+
+.js-minimize {
+	min-height: 0px;
+	height: 0px;
+}
+
+.login-box {
+	padding: 10px;
+}
+
+.login-box-input {
+	width: 100%;
+	margin: 0 auto;
+	margin-bottom: 20px;
+}
+
+.login-box-input label ,
+.login-box-input input {
+	display: block;
+	width: 100%;
+	margin-bottom: 5px;
+	font-size: 1.1em;
+}
+
+.login-box-input input {
+	font-size: 1.4em;
+	padding: 8px;
+/*
+	padding-top: 5px;
+	padding-bottom: 5px;
+*/
+}
+
+.login-box-header {
+	height: 50px;
+}
+
+.login-box-header .left {
+	float: left;
+	width: 50px;
+}
+
+.login-box-header .right {
+	float: right;
+	width: 50px;
+}
+
+.login-box button {
+	border: 1px solid black;
+	border-radius: 5px;
+	color: black;
+	background-color: #bbb;
+	-moz-border-radius: 5px;
+	-gecko-border-radius: 5px;
+	width: 30%;
+	padding: 5px;
+	transition: background-color 0.2s;
+	display: block;
+	margin-bottom: 20px;
+}
+
+.login-box button:hover {
+	background-color: #eee;
+	color: black;
+}
+
+.login-box-wrong {
+	transition: background-color 0.2s;
+}
+
+
+

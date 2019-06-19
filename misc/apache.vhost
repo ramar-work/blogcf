@@ -1,4 +1,4 @@
-# Apache virtual host for site titled 'collinsdesign.local', generated Wed Jun 19 11:58:25 EDT 2019
+# Apache virtual host for site titled 'collinsdesign.local', generated Wed Jun 19 11:58:27 EDT 2019
 <VirtualHost *:80>
 	# Admin email, Server Name (domain name) and any aliases
 	ServerName  collinsdesign.local
