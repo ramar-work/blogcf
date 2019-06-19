@@ -1,0 +1,17 @@
+# Apache virtual host for site titled 'collinsdesign.local', generated Wed Jun 19 11:58:25 EDT 2019
+<VirtualHost *:80>
+	# Admin email, Server Name (domain name) and any aliases
+	ServerName  collinsdesign.local
+	ServerAlias www.collinsdesign.local
+
+	# Index file and Document Root (where the public files are located)
+	DocumentRoot /srv/http/collinsdesign.local/
+
+	# Custom log file locations
+	LogLevel warn
+	ErrorLog  /srv/http/collinsdesign.local/log/srvError.log
+	CustomLog /srv/http/collinsdesign.local/log/srvAccess.log combined
+
+	# Auto directory
+	DirectoryIndex index.cfm index.html
+</VirtualHost>
