@@ -1,4 +1,5 @@
 <div class="container">
+	<div class="projects">
 	<cfoutput>
 	<ul class="project">
 		<cfloop from=1 to=3 index=w>
@@ -7,6 +8,7 @@
 				<div class="half">
 					<h1>Project</h1>
 					#lorem.generate(2)#
+					<div class="container-full"></div>
 				</div>
 
 				<div class="images">
@@ -21,4 +23,5 @@
 		</cfloop>
 	</ul>
 	</cfoutput>
+	</div>
 </div>

@@ -39,6 +39,23 @@
 		<!--- <li><a href="#link( '.cfm' )#">about</a></li> --->
 	</ul>
 
+<!---
+	<div class="social">
+		<a class="" href="http://facebook.com/antonio.r.collins" alt="Find Me on Facebook">
+			<img class="icon" src="#link( "assets/facebook-logo_318-49940.jpg" )#"></img></a>
+		
+		<a class="" href="http://twitter.com/CollinsRamar" alt="Tweet With Me, Bro">
+			<img class="icon" src="#link( "assets/twitter-logo_318-40459.jpg" )#"></img></a>
+
+		<a class="" href="https://www.linkedin.com/in/antonio-collins-8391ba19" alt="Find Me on LinkedIn">
+			<img class="icon" src="#link( "assets/linkedin-1.png" )#"></img></a>
+	</div>
+--->
+
 </header>
+<div class="container-prefix">
+	<div class="container-full"></div>
+	<div class="container-top"></div>
+</div>
 </cfoutput>
 

@@ -27,10 +27,9 @@
 		</p>
 
 
-
 		<h6>Drop Me a Line</h6>
 		<ul class="contact">
-			<li>ramar@collinsdesign.com</li>
+			<li>ramar@collinsdesign.net</li>
 			<li>336-255-8431</li>
 			<li>227 W 4th St. #103, Charlotte NC 28202</li>
 		</ul>
