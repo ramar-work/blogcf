@@ -1,0 +1,3 @@
+# .htaccess for site titled 'collinsdesign.local', generated Wed Jun 19 11:58:25 EDT 2019
+RewriteEngine on
+RewriteRule ^/?([a-z]+)$ $1.cfm [L]
