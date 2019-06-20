@@ -105,9 +105,8 @@ header {
 }
 
 header ul {
-	position: absolute;
-	bottom: 0%;
-	height: 10%;
+	position: relative;
+	top: 20px;
 }
 
 header li {
@@ -135,19 +134,19 @@ header li a:hover {
 /*slap the icon on here, let's see what happens...*/
 header .icon {
 	font-family: 'EB Garamond', serif;
-	width: 50px;
-	height: 50px;
-	border: 5px solid white;
-	border-radius: 35px;
 	display: inline-block;
 	color: white;
 	text-align: center;
 	font-size: 17px;
 	position: relative;
-	top: 10px;
-	left: -4px;
 	margin: 0 auto;
 	background: rgba(0, 3, 7, 1);
+	border: 5px solid white;
+	border-radius: 35px;
+	top: 10px;
+	left: -4px;
+	width: 50px;
+	height: 50px;
 }
 
 header .icon span {
@@ -347,6 +346,45 @@ footer {
 }
 
 @media screen and (max-width: 630px) {
+
+	header {
+		height: 80px;
+		width: 100%;
+		max-width: 100%;
+		text-align: center;
+		background: rgba(0, 3, 7, 1);
+	}
+
+	header ul {
+		top: -40px; /*clear the logo*/
+		left: 100px;
+		text-align: center;
+	}
+
+	header .icon {
+		font-size: 0.8em;
+		width: 40px;	
+		height: 40px;
+		left: -50px;
+		top: 15px;
+	}
+
+	header .icon span:nth-child(2) {
+		font-size: 0.5em;
+	}
+
+	header li a {
+		position: relative;
+		left: -70px;
+		font-size: 0.8em;
+		padding-right: 20px;
+		padding-left: 20px;
+	}
+
+	.container {
+		margin-top: 100px;
+	}
+
 	.project li .full {
 		margin-top: 22%; 
 		height: 90%;
@@ -368,7 +406,7 @@ footer {
 		margin-bottom: 10px;
 		overflow: hidden;
 	}
-
+	
 	.project li .half .container-full { 
 		display: block;
 		position: absolute;
