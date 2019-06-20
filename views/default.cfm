@@ -1,4 +1,3 @@
-<div class="container">
 	<div class="projects">
 	<cfoutput>
 	<ul class="project">
@@ -24,4 +23,3 @@
 	</ul>
 	</cfoutput>
 	</div>
-</div>

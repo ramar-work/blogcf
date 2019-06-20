@@ -1,4 +1,3 @@
-<div class="container">
 	<div class="middle blog">
 	<cfoutput>
 	<cfloop query="#model.summary#">
@@ -28,4 +27,3 @@
 	</cfloop>
 	</cfoutput>
 	</div>
-</div>
