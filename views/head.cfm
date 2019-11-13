@@ -14,7 +14,7 @@
 	<meta name="author" content="Antonio R. Collins II (rc@tubularmodular.com)" />
 	<meta name="description" content="Just my own sparse, little development blog">
 	<meta name="keywords" content="Javascript,C,C++,Java,MySQL,Lucee,Developer">
-	<script src="#link('assets/index.js')#"></script>
+	<script src="#link('assets/js/index.js')#"></script>
 </cfoutput>
 </head>
 
@@ -35,7 +35,7 @@
 --->
 		<li><a href="#link( 'default.cfm' )#">work</a></li>
 		<li><a href="#link( 'contact.cfm' )#">contact</a></li>
-		<li><a href="#link( 'blog.cfm' )#">blog</a></li>
+		<li><a href="#link( 'blog/list.cfm' )#">blog</a></li>
 		<!--- <li><a href="#link( '.cfm' )#">about</a></li> --->
 	</ul>
 

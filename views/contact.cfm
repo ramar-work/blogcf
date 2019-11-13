@@ -1,36 +1,58 @@
 <div class="middle contact">
 
-	<h6>Who are You?</h6>
+	<section>
+	<h3>Who are You?</h3>
 	<p>
-	Hi! I am a professional full-stack developer who does great work on the front-end or back-end.  I am self-taught and occasionally take the time to teach or train others on the use of new technologies. In my previous life, I worked magic in Excel and database administration.
+	Hi! I am a professional full-stack developer who builds unique web experiences.  I am self-taught and occasionally take the time to teach or train others on the use of new technologies. In my previous life, I worked magic in Excel and database administration.
 	</p>
 
 	<p>
-	I also own a development consultancy called <a href="http://tubularmodular.com">Tubular Modular</a> 
-	that tackles larger projects like mobile applications and API development.  
-	
+	I also tackle Android projects through my development consultancy.
+	My team and I tackle larger projects like mobile applications and API development.  
 	</p>
+	</section>
 
+	<section>
+	<h3>What Excites You?</h3>
 	<p>
-		I can build things in just about any language, but I tend to gravitate
-		toward the following technologies for the majority of client needs:
+		Below is a summary of some of the technologies I interact with on a daily basis:
 		<ul class="langs">
-			<li><span>Angular 4+</span></li>
-			<li><span>Dart (for mobile, front-end and server-side)</span></li>
-			<li><span>Vanilla Javascript</span></li>
-			<li><span style="color:#9b291f;">PHP</span></li>
-			<li><span style="color:#258274;">SQL Server (especially for Linux installs)</li>
-			<li><span style="color:#528225;">MySQL</span></li>
-			<li><span style="color:#5f73a8;">Lucee / ColdFusion</span></li> 
+			<li>
+				<h6>Front-End</h6>
+				<ul>
+					<li><span>Angular 4+</span></li>
+					<li><span>Vue</span></li>
+					<li><span>ES5/6 and on Javascript</span></li>
+					<li><span>CSS (and frameworks like Bootstrap and Material)</span></li>
+				</ul>
+			</li>
+			<li>
+				<h6>Mobile</h6>
+				<ul>
+					<li>Native Android via Java</li>
+					<li>Flutter</li>
+				</ul>
+			<li>
+				<h6>Back-Ends & APIs</h6>
+				<ul>
+					<li><span style="color:#9b291f;">PHP</span></li>
+					<li><span style="color:#9b291f;">Go</span></li>
+					<li><span style="color:#258274;">Postgres, MySQL or SQL Server</li>
+					<li><span style="color:#5f73a8;">Lucee / ColdFusion</span></li> 
+				</ul>
+			</li>
 		</ul>
 	</p>
+	</section>
 
 
-	<h6>Drop Me a Line</h6>
+	<section>
+	<h3>Drop Me a Line</h3>
 	<ul class="contact">
 		<li>ramar@collinsdesign.net</li>
 		<li>336-255-8431</li>
 		<li>227 W 4th St. #103, Charlotte NC 28202</li>
 	</ul>
+	</section>
 
 </div>

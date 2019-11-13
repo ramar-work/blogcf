@@ -745,7 +745,7 @@ component name="Myst" accessors=true {
 	 *
 	 * Execute queries cleanly and easily.
 	 */
-	public function dbExec ( String datasource="#data.source#", String filename, String string, bindArgs ) {
+	public function dbExec ( String datasource="#data.source#", String filename, String string, bindArgs, Query qq ) {
 		//Set some basic things
 		var Name = "query";
 		var SQLContents = "";
@@ -760,7 +760,7 @@ component name="Myst" accessors=true {
 		//Check for either string or filename
 		var cFilename = StructKeyExists( arguments, "filename" );
 		var cString = StructKeyExists( arguments, "string" );
-		var cQuery = StructKeyExists( arguments, "query" );
+		var cQuery = StructKeyExists( arguments, "qq" );
 
 		if ( !cFilename && !cString ) {
 			return { 
@@ -834,11 +834,11 @@ component name="Myst" accessors=true {
 		if ( !cQuery )
 			q = new Query( name="#Name#", datasource="#arguments.datasource#" );	
 		else {
-			q = new Query( name="#Name#", dbtype = "query" );
-			q.setAttributes( _mem_ = arguments.query );
+			q = new Query( name="#Name#", dbtype="query" );
+			q.setAttributes( _mem_=arguments.qq );
 		}
 
-		//q.setName = "#Name#";
+		q.setName = "#Name#";
 
 		//If binds exist, do the binding dance 
 		if ( StructKeyExists( arguments, "bindArgs" ) ) {

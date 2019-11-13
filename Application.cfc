@@ -28,7 +28,7 @@ component {
 			, password: ''
 		}
 	};
-	*/	
+	*/
 
 	function onApplicationStart() {
 		application.defaultdatasource = "rcdb";

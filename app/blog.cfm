@@ -1,8 +1,11 @@
 <cfscript>
 
 //Get published posts...
-//model = cms.qGetPublishedPosts();
+model = cms.qGetSummary();
+//writedump( model );
+//abort;
 
+/*
 //Loop through all of the posts.
 model = {
 	summary = QueryNew(
@@ -30,5 +33,6 @@ model = {
 		]
 	)
 }
+*/
 
 </cfscript>

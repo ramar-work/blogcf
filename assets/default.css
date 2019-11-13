@@ -225,7 +225,7 @@ footer a:visited {
 }
 
 .project li .half p {
-	font-size: 0.7em;
+	font-size: 0.9em;
 	margin-bottom: 10px;
 	font-family: 'EB Garamond', serif;
 }
@@ -307,6 +307,12 @@ footer a:visited {
 	margin-bottom: 10px;
 }
 
+.middle pre {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding: 10px;
+}
+
 .middle ul {
 	margin-bottom: 20px;
 }
@@ -328,6 +334,7 @@ footer a:visited {
 	font-size: 0.7em;
 	word-spacing: 3px;
 	text-align: right;
+	margin-bottom: 15px;
 }
 
 .blog div.time span {
@@ -357,10 +364,44 @@ footer a:visited {
 	top: -300px;
 }
 
+.blog div.post p {
+	line-height: 1.2em;	
+	font-size: 1.8em;	
+}
+
+
+/*The text itself*/
+.contact p {
+	line-height: 1.2em;	
+	font-size: 1.6em;	
+	margin-top: 40px;
+	margin-bottom: 40px;
+}
+
 .contact {
 	position: relative;
 	padding-bottom: 10px;
 }
+
+.contact ul {
+	margin-bottom: 40px;	
+}
+
+.contact ul li {
+	list-style-type: none;	
+}
+
+.contact ul li li {
+	font-size: 1.3em;	
+	margin-left: 20px;	
+	line-height: 1.3em;
+}
+
+.contact section {
+	margin-bottom: 80px;	
+	border-bottom: 1px solid white;
+}
+
 
 @media screen and (max-width: 630px) {
 

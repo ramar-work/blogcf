@@ -74,8 +74,11 @@ manifest = {
 
 	"default"= {model="default", view = ["head","default","tail"]}
 , "contact"= {model="contact", view = ["head","contact","tail"]}
-, "blog"= {model="blog", view = ["head","blog","tail"]}
-
+, "blog"= {
+		"list" = { model="blog", view = ["head","blog","tail"] }
+	, "show" = { model="blog-get", view = ["head","blog-get","tail"] }
+	}
+//, "blog"= {model="blog", view = ["head","blog","tail"]}
  } /*end routes*/
 };
 </cfscript>

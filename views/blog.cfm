@@ -1,14 +1,16 @@
 	<div class="middle blog">
 	<cfoutput>
-	<cfloop query="#model.summary#">
+	<cfloop query="#model#">
 		<div class="post">
+		<!---
 			<div class="featured-image">
 				<img src="#featured_image#">
 			</div>
+		--->
 			
 			<!--- Content Preview --->
 			<cfif #content_type_i# eq cms.getConstText()>
-				<h2><a href="#link("get.cfm?id=#post_long_id#")#">#post_name#</a></h2>
+				<h2><a href="#link("blog/show.cfm?id=#post_long_id#")#">#post_name#</a></h2>
 				<div class="time">
 					Posted on <span>#DateFormat( post_date_added, "mmmm d, yyyy" )#</span>
 				</div>

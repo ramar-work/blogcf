@@ -5,12 +5,12 @@
 	ServerAlias www.collinsdesign.local
 
 	# Index file and Document Root (where the public files are located)
-	DocumentRoot /srv/http/collinsdesign.local/
+	DocumentRoot /opt/myst2/httpd/htdocs/collinsdesign.local/
 
 	# Custom log file locations
 	LogLevel warn
-	ErrorLog  /srv/http/collinsdesign.local/log/srvError.log
-	CustomLog /srv/http/collinsdesign.local/log/srvAccess.log combined
+	ErrorLog  /opt/myst2/httpd/htdocs/collinsdesign.local/log/srvError.log
+	CustomLog /opt/myst2/httpd/htdocs/collinsdesign.local/log/srvAccess.log combined
 
 	# Auto directory
 	DirectoryIndex index.cfm index.html
