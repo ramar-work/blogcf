@@ -7,7 +7,11 @@
 		<li class="project-li">
 			<div class="full">
 				<div class="half">
-					<h1>#title#</h1>
+				<cfif temp.logo neq "">
+					<img src="#temp.logo#">
+				<cfelse>
+					<h1>#temp.title#</h1>
+				</cfif>
 					#temp.description#	
 					<div class="container-full"></div>
 				</div>
@@ -17,8 +21,6 @@
 					<cfloop query=temp.images> 
 						<li><img src="#link('files/projects/#temp.title#/screenshots/#iname#')#"></li>
 					</cfloop>
-<!---
---->
 					</ul>
 				</div>
 			</div>

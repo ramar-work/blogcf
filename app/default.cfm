@@ -13,13 +13,17 @@ for ( var d in dirs ) {
 	if ( !xx.prefix.recordCount ) {
 		model[ d ] = {};	
 		var t = model[d];	
+		var basepath = getRootDir() & "files/projects/#d#/";
 		t.title = d; 
-		//The description since I have to read it
-		t.description = FileRead( "#getRootDir()#files/projects/#d#/description.html" );
-		//The link since I also have to read it 
-		t.link = FileRead( "#getRootDir()#files/projects/#d#/link" );
-		//The logo (preferably in vector format so it resizes)
-		t.logo = "files/projects/#d#/logo.png";
+		t.description = "";
+		t.link = "/";
+		t.logo = "";
+		if ( FileExists( basepath & "description.html" ) ) 
+			t.description = FileRead( basepath & "description.html" );
+		if ( FileExists( basepath & "link" ) ) 
+			t.link = FileRead( basepath & "link" );
+		if ( FileExists( basepath & "logo.png" ) ) 
+			t.logo = "/files/projects/#d#/" & "logo.png";
 		//Get images by selecting on paths that end with screenshots
 		var ii = dbExec( 
 			qq=files
@@ -28,4 +32,5 @@ for ( var d in dirs ) {
 		t.images = ii.results;
 	}
 }
+//writedump( model );abort;
 </cfscript>
