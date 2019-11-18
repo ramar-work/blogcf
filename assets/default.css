@@ -216,6 +216,10 @@ footer a:visited {
 	min-height: 300px;
 }
 
+.project li .full:nth-child(1) {
+	margin-top: 10%; 
+}
+
 .project li .half {
 	position: relative;
 	display: inline-block;
@@ -275,6 +279,10 @@ footer a:visited {
 
 .project li:nth-child(even) .images {
 	float: left;
+}
+
+.project li.project-li {
+	margin-bottom: 30px;
 }
 
 .middle {
@@ -403,7 +411,7 @@ footer a:visited {
 }
 
 
-@media screen and (max-width: 630px) {
+@media screen and (max-width: 666px) {
 
 	header {
 		height: 80px;

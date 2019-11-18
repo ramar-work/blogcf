@@ -1,20 +1,24 @@
 	<div class="projects">
 	<cfoutput>
 	<ul class="project">
-		<cfloop from=1 to=3 index=w>
-		<li>
+		<!--- <cfloop from=1 to=3 index=w> --->
+		<cfloop collection=#model# index=title>
+			<cfset temp=model[title]>
+		<li class="project-li">
 			<div class="full">
 				<div class="half">
-					<h1>Project</h1>
-					#lorem.generate(2)#
+					<h1>#title#</h1>
+					#temp.description#	
 					<div class="container-full"></div>
 				</div>
 
 				<div class="images">
 					<ul>
-					<cfloop array="#model.images#" index="n">
-						<li><img src="#link('assets/img/examples/#n#')#"></li>
+					<cfloop query=temp.images> 
+						<li><img src="#link('files/projects/#temp.title#/screenshots/#iname#')#"></li>
 					</cfloop>
+<!---
+--->
 					</ul>
 				</div>
 			</div>
