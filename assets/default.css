@@ -207,6 +207,26 @@ footer a:visited {
   background: rgba(0,3,7,1);
 }
 
+.project li h6 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+.project li .stack li {
+	list-style: square;
+	text-indent: 20px;
+	margin-bottom: 5px;
+}
+
+.project li a.link ,
+.project li a.link:visited {
+	color: white;
+	font-weight: bold;
+	display: block;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
 .project li .full {
 	width: 75%;
 	height: 80%;
@@ -226,10 +246,12 @@ footer a:visited {
 	margin-top: 0%;
 	margin-right: 2%;
 	width: 38%;
+	height: 50%;
 }
 
 .project li .half p {
-	font-size: 0.9em;
+	font-size: 1.2em;
+	line-height: 1.2em;
 	margin-bottom: 10px;
 	font-family: 'EB Garamond', serif;
 }
@@ -448,7 +470,7 @@ footer a:visited {
 	}
 
 	.container {
-		margin-top: 100px;
+		margin-top: 125px;
 	}
 
 	.project li .full {
@@ -462,15 +484,27 @@ footer a:visited {
 		float: none;
 	}
 
+	.project li .images {
+		width: 80%;
+		position: relative;
+		left: 10%;
+	}
+
 	.project li .images li {
 		width: 20%;
 	}
 
+	.project li .half img {
+		margin: 0 auto; 
+		width: 75%;
+		margin-left: 12.5%;
+	}
+
 	.project li .half { 
-		max-height: 180px;
-		border-bottom: 1px solid white;
-		margin-bottom: 10px;
-		overflow: hidden;
+		max-height: 300px;
+		margin-bottom: 30px;
+		overflow: auto;
+		padding-bottom: 10px;
 	}
 	
 	.project li .half .container-full { 
@@ -480,8 +514,40 @@ footer a:visited {
 		height: 10px;
 	}
 
+	/* width */
+	.project li ::-webkit-scrollbar {
+		width: 10px;
+	}
+
+	/* Track */
+	.project li ::-webkit-scrollbar-track {
+		background: #f1f1f1; 
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-gecko-border-radius: 5px;
+	}
+	 
+	/* Handle */
+	.project li ::-webkit-scrollbar-thumb {
+		background: #888; 
+		border-radius: 5px;
+		-moz-border-radius: 5px;
+		-gecko-border-radius: 5px;
+	}
+
+	/* Handle on hover */
+	.project li ::-webkit-scrollbar-thumb:hover {
+		background: #555; 
+	}
+
 	.project li h1 {
 		font-size: 1.1em;	
 		font-weight: bold;
+	}
+
+	.project li .half h1 {
+		font-size: 2.0em;	
+		font-weight: bold;
+		text-align: center;
 	}
 }

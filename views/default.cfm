@@ -12,7 +12,17 @@
 				<cfelse>
 					<h1>#temp.title#</h1>
 				</cfif>
+				<cfif temp.link neq "">
+					<p><a class="link" href="#temp.link#">See Project</a></p>
+				</cfif>
+					<h6>Description</h6>
 					#temp.description#	
+
+				<cfif temp.tech neq "">
+					<br />
+					<h6>Tech Stack</h6>
+					<p>#temp.tech#</p>
+				</cfif>
 					<div class="container-full"></div>
 				</div>
 

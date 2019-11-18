@@ -18,12 +18,15 @@ for ( var d in dirs ) {
 		t.description = "";
 		t.link = "/";
 		t.logo = "";
+		t.tech = "";
 		if ( FileExists( basepath & "description.html" ) ) 
 			t.description = FileRead( basepath & "description.html" );
 		if ( FileExists( basepath & "link" ) ) 
 			t.link = FileRead( basepath & "link" );
 		if ( FileExists( basepath & "logo.png" ) ) 
 			t.logo = "/files/projects/#d#/" & "logo.png";
+		if ( FileExists( basepath & "tech" ) ) 
+			t.tech = FileRead( "/files/projects/#d#/" & "tech" );
 		//Get images by selecting on paths that end with screenshots
 		var ii = dbExec( 
 			qq=files
