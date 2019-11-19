@@ -23,7 +23,6 @@
 					<h6>Tech Stack</h6>
 					<p>#temp.tech#</p>
 				</cfif>
-					<div class="container-full"></div>
 				</div>
 
 				<div class="images">

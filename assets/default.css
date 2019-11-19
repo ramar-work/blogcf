@@ -225,6 +225,7 @@ footer a:visited {
 	display: block;
 	margin-top: 5px;
 	margin-bottom: 5px;
+	text-decoration: none;
 }
 
 .project li .full {
@@ -289,6 +290,10 @@ footer a:visited {
 	opacity: 0.8;
 	filter: sepia(60%);
 	background-color: orange;
+}
+
+.project li .half img {
+	width: 100%;
 }
 
 .project li .images li img {
@@ -478,6 +483,10 @@ footer a:visited {
 		height: 90%;
 	}
 
+	.project li {
+		margin-bottom: 100px;
+	}
+
 	.project li .half ,
 	.project li .images {
 		width: 100%;
@@ -505,14 +514,17 @@ footer a:visited {
 		margin-bottom: 30px;
 		overflow: auto;
 		padding-bottom: 10px;
+		padding-right: 20px;
 	}
 	
+	/*
 	.project li .half .container-full { 
 		display: block;
 		position: absolute;
 		bottom: 0px;
 		height: 10px;
 	}
+	*/
 
 	/* width */
 	.project li ::-webkit-scrollbar {
