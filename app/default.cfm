@@ -8,7 +8,7 @@ var dirs = DirectoryList(
 model = {};
 for ( var d in dirs ) {
 	var files = DirectoryList( getRootDir() & "files/projects/#d#", true, 'query', "", "", "file" );
-	var xx = dbExec( qq=files, string="select name from _mem_ where name = 'SKIP'"  );
+	var xx = dbExec( query=files, string="select name from _mem_ where name = 'SKIP'"  );
 	//Skip
 	if ( !xx.prefix.recordCount ) {
 		model[ d ] = {};	
@@ -29,7 +29,7 @@ for ( var d in dirs ) {
 			t.tech = FileRead( "/files/projects/#d#/" & "tech" );
 		//Get images by selecting on paths that end with screenshots
 		var ii = dbExec( 
-			qq=files
+			query=files
 		, string="select name as iname, directory from _mem_ where directory LIKE '%screenshots'"  
 		);
 		t.images = ii.results;
