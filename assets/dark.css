@@ -1,0 +1,120 @@
+/* ---------------------------------------------- *
+dark.css
+=========
+
+Author
+------
+Antonio R. Collins II (rc@collinsdesign.net, ramar.collins@gmail.com)
+
+Copyright
+---------
+Copyright 2016-Present, "Tubular Modular, Inc."
+Original Author Date: Tue Jul 26 07:26:29 2016 -0400
+
+Summary
+-------
+Default stylesheet for new ColdMVC apps.  Integrates
+Eric Meyer's CSS Reset code courtesy of this page:
+http://meyerweb.com/eric/tools/css/reset/
+
+ * ---------------------------------------------- */
+html {
+	background-color: #000307;
+	color: #fff;
+}
+
+pre {
+	background-color: white;
+	color: black;
+}
+
+
+footer {
+	background: rgb( 0, 0, 0 );
+	color: white;
+}
+
+footer a ,
+footer a:visited {
+	color: white;
+}
+
+.container-top,.container-bottom {
+  background-image: linear-gradient(to top, rgba(0,3,7,0), rgba(0,3,7,1));
+}
+
+.project li .half .container-full { 
+  background: rgba(0,3,7,1);
+}
+
+.project li a.link ,
+.project li a.link:visited {
+	color: white;
+	text-decoration: none;
+}
+
+.project li .images li:nth-child(1) {
+	filter: sepia(0%);
+	transition: filter 0.2s background-color 0.2s;
+}
+
+.project li .images li:not(:nth-child(1)):hover {
+	opacity: 0.8;
+	filter: sepia(60%);
+	background-color: orange;
+}
+
+.blog h1 a,
+.blog h2 a,
+.blog h3 a,
+.blog h1 a:visited,
+.blog h2 a:visited,
+.blog h3 a:visited {
+	text-decoration: none;
+	color: white;	
+}
+
+.blog div.post a.comments {
+	color: black;	
+	font-size: 0.8em;
+}
+
+.contact section {
+	border-bottom: 1px solid white;
+}
+
+.switch-theme {
+}
+
+.switch-theme a:hover {
+	text-decoration: underline;	
+}
+
+.switch-theme p {
+	font-size: 0.8em;
+	margin-bottom: 3px;
+}
+
+@media screen and (max-width: 666px) {
+	/* Track */
+	.project li ::-webkit-scrollbar-track {
+		background: #f1f1f1; 
+	}
+	 
+	/* Handle */
+	.project li ::-webkit-scrollbar-thumb {
+		background: #888; 
+	}
+
+	/* Handle on hover */
+	.project li ::-webkit-scrollbar-thumb:hover {
+		background: #555; 
+	}
+
+	.switch-theme {
+		position: absolute;
+		top: 15px;
+		left: 20px;
+		color: white;
+	}
+}

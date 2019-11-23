@@ -23,8 +23,9 @@
 				<video controls class="regular" src="#link("admin/files/#content_text#")#"></video>
 			<cfelse>
 			</cfif>
-
-			<a class="comments" href="">20 Comments</a>
+	
+			<a class='comments' href="#link("blog/show.cfm?id=#post_long_id#")#">Click to Read More</a>
+			<!--- <a class="comments" href="">20 Comments</a> --->
 		</div>	
 	</cfloop>
 	</cfoutput>

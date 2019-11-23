@@ -22,13 +22,13 @@ manifest = {
 /*Turn on debugging, yes or no?*/
 ,"debug"  = 0
 
-,"host"  = "collinsdesign.com" 
+,"host"  = "collinsdesign.net"
 
 /*Set a description for this new application*/
 ,"description"  = "All About Design & Development" 
 
 /*Set a primary author for SEO purposes*/
-,"author"  = "Buddy Noone" 
+,"author"  = "Antonio Ramar Collins II" 
 
 /*Locations for alternate serving locations can go here*/
 ,"hosts"  = [ ]

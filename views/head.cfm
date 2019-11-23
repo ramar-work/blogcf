@@ -2,7 +2,8 @@
 <head>
 <cfoutput>
 	<meta charset="utf-8" />
-	<link rel="stylesheet" href="#link( 'assets/default.css' )#">
+	<link rel="stylesheet" href="#link( 'assets/base.css' )#">
+	<link id="theme" rel="stylesheet" href="#link( 'assets/light.css' )#">
 	<link href="https://fonts.googleapis.com/css?family=EB+Garamond|Open+Sans&display=swap" rel="stylesheet">
 	<!--- 
 	<link rel="stylesheet" href=#myst.getPublicPath('default')#>
@@ -25,6 +26,10 @@
 	<div class="icon">
 		<span>collins</span>
 		<span>design</span>
+	</div>
+	<div class="switch-theme">
+		<p>Choose Theme</p>
+		<a class="js-light">Light</a> | <a class="js-dark">Dark</a>
 	</div>
 
 	<ul>
