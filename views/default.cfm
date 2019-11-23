@@ -8,7 +8,9 @@
 			<div class="full">
 				<div class="half">
 				<cfif temp.logo neq "">
-					<img src="#temp.logo#">
+					<div class="logo-img">
+						<img src="#temp.logo#">
+					</div>
 				<cfelse>
 					<h1>#temp.title#</h1>
 				</cfif>

@@ -64,6 +64,12 @@ footer a:visited {
 	background-color: orange;
 }
 
+.project li .logo-img {
+	width: 100%;
+	background: rgba( 200, 200, 200, 0.8 );
+  background: rgba(0,3,7,0.7);
+}
+
 .blog h1 a,
 .blog h2 a,
 .blog h3 a,
