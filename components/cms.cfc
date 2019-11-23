@@ -288,7 +288,6 @@ extends="Base"
 		, datasource = getDatasource()
 		);
 
-
 		if ( !b.status ) {
 			//TODO: Obviously, this needs to return the correct columns...
 			return QueryNew( "nothing,nothing_else", "varchar,varchar" );
@@ -297,7 +296,7 @@ extends="Base"
 		//let's do a qoq to sort this
 		var cc = c.dbExec(
 			string = "SELECT * FROM _mem_ ORDER BY post_date_added DESC"
-		, qq = b.results 
+		, query = b.results 
 		);
 
 		if ( !cc.status ) {

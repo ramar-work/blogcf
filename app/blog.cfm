@@ -2,8 +2,7 @@
 
 //Get published posts...
 model = cms.qGetSummary();
-//writedump( model );
-//abort;
+//writedump( model );abort;
 
 /*
 //Loop through all of the posts.
