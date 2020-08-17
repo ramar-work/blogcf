@@ -72,8 +72,8 @@ manifest = {
 /*Here are the application's routes or endpoints.*/
 ,"routes" = {
 
-	"default"= {model="default", view = ["head","default","tail"]}
-, "contact"= {model="contact", view = ["head","contact","tail"]}
+	"default"= { model="projects", view = ["head","default","tail"] }
+, "contact"= { model="contact", view = ["head","contact","tail"] }
 , "blog"= {
 		"list" = { model="blog", view = ["head","blog","tail"] }
 	, "show" = { model="blog-get", view = ["head","blog-get","tail"] }

@@ -19,19 +19,12 @@ All Application.cfc rules are specified here.
  * ---------------------------------------------- */
  --->
 component {
-	/*
-	this.datasources = {
-		"rcdb" = {
-				class: 'org.gjt.mm.mysql.Driver'
-			, connectionString: 'jdbc:mysql://localhost:3306/rcdb?useUnicode=true&characterEncoding=UTF-8&useLegacyDatetimeCode=true&allowMultiQueries=true'
-			, username: 'root'
-			, password: ''
-		}
-	};
-	*/
+
+	property name="applicationname" default="motrpac-local";
+	//applicationname="motrpac-local";
 
 	function onApplicationStart() {
-		application.defaultdatasource = "rcdb";
+		application.defaultdatasource = "(none)";
 		application.sessionManagement = true;
 		return true;
 	}
@@ -46,19 +39,19 @@ component {
 
 	function onRequest (string targetPage) {
 		try {
-			include "index.cfm";
+			new myst( targetPage );	
 		} 
 		catch (any e) {
 			writedump( e ); 
 			abort;
 		}
+		return false;
 	}
 
 
 	function onMissingTemplate (string Page) {
 		include "index.cfm";
 	}
-
 
 	/*
 	function onError (required any Exception, required string EventName) {

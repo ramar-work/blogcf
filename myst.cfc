@@ -14,119 +14,61 @@ Original Author Date: Tue Jul 26 07:26:29 2016 -0400
 
 Summary
 -------
-An MVC like structure for handling CFML pages.
+An MVC framework for CFML pages.
 
 Usage
 -----
-Drop this file into your application's web root and
-call it using index.cfm or Application.cfc.
+Use the command line to deploy this file and its
+associated components to a new directory.
+
+CHANGELOG
+---------
+See changelog.txt
 
 TODO
 ----
-- Add a 'test' directory for tests
-	In this folder have tests for functions
-	Have another folder for mock views and apps
-	When you deploy, these can be deleted or moved (or simply ignored)
-
-- Add a mock function: 
-	mock(..., { abc="string", def="numeric", ... })
-
-- Look into adding a task to the Makefile to automate adding notes to the CHANGELOG below
-
-- Add the ability to select different views depending on some condition in the model
-
-- Add the ability to redirect on failure depending on some condition in the model
-
-- Complete the ability to log to other outputs (database, web storage, etc)
-
-- What kind of task system would work best?
-
-- Create app scopes as the same name of the file that vars are declared in.  
-	I'm thinking that this would make it easy to follow variables throughout 
-	more complex modules.
-
-- Add an option for mock/static data (it goes in db and can be queried)
-
-- how to add a jar to a project?
-
-- step 1 - must figure out how to use embedded databases...
-
-- add one of the embedded database to cmvc tooling
-
-- add logExcept (certain statements, you might want to stop at)
-
-- log (always built in, should always work regardless of backend)	
-
-- db (space for static data models)
-
-- middleware (stubs of functionality that really don't belong in app)
-
-- routes (stubs that define routes placed by middleware or something else)
-
-- settings (static data that does not change, also placed by middleware)
-
-- sql (technically, middleware can drop here too)
-
-- orm, the built-in works fine, but so does other stuff...
-
-- parse JSON at application
-
-- make sure application refresh works...
-
-- parsing of JSON and creation
-
-- 404 pages need to be pretty and customizable
-
-- 500 pages need to be pretty and customizable
-
-- need a way to take things down for maintenance
-
-- maybe add a way to enable tags? ( a tags folder )
-
+See TODO
  * -------------------------------------------------- */
 component 
 name="Myst" 
 accessors=true 
 {
 
-	//TODO: This should be a property accessible by everything
-	property name="compName" type="string" default="Myst";
+	//Cookie key name for grabbing stuff out of structs
+	property name="cookie" type="string" default="45d3b6e15e31a72dbdd0ac12672f397d5b9cd959cc348d16b716b2412880";
 
-	//The resource name that's been loaded
-	property name="rname" type="string";
-
-	//Test mode
-	property name="apiAutodie" type="boolean" default=1;
+	//Control debugging
+	property name="debug" type="boolean" default="false";
 
 	//The datasource that will be used during the life of the app.
 	property name="datasource" type="string";
 
+	//TODO: These are going to be DELETED in the near future
+	//Test mode
+	//property name="apiAutodie" type="boolean" default=1;
+	//Set post functions
+	//property name="postMap"; 
+	//Set pre functions
+	//property name="preMap"; 
+	//The current directory as Myst navigates through the framework directories.
+	//property name="currentDir" type="string"; 
+
+	//TODO: These are going to be replaced in the near future
 	//The 'manifest' value that is loaded at the beginning of starting a Myst app
 	property name="appdata"; 
 
+	//TODO: Add these
+	//property name="toute" type="struct";
+
+	//TODO: leave these alone
 	//Set all http headers once at the top or something...
 	property name="httpHeaders" type="struct"; 
-
-	//....
-	property name="mimeToFileMap" type="struct"; 
-
-	//....
-	property name="fileToMimeMap" type="struct"; 
-
-	//Set post functions
-	property name="postMap"; 
-
-	//Set pre functions
-	property name="preMap"; 
 
 	//The root directory
 	property name="rootDir" type="string"; 
 
-	//The current directory as Myst navigates through the framework directories.
-	property name="currentDir" type="string"; 
-
 	//List of app folder names that should always be disallowed by an HTTP client
-	property name="arrayConstantMap" type="array"; 
+	property name="arrayConstantMap" type="array"; //Make this a list?
 
 	//Choose a path seperator depending on system.
 	property name="pathSep" type="string" default="/";  
@@ -135,11 +77,59 @@ accessors=true
 	property name="constantMap" type="struct"; 
 
 	//Relative path maps for framework directories
+	property name="routingKeys" type="string"
+		default="before,after,accepts,expects,filter,returns,namespace,model,view";
+	//	default="before,after,accepts,expects,filter,returns,scope,wildcard,inherit";
+
+	//Relative path maps for framework directories
 	property name="urlBase" type="string" default="/"; 
+
+	/*New as of 11/27*/
+	//Allow methods to reference the current content-type
+	//NOTE: An enum would be safer here, but you'll just want to use a custom setter...
+	property name="selectedContentType" type="string" default="text/html"; 
+	property name="contentOn404" type="string" default="File not found."; 
+	property name="contentOn410" type="string" default="Authentication denied."; 
+	property name="contentOn500" type="string" default="Error occurred."; 
+
+	//property name="logString" type="struct";
+	property name="logStyle" type="string" default="standard"; //combined, common,
+	property name="logType" type="string" default="file";
+	property name="logFile" type="string" default="log.txt";
+	property name="logFormatCommon" type="string" default="";
+	property name="logFormatCombined" type="string" default="";
+	property name="logFormat" type="string" default="log.txt";
+	property name="runId" type="string" default="";
+
+	//
+	property name="response" type="object" default=false;
+	property name="pageStatus" type="number" default=200;
+	property name="pageStatusMessage" type="string" default="";
+	property name="pageMessage" type="string" default="";
+	property name="pageError"; 
+	property name="pageErrors" default="";
+	property name="pageErrorExtractors" default="detail,message,type"; /*tagContext,stackTrace*/
+	property name="components" type="struct";
+	property name="mimetypes" type="struct";
+	property name="commonExtensionsToMimetypes" type="struct";
+	property name="content";
+	property name="headers" type="struct";
+	property name="defaultModelKey" type="string" default="model";
+	property name="defaultErrorKey" type="string" default="error";
+	property name="context";
+
+	property name="defaultContentType" type="string" default="text/html";
+
+	property name="model";
 
 	/*DEPRECATE THESE?*/
 	//Structs that might be loaded from elsewhere go here (and should really be done at startup)
 	property name="objects" type="struct";
+	property name="mimeToFileMap" type="struct"; 
+	property name="fileToMimeMap" type="struct"; 
+
+	//property name="pageScope" type="struct"; //setter=false getter=false;
+	variables.pageScope = {}; //setter=false getter=false;
 
 	//Defines a list of resources that we can reference without naming static resources
 	this.action  = {};
@@ -238,23 +228,35 @@ accessors=true
 	 * logReport
 	 *
 	 * Will silently log as Myst executes
+	 * This is mostly for debugging.
 	 */
-	private function logReport ( Required String message ) {
-		/*
-		//Throw an error to get access to the exception 
-		line=0; file="";
-		try { 
-			callFin();
-		}
-		catch (any e) { 
-			template = e.TagContext[ 2 ].template; 
-			line = e.TagContext[ 2 ].line; 
-		}
+	public void function logReport ( Required String message ) {
+		try {
+			if ( getLogStyle() eq "standard" ) { 
+				//Do a verbose log
+				var id = getRunId();
+				var d = DateTimeFormat( Now(), "EEEE mmmm d, yyyy HH:NN:SS tt" );
+				var logMessage = "#id#: [#d# EST] #arguments.message#" & Chr(10) & Chr(13);
+				var m = FileAppend( getLogFile(), logMessage );
+				//writeoutput( logMessage );
+				//writedump(m); abort;
+			//'127.0.0.1 - - [#DateFormat()#] "#cgi.request_method# #cgi.path_info# HTTP/1.1" status content-size'
+			}
+			else {
+				//Error out if this is a developement server.
+				0;
+			}
 
 		//Append the line number to whatever text is being written
-		this.logstring = ( StructKeyExists( this, "addLogLine") && this.addLogLine ) ? "<li>At line " & line & " in template '" & template & "': " & message & "</li>" : "<li>" & message & "</li>";
-		(StructKeyExists(this, "verboseLog") && this.verboseLog) ? writeoutput( this.logString ) : 0;
-		*/
+		//this.logstring = ( StructKeyExists( this, "addLogLine") && this.addLogLine ) ? "<li>At line " & line & " in template '" & template & "': " & message & "</li>" : "<li>" & message & "</li>";
+		//(StructKeyExists(this, "verboseLog") && this.verboseLog) ? writeoutput( this.logString ) : 0;
+		}
+		catch (any e) {
+			//TODO: Obviously, this should pretty much always run
+			//Simply catching and throwing an error isn't a good solution...
+			writedump(e);
+			abort;
+		}
 	}
 
 
@@ -267,40 +269,57 @@ accessors=true
 	 *
 	 * Generate links relative to the current application and its basedir if it
 	 * exists.
+	 *
+	 * TODO: Should be in an HTML component
 	 */
-	public string function link ( ) {
+	public string function link () {
 		//Define spot for link text
 		var linkText = "";
+		var appdata = getAppData();
 
 		//Base and stuff
-		if ( Len( data.base ) > 1 || data.base neq "/" )
-			linkText = ( Right(data.base, 1) == "/" ) ? Left( data.base, Len( data.base ) - 1 ) : data.base;
+		if ( Len( appdata.base ) > 1 || appdata.base neq "/" )
+			linkText = ( Right(appdata.base, 1) == "/" ) ? Left( appdata.base, Len( appdata.base ) - 1 ) : appdata.base;
 
 		//Concatenate all arguments into some kind of hypertext ref
-		for ( x in arguments ) {
+		for ( var x in arguments )
 			linkText = linkText & "/" & ToString( arguments[ x ] );
+
+		//Is this a file or symbolic representation of what the server expects?
+		var filepath = Left( getRootDir(), Len(getRootDir())-1 ) & linkText;
+		if ( FileExists( filepath ) ) {
+			return linkText;
 		}
 
+		//If this is a symbolic representation (TODO: or a .cfm), do something else.
+		if ( Len( linkText ) > 1 ) {
+			var f = Find( "?", linkText );
+			if ( StructKeyExists( appdata, "autoSuffix" ) && appdata.autoSuffix == true && Right( linkText, 4 ) != ".cfm" ) {
+				if ( f == 0 ) 
+					linkText &= ".cfm";
+				else {
+					var p = ListToArray( linkText, "?" );
+					linkText = "#p[1]#.cfm?#p[2]#";
+				}
+			}
+		}
 		return linkText;
 	}
 
+	
 
 	/**
-	 * crumbs( ... )
+	 * import( ... )
 	 *
-	 * Create "breadcrumb" link for really deep pages within a webapp. 
+	 * Import components.
 	 */
-	public function crumbs () {
-		throw "EXPERIMENTAL";
-		var a = ListToArray(cgi.path_info, "/");
-		//writedump (a);
-		/*Retrieve, list and something else needs breadcrumbs*/
-		for (var i = ArrayLen(a); i>1; i--) {
-			/*If it's a retrieve page, have it jump back to the category*/
-			writedump(a[i]);
+	public function import ( Required String cfc ) {
+		if ( !StructKeyExists( variables, cfc ) )
+			return null;
+		else {
+			return variables[ cfc ];
 		}
 	}
-
 
 
 	/** FORMS **
@@ -385,8 +404,8 @@ accessors=true
 	/** 
 	 * getType
 	 *
-	 * ...
-	 *
+	 * Get the type of a value.
+	 * 
 	 */
 	public Struct function getType ( Required sCheck ) {
 		//Get the type name
@@ -407,17 +426,24 @@ accessors=true
 			}
 		}
 		catch (any e) {
+			typename = "unknown";
 			//the non-basic types (query, closure, etc) are handled here
-			typename = "unknown type";
 			try {
-				if ( StructKeyExists( t, "access" ) ) {
-					typename = "closure";
+				if ( IsStruct( t ) && StructKeyExists( t, "access" ) )
 					return { status=true, type="closure", value=sCheck }; 
+				else if ( IsArray( t ) ) {
+					for ( var k in [ "isCaseSensitive","name","typeName" ] ) {
+						if ( !StructKeyExists( t[1], k ) ) {
+							return { status=false, type=typename, value={} }; 
+						}
+					}
+					//TODO: Will 'sCheck' be copied?  b/c this is pretty slow...
+					return { status=true, type="query", value=sCheck }; 
 				}
 			}
 			catch (any de) {
 				//This should catch either truly unknown or badly wrapped types (like queries)
-				return { status=false, type="unknown", value={} };
+				return { status=false, type=typename, value={} };
 			}
 		}
 
@@ -431,10 +457,11 @@ accessors=true
 	 *
 	 * A wrapper around cfinclude to work with the framework's structure.
  	 */
-	private function _include (Required String where, Required String name) {
+	public function _include (Required String where, Required String name) {
 		//Define some variables important to this function
 		var match = false;
 		var ref;
+		logReport( "Running _include on path #where#/#name#" );
 
 		//Search for a valid path within our framework	
 		for ( var x in getArrayConstantMap() ) {
@@ -448,8 +475,8 @@ accessors=true
 		if ( !match ) {
 			return {
 				status = false
-			, message = "Requested inclusion of a file not in the web directory."
-			, errors = {}
+			, error = "Requested inclusion of a file not in the web directory."
+			, exception  = {}
 			, ref = ""
 			};
 		}
@@ -459,28 +486,24 @@ accessors=true
 		
 		//Include the page and make it work
 		try {
+			//The content should be wrapped and returned...
+			savecontent variable="content" {
 			include ref; 
+			}
 		}
 		catch (any e) {
-			//define the type of exception here and wrap that.  or just return it and
-			//wrap it from the calling function
-			//writeoutput( e.type );	
-			//writedump( e );
-			//abort;
-
 			return {
 				status = false
-			 ,message = "#getCompName()# caught a '#e.type#' exception."
-			 ,errors = e
+			 ,error = "Myst caught a '#e.type#' exception when trying to include file #ref#"
+			 ,exception = e
 			 ,ref = ref 
 			}
 		}
 
 		return {
 			status = true
-		 ,message = "SUCCESS"
-		 ,errors = {}
 		 ,ref = ref 
+		 ,results = content 
 		}
 	}
 
@@ -581,7 +604,7 @@ accessors=true
 	{
 		//TODO: This ought to be some kind of template...
 		if ( debuggable ) {
-			writedump( queryPath       );
+			writedump( queryPath );
 			writedump( queryDatasource );
 		}
 
@@ -667,13 +690,27 @@ accessors=true
 
 
 	/**
+	 * getExtension( ) 
+	 *
+   **/
+	private string function getExtension( required string filename ) {
+		var arr = ListToArray(filename, ".");
+		if ( Len(arr) > 1 ) {
+			return arr[ Len(arr) ];	
+		}
+		return "";
+	}
+
+
+	/**
  	 * dbExec 
 	 *
 	 * Execute queries cleanly and easily.
 	 */
-	public function dbExec ( String datasource="#data.source#", String filename, String string, bindArgs, Query query ) {
+	public function dbExec ( String datasource="#getAppData().source#", String filename, String string, bindArgs, Query query ) {
 		//Set some basic things
 		var Name = "query";
+		var Constant = "sql";
 		var SQLContents = "";
 		var cm = getConstantMap();
 		var Period;
@@ -721,7 +758,7 @@ accessors=true
 				return { status= false, message= "The 'filename' argument is neither a string or number." };
 
 			//Get the file path.	
-			fp = cm[ "/sql" ] & "/" & arguments.filename;
+			fp = cm[ Constant ] & "/" & arguments.filename;
 			//return { status= false, message= "#current# and #root_dir#" };
 
 			//Check for the filename
@@ -777,8 +814,8 @@ accessors=true
 				var type = "varchar";
 
 				if ( IsSimpleValue( value ) ) {
-					try {__ = value + 1; type = "integer";}
-					catch (any e) { type="varchar";}
+					try { __ = value + 1; type = "integer"; }
+					catch (any e) { type="varchar"; }
 				}
 				else if ( IsStruct( value ) ) {
 					v = value;
@@ -830,7 +867,7 @@ accessors=true
 	 *
 	 * Generates random letters.
 	 */
-	public String function randstr ( Numeric n ) {
+	public string function randstr ( Numeric n ) {
 		// make an array instead, and join it...
 		var str="abcdefghijklmnoqrstuvwxyzABCDEFGHIJKLMNOQRSTUVWXYZ0123456789";
 		var tr="";
@@ -852,195 +889,293 @@ accessors=true
 		return tr;
 	}
 
+	private array function queryToArray( Required Query arg ) {
+		var ar = ArrayNew(1);
+		for ( var v in arg ) ArrayAppend( ar, v );
+		return ar;
+	}
+
+	//Return pretty JSON with the correct casing from one place...
+	public String function queryToJSON ( Required Query arg ) {
+		/*
+		var ar = ArrayNew(1);
+		for ( var v in arg ) ArrayAppend( ar, v );
+		return SerializeJSON( ar );
+		*/
+		return SerializeJSON( queryToArray( arg ) );
+	}
+
+	//Return pretty JSON with the correct casing from one place...
+	//NOTE: This is for one row
+	public String function structToJSON ( Required Struct arg ) {
+		function lowerStruct( Struct t ) {
+			var nnStruct = {};
+			for ( var v in t ) {
+				if ( getType( t[ v ] ).type eq "struct" )
+					nnStruct[ LCase(v) ] = lowerStruct( t[ v ] );
+				else {
+					nnStruct[ LCase(v) ] = t[ v ];
+				}
+			}
+			return nnStruct;
+		}
+
+		var nStruct = {};
+		for ( var v in arg ) {
+			if ( getType( arg[ v ] ).type eq "struct" )
+				nStruct[ LCase(v) ] = lowerStruct( arg[ v ] );
+			else {
+				nStruct[ LCase(v) ] = arg[ v ];	
+			}
+		}
+		//writedump( nStruct );	writeoutput( SerializeJSON( nStruct ) ); abort;
+		return SerializeJSON( nStruct );
+	}
+
+	/*
+	public String function TESTstructToJSON ( Struct arg ) {
+		//Single-level
+		var x = { butter = "is tasty", guns = "are not" };	
+		writedump( getMyst().structToJSON( x ) ); abort;
+
+		//Try w/ bi-level struct	
+		var y = { butter = "is tasty", guns = "are not", icon = { bop = "wop" } };	
+		writedump( getMyst().structToJSON( y ) ); abort;
+
+		//Try w/ 3+-level struct	
+		var z = { 
+			butter = "is tasty"
+		, guns = "are not" 
+		, icons = {
+				instagram = "are not" 
+			,	facebook = "are not" 
+			,	array = [ "asdf", "back", 0, 1 ]
+			,	struct = {
+					first_name = "John"
+				,	last_name = "Salley"
+				} 
+			}
+		};	
+		writedump( getMyst().structToJSON( z ) ); abort;
+	}
+	*/
+
+	public String function queryToXML ( Query arg ) {
+
+	}
+
+	public String function structToXML ( Struct arg ) {
+
+	}
+
 
 	/** RESPONSE **
  * --------------------------------------------------------------------- */
-	//This one includes pages in paths
-	private function pageHandler ( Required content, Required String pgPath , String rtHref, Required Numeric status ) {
-		/*
-		var r = getPageContext().getResponse();
-		var w = r.getWriter();
-		r.setContentType( "text/html" );
-		w.print( arguments.content );
-		r.flush();
-		*/
-	}
-
 
 	/**
 	 * sendResponse
 	 *
-	 * Send...
+	 * Send a response.
+	 *
 	 */
-	private function sendResponse ( Required status, Required mime, Required content, Struct headers, Boolean abort ) {
+	private boolean function sendResponse (Required Numeric s, Required string m, Required string c, Struct headers) {
 		var r = getPageContext().getResponse();
 		var w = r.getWriter();
-		r.setStatus( arguments.status, getHttpHeaders()[ arguments.status ] );
-		r.setContentType( "text/html" );
-		w.print( arguments.content );
-		//r.flush(); //this is a function... thing needs to shut de fuk up
-		if ( !StructKeyExists( arguments, "abort" ) || arguments.abort eq true ) {
-		 abort;
-		}
+		var sMessage = getHttpHeaders()[ s ];
+		r.setStatus( s );
+		r.setStatus( s, sMessage );
+		//r.setStatusMessage( getHttpHeaders()[ s ] );
+		r.setContentType( m );
+		r.setContentLength( Len(c) );
+		w.print( c );
+		w.flush();
+		r.close(); 
+		return true;
+	}
+
+	/**
+	 * sendBinaryResponse
+	 *
+	 * Send a binary response.
+	 *
+	 */
+	private function sendBinaryResponse(Required numeric s, Required string m, required numeric size, required c) {
+		var q = getPageContext().getResponse();
+		var r = getPageContext().getResponseStream();
+		//You can optionally make a bytestream here
+		q.setStatus( s, getHttpHeaders()[s] );
+		q.setContentType( m );
+		q.setContentLength( size );
+		r.write( c );
+		r.close();
 	}
 
 
 	/**
-	 * contentHandler 
+	 * formatRepsonse() 
 	 *
-	 * Send a 200 along with whatever was asked for.
+	 * Return a formatted string dependent on the content-type.
+   * TODO: Convert from some reusable closure instead of this...
 	 */
-	private function contentHandler ( Required String mime, Required content ) {
-		sendResponse( status=200, mime="text/html", content=arguments.content );
-	} 
-	
-	
-	/**
-	 * errorHandler 
-	 *
-	 * This one handles errors in a somewhat standard way, and uses a struct to more 
-	 * accurately control output
-	 */
-	private function errorHandler ( Required mime, Required status, Required content, Struct errors ) {
+	private string function formatResponse ( Required c ) {
+		var rtype = getSelectedContentType();
+		var ctype = getType( c ).type;
+		var ERR_FMT_RESPONSE = "Unsupported input type given to formatResponse()";
+		var ERR_FMT_REQUEST = "Unsupported return format requested.";
 
-		//Define a standard general useless error,
-		//Just passing an exception without formatting is pretty useful...
-		//And obviously, I want to be able to take things like stack traces out of
-		//the mix...
-		var errorContent;
-		var localErr;
-		var finalContent;
-
-		//Handle errors of different exception types
-		if ( !StructKeyExists( arguments.errors, "type" ) )
-			errorContent = "An undefined error has occurred.";
-		else if ( errors.type eq "Application" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else if ( errors.type eq "Database" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else if ( errors.type eq "Template" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else if ( errors.type eq "MissingInclude" )
-			errorContent = "An '#errors.type#' error has occurred. #errors.MissingFileName# was not found in the application structure";
-		else if ( errors.type eq "Object" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else if ( errors.type eq "Expression" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else if ( errors.type eq "Security" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else if ( errors.type eq "Lock" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else if ( errors.type eq "Any" )
-			errorContent = "An '#errors.type#' error has occurred.";
-		else {
-			errorContent = "A '#errors.type#' error has occurred.";
-		}
-
-		//Packaging the full custom error will have happened in the above steps
-		if ( 0 ) {
-			writedump( errors ); 
-			abort;
-		}
-
-		//Page errors are somewhat simple to do, an "error" object that
-		//can be cast to string isn't as obvious, but will come in handy
-		//especially depending on special content types (xml, json, msgpack, etc)
-		localErr = {
-			headline = arguments.content
-		 ,errorDescription = errorContent
-		 ,errorMessage = errors.message
-		 ,stackTrace = "None" 
-		};
-
-		if ( StructKeyExists( errors, "stackTrace" ) ) {
-			localErr.stackTrace = errors.stackTrace;
-		}
-
-		//we can have a "blank" page, the default w/ no styling
-		//we can have a custom page, where a user defined error can be loaded
-		//and obviously other formats (JSON, XML) should be easily returnable
-		savecontent variable="finalContent" {
-			if ( 0 )
-				; 
-			else if ( 0 )
-				;
-			else if ( 0 ) 
-				;
+		//Strings have to be return in key value format when returning JSON
+		if ( ctype eq "string" ) {
+			if ( rtype eq "application/json" || rtype eq "json" )
+				return returnAsJson( { "#getDefaultModelKey()#" = c } );
+		/*
+			else if ( rtype eq "application/xml" || rtype eq "xml" )
+				return returnAsJson( c );
+		*/
 			else {
-				//This is the default for now...
-				writeoutput( "<h2>#localErr.headline#</h2>" );	
-				writeoutput( "<p>#localErr.errorMessage#</p>" );	
-				writeoutput( "<p>#localErr.errorDescription#</p>" );	
-				writeoutput( "<p class=small>#localErr.stackTrace#</p>" );	
+				return c;
+			}
+		}
+		else if ( ctype eq "struct" ) {
+			//TODO: Should I throw an error or force conversion?
+			if ( rtype eq "application/json" || rtype eq "json" )
+				return returnAsJson( c );
+			/*
+			else if ( rtype eq "application/xml" || rtype eq "xml" )
+				return returnAsJson( c );
+			*/
+			else {
+				return ERR_FMT_RESPONSE; 
+			}
+		}
+		else {
+			if ( rtype eq "application/json" || rtype eq "json" )
+				return returnAsJson( { "#getDefaultErrorKey()#" = ERR_FMT_RESPONSE } );
+			/*
+			else if ( rtype eq "application/xml" || rtype eq "xml" )
+				return returnAsJson( c );
+			*/
+			else {
+				//TODO: Should I throw an error or force conversion?
+				return ERR_FMT_RESPONSE;
 			}
 		}
 
-		//TODO: Send the request this way would be preferable.... fuckin' shit...
-		//sendResponse( status=500, mime="text/html", content=finalContent );
+		//Anything else is a failure
+		return c;
+	}	
 
-		//Send the request (which should be via another function)
-		sendResponse( status=500, mime="text/html", content=finalContent );
-	}
-
-
+	
 	/**
 	 * renderPage
 	 *
-	 * Hash function for text strings
+	 * Generates a page to send to stdout
+		err should have:
+		- status
+		- status message
+		- official coldfusion exception type or 'unknown exception occurred'
+		- message about what went wrong (simple, abridged, brief)
+		optionally:
+		- detailed message (complex, unabridged, detailed)
+		- stack trace (formatted to the best of ability)
 	 */
-	private function renderPage( Required Numeric status, Required content, Struct err, Boolean abort ) {
-		var err = {};
-		var a = arguments;
-		var b = false;
-		var page;
+	private function renderPage( Required Numeric status, Required content, Struct err ) {
+		var t = getType( arguments.content ).type;
+		var tt = getSelectedContentType();
+		var error = {};
+		var headers = {};
+		var newContent;
 
-		//TODO: Why would this happen?
-		if ( isDefined( "appdata" ) )
-			b = check_deep_key( appdata, "routes", getRname(), "content-type" );
-
-		//Define page from here...
-		page = "std/" & ( b ? "mime" : "html" ) & "-view.cfm";
-
-		//Write out arguments here.  Serves as a stack trace to find things.
-		//writedump( arguments ); abort;
-
-		//This can be content-less
-		if ( !arguments.status || arguments.status == 200 )
-			contentHandler( mime="text/html", content=arguments.content ); 	
-
-		//How would a default resource not be found...	?
-		else if ( arguments.status > 399 && arguments.status < 500 )
-			contentHandler( mime="text/html", content="fnf" ); 	
-
-		//Server errors
-		else if ( arguments.status > 499 && !StructIsEmpty( arguments.err ) )
-			errorHandler( 
-				mime="text/html", 
-				status=arguments.status, 
-				content='something awful', 
-				errors=arguments.err 
-			);
-		
-		else {
-			//we should never get here, but handle it anyway
-			errorHandler( 
-				mime="text/html", 
-				status=500,
-				content="renderPage caller error...",
-				errors=arguments.err,
-				extraContent=[
-					"Check the 'status' key supplied to the method and " & 
-					"ensure that a valid HTTP Status is used." 
-				]
-			);
+		//SANITY CHECKS HERE	
+		//TEST #1: If t is not string or struct, don't even try...
+		if ( t neq "string" && t neq "struct" ) {
+			newContent = formatResponse( "type #t# is an invalid return format." );
+			status = 500; 
 		}
 
-		//Jump and die
-		if ( StructKeyExists( arguments, "abort" ) && arguments.abort eq true )
+		//TEST #2: If status is invalid, return a failure
+		if ( !status || status < 100 || status > 599 ) {
+			newContent = formatResponse( "Expected HTTP status is invalid." ); 
+			status = 500; 
+		}
+
+		//TEST #3: If an invalid content-type is requested, return a failure
+		if ( !StructKeyExists( getMimetypes(), tt ) ) {
+			newContent = formatResponse( "Expected HTTP content type is invalid." );
+			status = 500; 
+		}
+
+		//Check error status and prepare an error structure if one is not provided
+		if ( status > 399 ) {
+			//Set common items
+			error.status = status;
+			error.statusMessage = getHttpHeaders()[status]; 
+			error.brief = ( t eq "string" ) ? arguments.content : "Unspecified error occurred.";
+
+			if ( StructKeyExists( arguments, "err" ) ) {
+				var ktype = ( !StructKeyExists(err, "type") ) ? "undefined" : err.type;
+				error.brief = "An #ktype# error has occurred.";
+			}
+			else
+			if ( !StructKeyExists( arguments, "err" ) || StructIsEmpty( arguments.err ) ) {
+				for ( var k in getPageErrorExtractors() ) error[ k ] = "";
+				if ( status eq 401 )
+					error.detailed = "The client asked for access to a page it does not have access to.";
+				else if ( status eq 404 ) {
+					error.detailed = "The client made a request for '#cgi.script_name#' and it was not found on this server.";
+				}
+			}
+			/*
+			else {
+				//Handle errors of different exception types
+				var ktype = (!StructKeyExists(err, "type")) ? "undefined" : err.type;
+				error.brief = "An #ktype# error has occurred.";
+				if ( !StructKeyExists( arguments.err, "type" ) )
+					error.brief = "An undefined error has occurred.";
+				else {
+					error.brief = "An '#err.type#' error has occurred.";
+				}
+			}
+			*/
+
+			//Set all arguments
+			for ( var n in arguments ) 
+				error[ n ] = arguments[n];
+			for ( var n in arguments.err )
+				error[ n ] = arguments.err[n];
+
+			//Clean up the new structure a little bit more
+			StructDelete( error, "err" );
+			setPageError( error );
+			//writedump( getPageError() );
+
+			if ( tt == "text/html" ) {
+				var f = ( status > 399 && status < 500 ) ? 4 : 5;
+				var cs;
+
+				savecontent variable="newContent" {
+					cs = _include( where="std", name="#f#xx-view" );
+				}
+
+				if ( !cs.status ) {
+					error.brief = cs.errors;
+					status = 500;
+				}
+			}
+		}
+
+		if ( status < 300 ) {
+			newContent = formatResponse( content );
+		}
+
+		try {
+			sendResponse( s=status, m=tt, c=newContent );
+		} 
+		catch( any e ) {
+			writedump(e); 
 			abort;
-		else {
-			return { status = true, message = "SUCCESS" }
 		}
+abort;
+		return { status = true, message = "SUCCESS" }
 	}
 
 
@@ -1050,25 +1185,8 @@ accessors=true
 	 * Send a struct back wrapped as a JSON object.
 	 */
 	public string function sendAsJson ( ) {
-		var a = {};
-		var pc;
-
-		if ( !StructCount( arguments ) ) 
-			;
-		else if ( StructCount( arguments ) eq 1 ) {
-			//serialize
-			a = SerializeJSON( arguments );
-		}
-		else {
-			//serialize and start adding everything else
-			for ( var k in arguments ) {
-				a[ k ] = arguments[ k ];
-			}	
-		}
-
-		//TODO: Use contentHandler(...) to send back with application/json	
-		a = SerializeJSON( a );
-		if ( !getApiAutodie() )
+		var a = structToJSON( arguments );
+		if ( 0 )
 			writeoutput( a );
 		else {
 			pc = getpagecontext().getResponse();
@@ -1081,490 +1199,1076 @@ accessors=true
 
 
 	/**
-	 * makeIndex( Myst mystInstance )
+	 * sendQueryAsJson (t)
 	 *
-	 * Generate a page through the page generation cycle.
+	 * Send a query back wrapped as a JSON object.
 	 */
-	public function makeIndex (Myst MystInstance) {
-		//Define some local things
-		var oScope;
-		var nScope;
-		var resName;
-
-		//TODO: Change these from global scope when full object conversion happens.
-		variables.coldmvc = MystInstance;
-		variables.myst    = MystInstance;
-		variables.data    = MystInstance.app;
-		//variables.db      = MystInstance.app.data;
-
-		//Load all the components should have been loaded...
-		try {
-			logReport( "Load components" );
-
-			//Go through all the components in the components directory
-			var dir = "components";
-			var dirQuery = DirectoryList( "components", false, "query", "*.cfc" );
-			/*
-			for ( var q in dirQuery ) {
-				if ( q.name neq "Application.cfc" ) {
-					var vv = Replace( q.name, ".cfc", "" );
-					var m = MystInstance;
-					variables[ vv ] = createObject( "component", "components.#vv#" ).init( m );
-				}
-			}
-			*/
-			//Choose a datasource for each of our modules to use here.
-			var dds = "";
-			if ( StructKeyExists( data, "source" ) )
-				dds = data.source;
-			else if ( StructKeyExists( application, "datasource" ) )
-				dds = application.datasource;
-			else if ( StructKeyExists( application, "defaultdatasource" ) ) {
-				dds = application.defaultdatasource;
-			}
-
-			//Initialize each component with common properties
-			for ( var q in dirQuery ) {
-				if ( q.name neq "Application.cfc" && q.name neq "base.cfc" ) {
-					var vv = Replace( q.name, ".cfc", "" );
-					var m = MystInstance;
-					//variables[ vv ] = createObject( "component", "components.#vv#" ).init( m );
-					var cname = Replace( q.name, ".cfc", "" );
-					//variables[ vv ] = createObject( "component", "components.#vv#" ).init(
-					var cmp 
-					= variables[ vv ]
-					= g[cname] 
-					= createObject( "component", "components.#vv#" ).init(
-							mystObject = m 
-						, realname = cname
-						, namespace = cname
-						, datasource = dds
-						, debuggable = 0
-						, verbose = 0
-					);
-				}
-			}
-		}
-		catch (any e) {
-			renderPage( status=500, content="Component load failed.", err=e );
-		}
-		
-		//Route injection should happen here.
-		try {
-			//Add more to logging
-			logReport("Evaluating routes.");
-			var dirQuery = DirectoryList( "routes", false, "query", "*.cfm" );
-			var callstat = 0;
-			for ( var q in dirQuery ) {
-				var n = Replace( q.name, ".cfm", "" );
-				callstat = _include( where = "routes", name = n );
-				if ( !callstat.status ) {
-					renderPage( 
-						status=500
-					, err=callstat.errors
-					, content="Syntax error at routes/#n#"
-					);
-				}
-			}
-		}
-		catch (any e) {
-			renderPage( status=500, content="Route injection failed.", err=e );
-		}
-
-		//Find the right resource.
-		try {
-			//Add more to logging
-			logReport("Evaluating URL route");
-
-			//TODO: All aliasing needs to be handled here.	
-			var ses_path = (check_deep_key( appdata, "settings", "ses" )) 
-				? cgi.path_info : cgi.script_name;
-
-			//Set some short names in case we need to access the page name for routing purposes
-			var rd = findResource( name=cgi.script_name, rl=appdata );
-			setRname( rd.file /*resourceIndex( name=cgi.script_name, rl=appdata )*/ );
-			variables.data.loaded = variables.data.page = resName = getRname();
-
-			//Send a 404 page and be done if this resource was not specified in data.cfm
-			if ( rd.status eq 404 ) {
-				renderPage( status=404, content="Resource not found.", err={} ); 
-			}
-	
-			logReport( "Success" );
-		}
-		catch (any e) {
-			renderPage( status=500, content="Locating resource mapping failed.", err=e );
-		}
-
-
-		//Evaluate model 
-		try {
-			//Get the original scope before running anything
-			oScope = ListSort( StructKeyList( variables ), "textNoCase" );
-
-			//Log what's happening	
-			logReport( "Evaluating models..." );
-	
-			//Model
-			if ( StructKeyExists( rd, "model" ) ) {
-				//Check the type's value 
-				var ev = getType( rd.model );
-				var pgArray = [];
-
-				//...
-				if ( ev.type != 'array' && ev.type != 'struct' ) 
-					ArrayAppend(pgArray, {type=ev.type,value=ev.value});
-				else if ( ev.type == 'struct' ) {
-					//check for 'exec' and just save that string, only exec is allowed right now
-					if ( StructKeyExists( ev.value, "exec" ) ) 
-						ArrayAppend(pgArray, {type="execution",value=ev.value.exec});
-					else {
-						renderPage( 
-							status=500
-						, err={}
-						, content="Model struct does not contain 'exec' key (check key at #rd.file#)"
-						);
-					}
-				}
-				else {
-
-					for ( var ind=1; ind<=ArrayLen(ev.value); ind++ ) {
-						var ee = ev.value[ ind ]; 
-						var ey = getType( ee );	
-						if ( ey.type == "string" || ey.type == "closure" )
-							ArrayAppend(pgArray, {type=ey.type,value=ey.value});
-						else if ( ey.type == "struct" ) {
-							if ( StructKeyExists( ey.value, "exec" ) )
-								ArrayAppend(pgArray, {type="execution",value=ey.value.exec});
-							else {
-								renderPage( 
-									status=500
-								, err={}
-								, content="Model struct does not contain 'exec' key (check key at #rd.file#)"
-								);
-							}
-						}
-						else {
-							renderPage( 
-								status=500
-							, content="Error loading model reference at #ind# at key '#rd.file#'"
-							, err={}
-							);
-						}
-					}
-				}
-
-				//Now load each model, should probably put these in a scope
-				for ( var page in pgArray ) {
-					var callStat;
-					if ( page.type == "string" ) {
-						callStat = _include( where="app", name=page.value );
-						if ( !callStat.status ) {
-							renderPage( 
-								status=500
-							, content="Error executing model file #page.value#"
-							, err=callStat.errors 
-							);
-						}
-					}
-					else if ( page.type == "execution" ) {
-						//there is nothing really to do here...
-					}
-					else {
-						try {
-							page.value( );
-						}
-						catch (any e) {
-							renderPage( 
-								status=500
-							, content="Error executing model closure at #rd.file#"
-							, err=e
-							);
-						}
-					}
-				}
-			}
-		}
-		catch (any e) {
-			//Manually wrap the error template here.
-			renderPage(status=500, err=e, content = "Error executing models at: '#rd.file#'" );
-		}
-
-
-		//This is supposed to help me trim scopes...
-		nScope = ListSort( structKeyList( variables ), "textNoCase" );
-		lScope = ListToArray( ListSort( ReplaceList( nScope, oScope,
-			REReplace( oScope, "[a-zA-Z0-9_]", "", "all" ) ), "textNoCase", "asc", ",") ); 
-
-		//Evaluate view
-		try {
-			logReport( "Evaluating views..." );
-			if ( !StructKeyExists( rd, "view" ) ) {
-				renderPage( 
-					status=500
-				, content="View was requested, but there are no views specified for the endpoint at '#rd.file#'"
-				, err={ 
-						type="framework",
-						message= "View was requested, but there are no views specified for the endpoint at '#rd.file#'"
-					}
-				);
-			}
-
-			savecontent variable="the_page_content" {
-				//Get the type name
-				var ev = getType( rd.view );
-				//Custom message is needed here somewhere...
-				if ( ev.type != "string" && ev.type != "array" ) {
-					renderPage( 
-						status=500
-					, err={} 
-					, content="View value for '#rd.file#' was not a string or array."
-					);
-				}
-
-				//Set pageArray if it's string or array
-				var pageArray = (ev.type == 'string') ? [ ev.value ] : ev.value;
-
-				//Now load each model, should probably put these in a scope
-				for ( var x in pageArray ) {
-					var callStat = _include( where="views", name=x );
-					if ( !callStat.status ) {
-						renderPage( 
-							status=500
-						, err=callStat.errors 
-						, content="Error loading view at page '#x#'."
-						);
-					}
-				}
-			}
-		} 
-		catch (any e) {
-			//Manually wrap the error template here.
-			renderPage( status=500, err=e, content="Error in parsing view." );
-		}
-
-
-		// Evaluate any post functions (not sure what these would be yet)
-		if ( !StructKeyExists( appdata, "post" ) ) 
-			renderPage( status=200, content=the_page_content );
-		else if ( StructKeyExists( appdata, "post" ) && !appdata.post ) 
-			renderPage( status=200, content=the_page_content );
+	public string function sendQueryAsJson ( Query q ) {
+		var a = queryToJSON( q );
+		if ( 0 )
+			writeoutput( a );
 		else {
-/*
-			if ( !StructKeyExists( appdata, "post" ) && !check_deep_key(appdata, "routes", resName, "content-type") )
-				renderPage( status=200, content=the_page_content );
-			else {
-				try {
-					logReport("Evaluating route for post hook");
-					
-					//Save content to make it easier to serve alternate mimetypes.
-					savecontent variable = "post_content" {
-						this.post(the_page_content, this.objects);
-					}
-
-					logReport("Success");
-					renderPage( status=200, content=post_content );
-				}
-				catch (any e) {
-					renderPage( status=500, content="Error in executing master-post routine.", err=e );
-				}
-			}
-*/
+			pc = getpagecontext().getResponse();
+			pc.setContentType( "application/json" );
+			writeoutput( a );
+			abort;
 		}
+		return a;
 	}
 
 
-	/*
-	private struct function findResource ( Required String name, Required Struct rl ) {
-
-	why not return with some smart things from here?
-	404 is if something can't be found
-
-	- combine the path as you go down, b/c you need to check for files later on, 
-
-	status = 200, 404, etc
-	path = path as we go through the thing
-	*/
-	private struct function findResource ( Required String name, Required Struct rl ) {
-		//Define a base here
-		var base = "default";
-		var localName;
-		var tt;
-
-		//Handle situations where no routes are defined.
-		if ( !structKeyExists( rl, "routes" ) || StructIsEmpty( rl.routes ) ) {
-			//return base;
-			return { model="default", view="default", file="", path="", status=200 }
-		}
-
-		//Modify model and view include paths if there is a basedir present.
-		if ( StructKeyExists( rl, "base" ) ) {
-			if ( Len( rl.base ) > 1 )
-				base = rl.base;	
-			else if ( Len(rl.base) == 1 && rl.base == "/" )
-				base = "/";
-			else {
-				base = rl.base;	
-			}
-		}
-
-		//Simply lop the basedir off of the requested URL if that was requested
-		if ( StructKeyExists(rl, "base") ) {
-			localName = Replace( arguments.name, base, "" );
-		}
-
-		/*
-		//Check for resources in GET or the CGI.stringpath 
-		if ( StructKeyExists(rl, "handler") && CompareNoCase(rl.handler, "get") == 0 ) {
-			if ( isDefined("url") and isDefined("url.action") )
-				name = url.action;
-			else {
-				if (StructKeyExists(rl, "base")) {
-					name = Replace(name, base, "");
-				}
-			}
-		}
+	//Intended to be called inside cfm files....
+	//kind of a quick and dirty way to do typeless models... 
+	public function setScope ( Required String name, Required value, String type ) {
+		if ( StructKeyExists( arguments, "type" ) )
+			variables.pageScope[ name ] = { type = type, value = value };
 		else {
-			//Cut out only routes that are relevant to the current application.
-			if ( StructKeyExists(rl, "base") ) {
-				name = Replace( name, base, "" );
-			}
+			//Infer the type if possible... Query does not work so...
+			var t = getType( value ).type;
+			variables.pageScope[ name ] = { type = t, value = value };
 		}
-		*/
+	}
 
-		//Handle the default route if rl is not based off of URL
-		if ( !StructKeyExists( rl, "handler" ) && localName == "index.cfm" ) {
-			//return rl.routes.default;
-			var tt = rl.routes.default;
-			tt.file = "index.cfm";
-			tt.path = "/";	
-			tt.status = 200;
-			return tt;
+	private function evalHook( Required rd, Struct scope ) {
+		var t = getType( rd );
+		if ( t.type eq "closure" )
+			rd( scope );	
+		else if ( t.type eq "struct" ) {
+			//Could evaluate model and view here as default
+			if ( StructKeyExists( rd, "model" ) ) {
+				evalModel( rd.model );
+			}
+			//Evaluating hooks can be done differently...
+			if ( StructKeyExists( rd, "view" ) ) {
+				evalView( rd );
+			}
+		} 
+		else {
+			//Throw an error because right now, no other types are supported.
 		}
+	}
 
-		/*
-		writeoutput("at route evaluator:" );
-		writedump( "localName: #localName#" );
-		writedump( ListToArray( localName, "/" ) );
-		//writedump( rl.routes );
-		*/
-
-		//This is the second version, die out and return
-		//Chopping from the top, until we stop, is the best thing...
-		var t = rl.routes;
-		var et = {};
-		var path = "";
-		var file;
-		var l = ListToArray( localName, "/" );
-
-		//to make this easy, something EXPLICIT needs to catch
-		for ( var x in l ) {
-			var fn = Replace( x, ".cfm", "" );
-			if ( StructKeyExists( t, x ) ) {
-				t = t[ x ];
-				path = ListAppend( path, x, "/" );
-				file = x;
-			}
-			else if ( StructKeyExists( t, fn ) ) {
-				t = t[ fn ];
-				path = ListAppend( path, fn, "/" );
-				file = fn;
-			}
-			/*
-			'*' wildcard catch	
-			regex catch
-			*/
-			else {
-				//writeoutput("<h2>we died</h2>" );
-				return { 
-					status=404
-				, path=path
-				, file=x
-				};
-			}
+	//This can fail out if the type does not match... maybe...
+	public function getScope ( Required String name, String type ) {
+		if ( StructKeyExists( variables.pageScope, name ) ) {
+			return variables.pageScope[ name ][ "value" ];
 		}
-
-		var diff = 	Len(path) - Len(file);
-		t.file = file;
-		t.path = ( diff ) ? Left( path, diff ) : path; 
-		t.status = 200;
-		return t;	
+		else if ( name eq "*" ) {
+			return variables.pageScope;
+		}
+		//The type will probably be stored, so a default value can be used
+		return null;  //This should return some kind of type
 	}
 
 
 	/**
-	 * resourceIndex 
+	 * returnAsJson ( Struct model )
 	 *
-	 * Find the index of a resource if it exists.  Return 0 if it does not.
-	 */
-	private String function resourceIndex ( Required String name, Required Struct rl ) {
-		//Define a base here
-		var base = "default";
-		var localName;
-
-		//Handle situations where no routes are defined.
-		if ( !structKeyExists( rl, "routes" ) || StructIsEmpty( rl.routes ) )
-			return base;
-
-		//Modify model and view include paths if there is a basedir present.
-		if ( StructKeyExists( rl, "base" ) ) {
-			if ( Len( rl.base ) > 1 )
-				base = rl.base;	
-			else if ( Len(rl.base) == 1 && rl.base == "/" )
-				base = "/";
+   * ...
+	 *
+	 **/		
+	private function returnAsJson( Struct model ) {
+		//Filtering should have already been run by this time
+		for ( var k in model ) {
+			//v should always be a struct with at least a key and value
+			var v = model[k];
+			var t = getType( v );
+			var c;
+			//writedump( v ); writedump( model[v] ); writeoutput( "<h2>#k#</h2>" );
+			if ( t.type eq "struct" || t.type eq "array" ) 
+				c = v; //writeoutput( SerializeJSON( v ) );	
+			else if ( t.type eq "query" ) 	
+				c = queryToArray(v); //writeoutput( queryToJSON( v ) );	
 			else {
-				base = rl.base;	
+				//If we got this far, it's probably a scalar value
+				//writeoutput( "Scalar type is #t.type#" );
+				c = ( LCase( t.type ) eq "string" ) ? "#v#" : v;//writeoutput( v );
 			}
+			model[ k ] = c;
+		}
+		//writeoutput( structToJSON( model ) ); abort;		
+		return structToJSON( model );		
+	}
+
+	public struct function failure( required string message, struct exception ) {
+		return {
+			status = false,
+			error = message,
+			exception = StructKeyExists( arguments, "exception" ) ? exception : {},
+		};
+	}
+
+
+	/**
+	 * evalModel ( Required rd )
+	 *
+   * Return a struct composed of elements and keys...
+	 *
+	 **/		
+	private struct function evaluateModelKey( Required struct routedata ) {
+		logReport( "Evaluating models @ #routedata.name#" );
+
+		var pgArray = [];
+		var result = {};
+		var ev;
+		var namespace = StructKeyExists( routedata, "namespace" ) ? routedata.namespace: {};
+//writedump( namespace );writedump( routedata ); abort;
+
+		//Stop if there is no routedata
+		if ( !StructKeyExists( routedata, "model" ) ) {
+			return { status = true };
 		}
 
-		//Simply lop the basedir off of the requested URL if that was requested
-		if ( StructKeyExists(rl, "base") ) {
-			localName = Replace( arguments.name, base, "" );
+		//Build an array out of whatever value the model may be...
+		if ( ( ev = getType( routedata.model ) ).type != 'array' && ev.type != 'struct' )
+			ArrayAppend( pgArray, { type=ev.type, value=ev.value } );
+		else if ( ev.type == 'struct' ) {
+			return failure( "Models as structs are not yet supported (check key at #routedata.file#)." ); 
 		}
-
-		/*
-		//Check for resources in GET or the CGI.stringpath 
-		if ( StructKeyExists(rl, "handler") && CompareNoCase(rl.handler, "get") == 0 ) {
-			if ( isDefined("url") and isDefined("url.action") )
-				name = url.action;
-			else {
-				if (StructKeyExists(rl, "base")) {
-					name = Replace(name, base, "");
+		else {
+			for ( var ind=1; ind<=ArrayLen(ev.value); ind++ ) {
+				var ee = ev.value[ ind ]; 
+				var ey = getType( ee );	
+				if ( ey.type == "string" || ey.type == "closure" )
+					ArrayAppend( pgArray, { type=ey.type, value=ey.value });
+				else if ( ey.type == "struct" )
+					ArrayAppend( pgArray, { type=ey.type, value=ey.value });
+				else {
+					return failure( "Got unsupported type for model at index #ind# at key '#routedata.file#'" );
 				}
 			}
 		}
-		else {
-			//Cut out only routes that are relevant to the current application.
-			if ( StructKeyExists(rl, "base") ) {
-				name = Replace( name, base, "" );
+
+		//Now load each model, should probably put these in a scope
+		for ( var page in pgArray ) {
+			//Model can be a struct too, this automatically puts things in things...
+			if ( page.type == "struct" ) {
+				return failure( "Models as structs currently aren't supported." );
+			}
+			else if ( page.type == "string" ) {
+				var cexec;
+				var path = "#getRootDir()#app/#page.value#";
+				var nsref; 
+
+				//Use either namespace or basename to identify the model when more than one is in use...
+				if ( StructKeyExists( namespace, page.value ) )
+					nsref = namespace[ page.value ];
+				else {
+					//nsref = Replace( page.value, "/", "_" );
+					var pv = ListToArray( page.value, "/" );
+					nsref = pv[ Len( pv ) ];	
+				}
+//writedump( nsref ); abort;
+
+				if ( !FileExists("#path#.cfc") && !FileExists("#path#.cfm") )
+					return failure( "Could not locate requested model file '#page.value#.cf[cm]' for key 'default'" );
+				else if ( FileExists( "#path#.cfc" ) ) {
+					if ( !( cexec = invokeComponent( "app.#page.value#", result )).status )
+						return cexec;
+					else {
+						result[ nsref ] = cexec.results;
+					}
+				}
+				else { //if ( FileExists( "#path#.cfm" ) ) {
+					//Models executed this way end up being global or explicitly injected with setScope... 
+					if ( !( cexec = _include( where="app", name=page.value ) ).status ) {
+						return cexec;
+					}
+				}
+			}
+			else {
+				//Catch closures and send the result set into it
+				try {
+					page.value( result );
+				}
+				catch (any e) {
+					return failure( "Error executing model closure at route '???'" );
+				}
 			}
 		}
+
+		return {
+			status = true,
+			results = result
+		}
+	}
+
+
+	/**
+	 * private String function evalView ( Required struct rd )
+	 *
+	 * Evaluates a view.
+	 */
+	private struct function evalView( Required Struct rd, Struct modeldata ) {
+		logReport( "Evaluating views..." );
+		//Evaluate a single view
+		try {
+			var the_page_content;
+			savecontent variable="the_page_content" {
+				//Get the type name
+				var ev = getType( rd.view );
+				
+				//Custom message is needed here somewhere...
+				if ( ev.type != "string" && ev.type != "array" ) {
+					return {
+						status = false,
+						error = "View value for '#rd.file#' was not a string or array.",
+						exception = {} 
+					}
+				}
+
+				//Set pageArray if it's string or array
+				var pageArray = (ev.type == 'string') ? [ ev.value ] : ev.value;
+				var cs;
+
+				//Now load each model, should probably put these in a scope
+				for ( var x in pageArray ) {
+					if ( !( cs = _include( where="views", name=x ) ).status ) {
+						return cs;
+					}
+					writeoutput( cs.results );
+				}
+			}
+		}
+		catch (any e) {
+			//Manually wrap the error template here.
+			return {
+				status = false,
+				error = "Error in parsing view for '#rd.file#'.",
+				exception = e 
+			}
+		}
+
+		return {
+			status = true,
+			results = the_page_content
+		}
+	}
+
+
+		
+	/**
+   * Wrap loading components to catch any errors.
+	 */
+	private any function invokeComponent( string cname, model ) {
+		var comp;
+		try {
+			comp = createObject( "component", cname ).init( this, model );
+		}
+		catch (any e) {
+			return failure( e.message, e ); 
+		}
+		return {
+			status = true,
+			results = comp
+		}
+	}
+
+
+	/**
+   * loadComponents()
+	 */
+	private Struct function loadComponents( struct appdata ) {
+		//Load all the components should have been loaded...
+		logReport( "Loading components..." );
+
+		//Define these here for sensible error handling.
+		var cname;
+		var componentStruct = {};
+		var datasource;
+		var dir = "components";
+		var fname;
+	
+		//Choose a datasource for each of our modules to use here.
+		if ( StructKeyExists( appdata, "source" ) )
+			datasource = appdata.source;
+		else if ( StructKeyExists( application, "datasource" ) )
+			datasource = application.datasource;
+		else if ( StructKeyExists( application, "defaultdatasource" ) )
+			datasource = application.defaultdatasource;
+		else {
+			; //What do I do if there is no datasource?
+		}
+
+		try {
+			//Initialize each component with common properties
+			for ( var q in DirectoryList( "components", false, "query", "*.cfc" ) ) {
+				logReport( "Loading component '#q.name#'..." );
+				cname = Replace( q.name, ".cfc", "" );
+				fname = q.name;
+				//TODO: A ListContains() check will be faster than this most likely
+				if ( q.name neq "Application.cfc" && q.name neq "base.cfc" ) {
+					var vv = Replace( q.name, ".cfc", "" );
+					//var cname = Replace( q.name, ".cfc", "" );
+					componentStruct[ cname ] = createObject( "component", "components.#cname#" ).init(
+							mystObject = this 
+						, realname = cname
+						, namespace = cname
+						, datasource = datasource
+						, debuggable = 0
+						, verbose = 0
+					);
+				}
+				logReport("Successfully loaded component #q.name#!");
+			}
+			return {
+				status = true,
+				results = componentStruct
+			}
+		}
+		catch (any e) {
+			return	{
+				status = false,
+				error = "Component load failed at #fname#",
+				exception = e
+			} 
+		}
+	}
+
+
+	/**
+	 * appendIndependentRoutes()
+	 *
+	 * 
+	 */
+	private Struct function appendIndependentRoutes ( data ) {
+		logReport("Loading independent routes...");
+		try {
+			//Add more to logging
+			var dirQuery = DirectoryList( "routes", false, "query", "*.cfm" );
+			var callstat = 0;
+			for ( var q in dirQuery ) {
+				var n = Replace( q.name, ".cfm", "" );
+				if ( !( callstat = _include( where = "routes", name = n ) ).status ) {
+					return failure( "Syntax error at routes/#n#", callstat.errors );
+				}
+			}
+			logReport("SUCCESS - All routes loaded!");
+			return StructNew();
+		}
+		catch (any e) {
+			return failure( "Route injection failed.", e );
+		}
+	}
+
+
+	private array function extractKeys( struct str ) {
+		var arr = [];
+		for ( var k in str ) {
+			ArrayAppend( arr, k );
+		}
+		return arr;
+	}
+
+
+	/**
+	 * ???
+   *
+	 * This is supposed to turn my routing table into something else.
+	 **/
+	private function evaluateRoutingTable( Required Struct arg, Struct found, key = "__TOP__" ) {
+//writeoutput( "Evaluating at level '#key#'<br />" );
+
+		var a;
+		try {
+			var nStruct = {};
+
+			//If found is not blank, loop through each of those and add them...
+			if ( !StructIsEmpty( found ) ) {
+				for ( var f in found ) {
+					arg[ f ] = found[ f ];
+				}
+			}
+
+			//Check the struct for any keys, apply them to whatever struct
+			for ( var k in ListToArray( getRoutingKeys() ) ) {
+				if ( StructKeyExists( arg, k ) ) {
+					nStruct[ k ] = arg[ k ];
+				}
+			}
+
+			//Finally, loop through...gin.cfm
+			for ( var vv in arg ) {
+				//TODO: This is probably slow
+				//Descend into each key and apply the next level...
+
+				if ( !ArrayContains( ListToArray( LCase( getRoutingKeys() ) ), LCase( vv ) ) ) {
+//writeoutput( "#vv# was found...<br />" ); 
+
+					//If the type is a struct, we need to evaluate again
+					if ( getType( arg[ vv ] ).type eq 'struct' ) {
+				
+//writeoutput( "before transform:<br>" );	
+//writedump( arg[ vv ] );	
+						//return arg and replacing that key ought to work best
+						var y = evaluateRoutingTable( arg[ vv ], nStruct, vv );
+						if ( y.status )
+							arg[ vv ] = y.results;
+						else {
+							return {
+								status = false
+							, message=  "router inheritance failed."
+							}
+						}
+						
+//writeoutput( "after transform:<br>" );	
+//writedump( y.results );	
+					}
+				}
+
+			}
+		}
+		catch (any e) {
+			return {
+				error = "Unknown exception occurred at routing table evaluation."
+			, exception = e
+			, status = false
+			}
+		}
+
+//writeoutput( "Done with key #key# <br />" );
+		return {
+			status = true
+		, results = arg
+		}
+	}
+
+
+	//TODO: This is looking more and more like a class
+	private Struct function evaluateRouteData( Struct data ) {
+
+		var index = "_";
+		var base = "default";
+		var localName;
+		var ses_path;
+		var path;
+		var parent;
+		var file;
+
+		//Add more to logging
+		logReport( "Evaluating URL route..." );
+
+		//TODO: Is this ever a good idea?
+		//if ( !structKeyExists( data, "routes" ) || StructIsEmpty( data.routes ) )
+		//	return { model="default", view="default", file="", path="/", status=200 }
+
+		//Check for SES path
+		//var ses_path = check_deep_key( data, "settings", "ses" ) ? cgi.script_name : cgi.path_info;
+		ses_path = cgi.script_name;
+
+		//Handle situations where no routes are defined.
+		if ( !structKeyExists( data, "routes" ) || StructIsEmpty( data.routes ) ) {
+			return { status=false, error="Routes are not defined in data.cfm", exception={} }
+		}
+
+		//Modify model and view include paths if there is a basedir present.
+		if ( StructKeyExists( data, "base" ) ) {
+			if ( Len( data.base ) > 1 )
+				base = data.base;	
+			else if ( Len( data.base ) == 1 && data.base == "/" )
+				base = "/";
+			else {
+				base = data.base;	
+			}
+			//Simply lop the basedir off of the requested URL if that was requested
+			localName = Replace( ses_path, base, "" );
+		}
+
+
+		//Handle requests for the home page 
+		if ( localName == index || localName == "#index#.cfm" ) {
+			if ( !StructKeyExists( data.routes, "index" ) && !StructKeyExists( data.routes, "default" ) )
+				return { status=false, error="No default route specified in data.cfm", exception={} }
+			else {
+				//return rl.routes.default;
+				var tt = StructKeyExists( data.routes, "index" ) ? data.routes.index : data.routes.default;
+				tt.file = "index.cfm";
+				tt.path = "/";	
+				tt.status = true;
+				tt.name = Replace( cgi.script_name, ".cfm", "" );
+				return tt;
+			}
+		}
+
+		//Get ready to start moving through and writing a matcher (there should be only one)
+		var depth = 0;
+		var route = data.routes;
+		var paths = ListToArray( localName, "/" );
+		ArrayDeleteAt( paths, Len( paths ) );
+		//Do you want to match literally? Or match using regex, at a specific level?
+
+		for ( var filepath in paths ) {
+
+			if ( StructKeyExists( route, filepath ) ) {
+				route = route[ filepath ];
+				path = ListAppend( path, filepath, "/" );
+				file = filepath;
+			}
+			else {
+				//No simple matches were found, so run against any regexes
+				var re;
+				var is404 = false;
+				var reMatched = false;
+				try {
+					//Check the current level for wildcard or RE
+					var routeKeys = this.extractKeys( route ); 
+					routeKeys.each( function(e,i,a) { a[i] = LCase(e); } );
+					routeKeys.removeAll( ListToArray( "#getRoutingKeys()#" ) );
+
+					//If the name is NOT regexed (or there are no regexes)
+					//It's a 400?
+					if ( Len( routeKeys ) == 0 )
+						is404 = true;
+					else {	
+						//if it is, but there is no match then it's a 404
+						for ( key in routeKeys ) {
+							re = key;
+							//Pull out normally matched strings
+							if ( REFind( "[a-z]", key ) == 1 ) {
+								is404 = true;
+								continue;
+							}
+
+							is404 = false;
+							//Stop at the first match
+							if ( REFind( key, filepath ) > 0 ) {
+								reMatched = true;
+								route = route[ key ];						
+								break;
+							}
+						}
+					}
+				}
+				catch (any e) {
+					return {
+						status = false
+					, error = "Error in router handling, check route defined at '#re#'"
+					, exception = e
+					}
+				}
+
+				if ( !reMatched ) {
+					return {
+						status = false 
+					, error = (is404) ? "No mapping for '#filepath#' found." :
+							"Parameter did not match regex at #re#"
+					, type = (is404) ? 404 : 400 
+					, path=path
+					, file=filepath
+					};
+				}
+			}
+		}
+
+		var diff = 	Len(path) - Len(file);
+		route.file = file;
+		route.path = ( diff ) ? Left( path, diff ) : path; 
+		route.status = true;
+		route.name = "/#ArrayToList( paths, "/" )#";
+		logReport( "SUCCESS!" );
+		return route;	
+	} 
+
+
+	private struct function evaluateScopeKey( Struct routedata ) {
+		if ( StructKeyExists( routedata, "scope" ) ) {
+			logReport( "Evaluating key 'scope' @ /#data.page#..." );
+			logReport( "SUCCESS!" );
+			return {
+				status = true,
+				results = routedata.scope
+			}
+		}
+		return {
+			status = true,
+			keyNotFound = true,
+			results = routedata.scope
+		}
+	}
+
+	private struct function evaluateReturnsKey( Struct routedata, Struct appdata ) {
+		var r;
+		var k;
+		logReport( "Evaluating key 'returns' @ /#routedata.name#..." );
+
+		//Check for key first in routedata, and then appdata
+		if ( StructKeyExists( routedata, "returns" ) ) {
+			r = routedata.returns;
+			k = "routes.#routedata.name#";
+		}
+		else if ( StructKeyExists( appdata, "returns" ) ) {
+			r = appdata.returns;
+			k = "top-level";
+		}
+		else {
+			return { 
+				status = true, 
+				results = getDefaultContentType()
+			}
+		}
+
+		if ( getType( r ).type neq "string" ) {
+			return failure( "Key 'returns' at #k# is not a string." );
+		}
+
+		if ( !StructKeyExists( getMimeTypes(), routedata.returns ) ) {
+			return failure( "Key 'returns' points to unsupported mimetype '#routedata.returns#' at #routedata.name#." );
+		}
+
+		return {
+			status = true,
+			results = routedata.returns
+		}
+	}
+
+	private struct function generateLogFmt( Required String key, Required String page ) {
+		return {
+			key = key,
+			message = "Evaluating key '#key#' at '#page#'"
+		}
+	}
+
+	private struct function evaluateBeforeKey( Struct routedata ) {
+		var key = "before"
+		//var log_message = "Evaluating key '#key#' at /#routedata.page#..."
+		
+		//Run something before every request to this endpoint
+		if ( StructKeyExists( routedata, key ) ) {
+			logReport( "Evaluating key '#key#' at /#routedata.page#..." );
+			evalHook( routedata.before, scope );
+			//Evaluate any models, etc
+			if ( StructKeyExists( routedata.before, "model" ) ) {
+				0;//evalModel( routedata.before.model, scope );
+			}
+			//Evaluate any views, this should probably just be a string
+			if ( StructKeyExists( routedata.before, "view" ) ) {
+				0;//evalView( routedata.before.view, scope );
+			}
+			//Get the type of routedata.before
+			logReport( "SUCCESS!" );
+		}
+		return { status = true };
+	}
+
+	private struct function evaluateAcceptsKey( Struct routedata ) {
+		
+		//Checks the actual method
+		if ( StructKeyExists( routedata, "accepts" ) ) {
+			logReport( "Evaluating key 'accepts' @ /#data.page#..." );
+			//If the method is NOT a member of routedata.accepts, die...
+			if ( ArrayFind( ListToArray( routedata.accepts ), cgi.request_method ) == 0 ) {
+				//renderPage(405, "This endpoint does not accept method '#cgi.request_method#'");
+				//renderPage( status=405, content="This endpoint does not accept method '#cgi.request_method#'" ); 
+				return {
+					status = false,
+					error = "This endpoint does not accept method '#cgi.request_method#'",
+					exception = {}
+				}
+			}
+			logReport( "SUCCESS!" );
+		}
+		return { status = true }
+	}
+
+	private struct function evaluateExpectsKey( Struct routedata ) {
+		
+		//Checks the values within a particular scope 
+		if ( StructKeyExists( routedata, "expects" ) ) {
+			logReport( "Evaluating key 'expects' @ /#data.page#..." );
+			var allowed = ( StructKeyExists( routedata, "accepts" ) ) ? routedata.accepts : ListToArray("GET,POST");
+			routedata.expects = ListToArray( routedata.expects );
+			//Build a list of scopes from the above (if thrown)
+			//Otherwise, we ought to assume that the variables could be anywhere 
+			var s = { GET=url, POST=form };
+			var kFind = {};
+			for ( var k in routedata.expects ) {
+				kFind[ k ] = { found = false };
+				for ( var methodStruct in s ) {
+					if ( StructKeyExists( s[methodStruct], k ) ) {
+						//Add the found key here.  We can eventually take it a step further and add validation
+						kFind[ k ] = { found = true, value = s[methodStruct][k] };
+					}	
+				}
+			}
+			//If kFind has anything false, we die here
+			for ( var f in kFind ) {
+				if ( !kFind[ f ].found ) {
+					var content = "This endpoint expected variables it did not receive.";
+					//TODO: If no err and status is greater than 399, type is 'custom', detail, I dunno...
+					//renderPage( status=412, content=content, err={ message=content,detail="",type="" } );
+					//renderPage(412, content, err={ message=content,detail="",type="" } );
+					return {
+						status = false,
+						error = "This endpoint expected variables it did not receive.",
+						exception = {}
+					}
+				}
+			}
+			logReport( "SUCCESS!" );
+		}
+		return { status = true };
+	}
+
+	private function evaluateQueryKey( Struct routedata ) {
+		/*
+		//Query SHOULD be higher precedence than model
+		if ( StructKeyExists( routedata, "query" ) ) {
+			logReport( "Evaluating key 'query' @ /#data.page#..." );
+			//routedata.query = "";
+			logReport( "SUCCESS!" );
+			//Queries ARE supposed to be automatically brought back as things...
+		}
+		*/
+		return { status = true };	
+	}
+
+/*
+	private struct function evaluateModelKey( Struct routedata ) {
+		logReport( "Evaluating models @ #routedata.name#" );
+		//This is where rethinking things could help, scope should be another argument.
+		if ( StructKeyExists( routedata, "model" ) ) {
+			//The status should return here, and errors handled
+			var model = evalModel( routedata.model );	
+			return model;
+		}
+
+		return { status = true }
+	*/
+
+	private function evaluateFilterKey( Struct routedata ) {
+		//Filter out the scope when returning JSON
+		if ( StructKeyExists( routedata, "filter" ) ) {
+			//Get the right variable from the scope and stop
+			//Break the line at '.' and run a loop for each time	
+			//Filter is expected to be used with JSON and XML (other interchange is fine too, but needs help)
+			//Keep going through the scope until the element is found...
+			//Haroutedata to say whether or not it should be an exception...
+			routedata.filter = ListToArray( routedata.filter, "." );
+			for ( var n in routedata.filter ) {
+				if ( StructKeyExists( variables.pageScope, n ) ) {
+					variables.pageScope = variables.pageScope[ n ];
+				}
+			}
+		}
+	}
+
+
+	private function evaluateViewKey( Struct routedata, Struct modeldata ) {
+		//Run a view
+		if ( !StructKeyExists( routedata, "view" ) )
+			return { status = true, keyNotFound = true };	
+		else {
+			logReport( "Evaluating views @ #routedata.name#..." );
+			return evalView( routedata, modeldata );
+		}
+	}
+
+
+	private function evaluateAfterKey( Struct routedata ) {
+		
+		if ( StructKeyExists( routedata, "after" ) ) {
+			logReport( "Evaluating key 'after' @ #routedata.name#..." );
+			evalHook( routedata.after );
+			//writedump( t );
+			logReport( "SUCCESS!" );
+		}
+
+		//Render the final payload...
+	}
+
+
+	private function dieOnFail( c ) {
+		writedump( c );
+		abort;
+	}
+
+
+	//Return just the result set when a call was successful.
+	private function extractResults( struct data ) {
+		if ( data.status && StructKeyExists( data, "results" ) ) {
+			return data.results;	
+		}
+		return data;
+	}
+
+	/**
+	 * serveStaticResource( array parts )
+	 *
+	 * ...
+	 *
+	 **/
+	private function serveStaticResource( required array parts, string path ) {
+		try {
+			var spath;
+			var metadata;
+			var extension;
+			var mimetype;
+
+			if ( StructKeyExists( arguments, "path" ) )
+				spath = arguments.path;
+			else {
+				//Get the part of URL that we want.
+				ArrayDeleteAt( parts, Len( parts ) );
+
+				//Generate the path of the requested file here.
+				spath = ArrayToList( parts, "/" );
+			}
+
+			//If the file does not exist, send a 404
+			if ( !FileExists( spath ) ) {
+				return this.sendResponse( 404, "text/html", "Error 404: File '#spath#' not found" );
+			}
+
+			//If you have problems accessing it, send a 403
+			metadata = GetFileInfo( spath );
+			if ( !metadata.canRead ) {
+				return this.sendResponse( 403, "text/html", "Error: Access Forbidden" );	
+			}
+
+			extension = this.GetExtension( spath );
+			if ( extension eq "" || !StructKeyExists( getCommonExtensionsToMimeTypes(), extension ) )
+				mimetype = "application/octet-stream"; 
+			else {
+				mimetype = getCommonExtensionsToMimetypes()[ extension ];
+			}
+
+			//If the file exists, throw it back
+			return this.sendBinaryResponse( 200, mimetype, metadata.size, FileReadBinary( spath ) );  
+		}
+		catch (any e) {
+			return this.respondWith( 500, {
+				error = "unknown error",
+				exception = e,
+				status = false
+			});
+		}
+	}
+
+
+	private function loadAppDataComponent( ) {
+		logReport( "Loading data.cfm..." );
+		try {
+			include "data.cfm";
+			setAppdata( manifest );
+			//appdata = CreateObject( "component", "data" );
+			var appdata = getAppdata();
+
+			//All of the properties in data.cfm (or data.cfc) should
+			//show up here...
+			setUrlBase( appdata.base );
+			logReport( "Success!" );
+			return {
+				status=true,
+				results=appdata
+			}
+		}
+		catch (any e) {
+			logReport( "Failure!" );
+			return failure( "Deserializing data.cfm failed", e );
+			//return this.respondWith( 500, { error="Deserializing data.cfm failed", exception=e, status=false } );
+			//abort;
+		}
+	}
+
+	/**
+	 * makeIndex( Myst mystInstance )
+	 *
+	 * Generate a page through the page generation cycle.
+
+		With this new system in place, some things have higher precedence...
+		'before' is always first
+		'accepts', 'expects', and possibly 'scope' really should be run...
+		'query' should come before model (if implemented)
+		'model' ought to be next
+		'returns' does little good right now..., models can be done..., I suppose
+		'view(s)' next
+		'after' should always be final 
+
+	 */
+	function init ( string page ) { //Myst MystInstance, globs) {
+		//TODO: Change these from global scope when full object conversion happens.
+		//variables.coldmvc = MystInstance;
+		//variables.db = MystInstance.app.data;
+		//variables.myst = MystInstance;
+		//variables.data = MystInstance.app;
+		var pageParts = ListToArray(page, "/");
+	
+		//Invoke all components 
+		setHttpHeaders( new std.components.headers() );
+		setMimetypes( new std.components.mimes() ); 
+		setCommonExtensionsToMimetypes( new std.components.files() );
+		setRunId( this.randstr(32) );
+		setRootDir( getDirectoryFromPath(getCurrentTemplatePath()) );
+		setPathSep( ( server.os.name eq "Windows" ) ? "\" : "/" );
+		//TODO: Convert this to a list
+		setArrayConstantMap( [ "app", "assets", "db", "files", "routes", "sql", "std", "views" ] );
+		for ( var k in getArrayConstantMap() ) constantMap[ k ] = getRootDir() & k;
+		setConstantMap( constantMap );
+
+		//Invoke this to maintain some control over the environment 
+		var ctx = new std.components.ctx();
+		setContext( ctx );
+
+		//Invoke this to prepare the body and get ready to do something with it
+		var res = new std.components.response(); 
+		setResponse( res );
+
+		//Invoke this to load error handling
+		var error = new std.components.error( res, this );
+		setPageError( error );
+
+		//Load the data component 
+		var appdata = loadAppDataComponent();
+		if ( !appdata.status )
+			return this.respondWith( 500, appdata );
+		else {
+			appdata = appdata.results;
+			setAppData( appdata );
+		}
+
+		//Serve static pages first and abort
+		if ( Len( pageParts ) > 2 && pageParts[1] == "assets" )
+			return serveStaticResource( pageParts );
+		else if ( Len( pageParts ) == 2 && pageParts[1] == "favicon.ico" ) {
+			//Default choice?
+			var favicon_path = "favicon.ico";
+			if ( StructKeyExists( appdata, "favicon" ) ) {
+				//Get the type
+				var type = getType( appdata.favicon );
+				if ( type.type == "string" )
+					favicon_path = type.value;
+				else if ( type.type == "closure" ) {
+					//Generate the thing by running the function
+					var favicon_data = type.value( this );
+					//return this.respondWith( 200, ... );
+					return this.respondWith( 500, failure( "Favicon by closure not supported yet." ) );	
+				}
+				else {
+					return this.respondWith( 500, failure( "Invalid favicon format." ) );	
+				}
+			}
+
+			return serveStaticResource( pageParts, favicon_path );
+		}
+
+		//Invoke this to load data.cfc. (TODO: Run depending on config settings)
+		//Is being able to choose even necessary...?
+		//var data = new data(); 
+		//setApplicationData( data );
+		
+		//include data.cfm?
+		//Now I can just run regular stuff
+
+		/*
+		//Load all of the components here
+		if ( !appdata.bypassComponents && !( ctx.components = loadComponents( this )).status )
+			return this.respondWith( 500, ctx.components );
 		*/
 
-		//Handle the default route if rl is not based off of URL
-		if ( !StructKeyExists( rl, "handler" ) && localName == "index.cfm" ) {
-			return "default";
+		//Route injection happens here.
+		var r = appendIndependentRoutes( appdata );
+		//writedump(r);
+
+		//This ought to return a machine code friendly struct with route eval data
+		if ( !StructKeyExists( appdata, "routes" ) ) 
+			return this.respondWith( 500, { error="No routes specified.", exception={}, status=false } );
+		else { 
+			//This can probably fail, but I can't think of how...
+			var rtable = evaluateRoutingTable( appdata.routes, {} );
+			if ( !rtable.status ) {
+				return this.respondWith( 500, { error=rtable.message, exception={}, status=false } );
+			}
+
+			//Get the mapped route (handle sending back here) 
+			ctx.route = evaluateRouteData( appdata );
+			if ( !ctx.route.status && StructKeyExists( ctx.route, "exception" ) )
+				return this.respondWith( 500, ctx.route );
+			else if ( !ctx.route.status && ctx.route.type == 400 )
+				return this.respondWith( 400, ctx.route );
+			else if ( !ctx.route.status && ctx.route.type == 404 )
+				return this.respondWith( 404, ctx.route );
+			else {
+				ctx.setRoute( ctx.route );
+			}
+		}
+
+		//The scope should carry things over...
+		//if ( !( tmp = evaluatemaking something customers want. The only way to make something customers want is to get a prototype in front of them and refine it based on their reactions.ScopeKey( ctx.route ) ).status )
+		//return this.respondWith( ???, ??? );
+			 
+		//returns
+		if ( ( ctx.returns = evaluateReturnsKey( ctx.route, appdata ) ).status )
+			res.setContentType( ctx.returns.results );
+		else {
+			return this.respondWith( 500, ctx.returns );
+		}
+
+		//before
+		//If this does not exist, move on, if it fails, stop, if it succeeds, add to ctx 
+		if ( ( ctx.before = evaluateBeforeKey( ctx.route ) ).status )
+			ctx.before = this.extractResults( ctx.before );
+		else {
+			return this.respondWith( 500, ctx.before );
+		}
+
+		//method not accepted, or some other expectation failed... 
+		if ( !(ctx.accepts = evaluateAcceptsKey( ctx.route )).status ) {
+			return this.respondWith( 405, ctx.accepts );
+		}
+
+		//expected certain variables that we didn't get
+		if ( !(ctx.expects = evaluateExpectsKey( ctx.route ) ).status ) {
+			return this.respondWith( 400, ctx.expects );
 		}
 
 		/*
-		writeoutput("at route evaluator:" );
-		writedump( "localName: #localName#" );
-		writedump( ListToArray( localName, "/" ) );
-		writedump( rl.routes );
+		//If the query was successful, a response should be sent here.
+		if ( !(ctx.query = evaluateQueryKey( ctx.route ) ).status )
+			return this.respondWith( 500, ctx.query );
+		else if ( StructKeyExists( ctx.query, "results" ) ) {
+			ctx.query = this.extractResults( ctx.query );
+			return this.respondWith( 200, ctx.query );
+		}
 		*/
+		
+		//Check the model
+		if ( !(ctx.model = evaluateModelKey( ctx.route )).status ) {
+			return this.respondWith( 500, ctx.model );
+		}
+		else if ( StructKeyExists( ctx.model, "results" ) ) {
+			//ctx.model = this.extractResults( ctx.model );
+			setModel( ctx.model.results );
+		}
 
-		//This is the first version
-		//If you made it this far, search for the requested endpoint
-		for ( var x in rl.routes ) {
-			if ( localName == x || Replace(localName, ".cfm", "" ) == x ) {
-				return x;
+		//return this.respondWith( 200, ctx.view );
+		//Filter: Optional for now, but will extract certain keys
+		//if ( !(ctx.filter = evaluateFilterKey( ctx.route )).status )
+		//	this.respondWith( 500, error.render( ctx.filter ) );
+		//View interpretation can fail
+		if ( !(ctx.view = evaluateViewKey( ctx.route, ctx.model )).status ) {
+			return this.respondWith( 500, ctx.view );
+		}
+		else if ( ctx.view.status && StructKeyExists( ctx.view, "results" ) ) {
+			return this.respondWith( 200, ctx.view );
+		}
+		else { //if ( !StructIsEmpty( ctx.model ) ) {
+			//No view, and this is supposed to be the case
+			//after
+			//evaluateAfterKey( ctx );
+			if ( StructKeyExists( ctx.model, "results" ) ) 
+				return this.respondWith( 200, ctx.model );
+			else {
+				return this.respondWith( 400, { 
+					error = "No resource for #ctx.route.name# found.",
+					status = false,
+					exception = {}
+				});
 			}
 		}
-	
-		//You probably found nothing, so either do 404 or some other stuff.
-		return ToString(0);
-	}
 
+		//There is absolutely no reason to end up here.  Ever.
+		return this;
+	}
 
 
 	//Return formatted error strings
@@ -1982,50 +2686,72 @@ accessors=true
 	}
 
 
+	//Handles rendering error messages according to the type of content
+	public string function render( struct content ) {
+		if ( this.getResponse().getContentType() == "application/json" ) {
+			return structToJSON( content.results ); 
+		}
+		else if ( this.getResponse().getContentType() == "text/xml" )
+			return SerializeXML( content.results ); 
+		else {
+			return content.results;
+		}
+	}
+
+
+
+	//Return a message
+	public boolean function respondWith( numeric status, struct con ) {
+		//A String buffer goes here... not sure how fast this is...
+		var contentBuffer;
+
+		//If status is invalid, return a failure
+		if ( !status || status < 100 || status > 599 ) {
+			contentBuffer = "Attempted to return invalid code #status#";
+		}
+		else if ( StructKeyExists( con, "status" ) && !con.status ) {
+			var error = getPageError();
+			error.setStatus( status );
+			error.setStatusMessage( getHttpHeaders()[ status ] );
+			contentBuffer = error.render( con ); 
+		}
+		else {
+			contentBuffer = this.render( con );
+		}
+		var res = getResponse();	
+		this.sendResponse( status, res.getContentType(), contentBuffer );
+		//res.send( status, res.getContentType(), contentBuffer );
+		return true;
+	} 
+
 	/**
 	 * init()
 	 *
-	 * Initialize Myst.  
-	 * TODO: This should only happen once.
+	 * Create a new instance of Myst.  
+	 *
+	 * TODO: This should only happen once in Application.cfc (preferably)
 	 */
-	public Myst function init (Struct appscope) {
+/*
+	public Myst function init ( Struct globals ) {
 		//Define things
 		var appdata;
-		var rootDir;
-		var currentDir;
-		var constantMap;
+		//this.href = this.link;
 	
-		//Initialize common elements 
-		//TODO: (these should be done once, and I have yet to figure out a clean
-		//way to do it.  It's going to have something to do with this step and
-		//Application.cfc)
+		//TODO: Initialize common elements ONCE
 		setHttpHeaders( createObject( "component", "std.components.httpHeaders" ).init() );
-		setMimeToFileMap( createObject( "component", "std.components.mimes" ).init() );
-		setFileToMimeMap( createObject( "component", "std.components.files" ).init() );
+		setMimetypes( createObject( "component", "std.components.mimes" ).init() );
+		setCommonExtensionsToMimetypes( createObject( "component", "std.components.files" ).init() );
+		setRunId( randstr(32) );
 
 		//....
-		rootDir = getDirectoryFromPath(getCurrentTemplatePath());
-		currentDir = getDirectoryFromPath(getCurrentTemplatePath());
-		constantMap = {}; 
-		setRootDir( rootDir );
-		setCurrentDir( currentDir );
+		//var rootDir = getDirectoryFromPath(getCurrentTemplatePath());
+		//var currentDir = getDirectoryFromPath(getCurrentTemplatePath());
+		var constantMap = {}; 
+		setRootDir( getDirectoryFromPath(getCurrentTemplatePath()) );
 		setArrayConstantMap( [ "app", "assets", "db", "files", "routes", "sql", "std", "views" ] );
 		setPathSep( ( server.os.name eq "Windows" ) ? "\" : "/" );
-		for ( var k in getArrayConstantMap() ) constantMap[ k ] = rootDir & k;
+		for ( var k in getArrayConstantMap() ) constantMap[ k ] = getRootDir() & k;
 		setConstantMap( constantMap );
-
-		//Add pre and post
-		if (StructKeyExists(appscope, "post"))
-			setPostMap( appscope.post );
-		if (StructKeyExists(appscope, "pre"))
-			setPreMap( appscope.pre );
-		if (StructKeyExists(appscope, "objects")) {
-			var obj = getObjects();
-			//setObjects({ });
-			for ( var x in appscope.objects ) {
-				StructInsert( obj, x, appscope.objects[x] );
-			}
-		}
 
 		//Now I can just run regular stuff
 		try {
@@ -2038,17 +2764,18 @@ accessors=true
 			//All of the properties in data.cfm (or data.cfc) should
 			//show up here...
 			setUrlBase( appdata.base );
-			logReport( "Success" );
+			logReport( "Success!" );
 		}
 		catch (any e) {
-			renderPage( status=500, content="Deserializing data.cfm failed", err=e );
+			logReport( "Failure!" );
+			//this.withResponse( 500, "Deserializing data.cfm failed", e );
 			abort;
 		}
 
 		//Check that JSON manifest contains everything necessary.
 		for ( var key in [ "base", "routes" ] ) {
 			if ( !StructKeyExists( appdata, key  ) ) {
-				renderPage( status=500, content="Struct key '"& key &"' not found in data.cfm.", err={} );
+				renderPage( 500, "Struct key '"& key &"' not found in data.cfm.", {} );
 			}
 		}
 
@@ -2066,6 +2793,7 @@ accessors=true
 		this.app = appdata;	
 		return this;
 	}
+*/
 
 	/*------------- DEPRECATED --------------------- */
 	//@title: wrapError 
@@ -2079,5 +2807,9 @@ accessors=true
 		return myRes;
 	}
 	/*------------- DEPRECATED --------------------- */
+	//Make a variable global, so that it can be accessed somewhere else
+	public void function setGlobal( v ) {
+		
+	}
 }
 

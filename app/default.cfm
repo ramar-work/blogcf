@@ -9,6 +9,7 @@ model = {};
 for ( var d in dirs ) {
 	var files = DirectoryList( getRootDir() & "files/projects/#d#", true, 'query', "", "", "file" );
 	var xx = dbExec( query=files, string="select name from _mem_ where name = 'SKIP'"  );
+
 	//Skip
 	if ( !xx.prefix.recordCount ) {
 		model[ d ] = {};	
@@ -35,5 +36,5 @@ for ( var d in dirs ) {
 		t.images = ii.results;
 	}
 }
-//writedump( model );abort;
+writedump( model );abort;
 </cfscript>

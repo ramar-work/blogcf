@@ -9,7 +9,7 @@
 	<link rel="stylesheet" href=#myst.getPublicPath('default')#>
 	<meta name="google-site-verification" content="rAPss2vKbyhbh6uzTuqqhhq2eoXUCKPQosTwcxNHjU4" />
 	--->
-	<title>#data.host# | #data.description#</title>
+	<title>#appdata.host# | #appdata.description#</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<meta name="Language" content="en" />
 	<meta name="author" content="Antonio R. Collins II (rc@tubularmodular.com)" />
@@ -38,9 +38,9 @@
 		<li><a href="/">#w#</a></li>
 		</cfloop>
 --->
-		<li><a href="#link( 'default.cfm' )#">work</a></li>
-		<li><a href="#link( 'contact.cfm' )#">contact</a></li>
-		<li><a href="#link( 'blog/list.cfm' )#">blog</a></li>
+		<li><a href="#link( '' )#">work</a></li>
+		<li><a href="#link( 'contact' )#">contact</a></li>
+		<li><a href="#link( 'blog/list' )#">blog</a></li>
 		<!--- <li><a href="#link( '.cfm' )#">about</a></li> --->
 	</ul>
 
