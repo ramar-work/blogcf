@@ -58,11 +58,6 @@
 --->
 
 </header>
-<div class="container-prefix">
-	<div class="container-full"></div>
-	<div class="container-top"></div>
-</div>
 </cfoutput>
 
 <div class="container">
-

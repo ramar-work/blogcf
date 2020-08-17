@@ -13,4 +13,18 @@ document.addEventListener( "DOMContentLoaded", function(ev) {
 			link.href = ( ev.target.className == "js-dark" ) ? "/assets/dark.css" : "/assets/light.css"; 
 		});
 	}
+
+	//apply the listener to next
+	var pp = [].slice.call( document.querySelectorAll( ".next" ) );
+	var ss = [].slice.call( document.querySelectorAll( "li.project-li" ) );
+	var ssi = 0;
+	for ( var p in pp ) {
+		pp[p].addEventListener( "click", function (ev) {
+			//find the next list item 
+			var s = document.querySelector( "li.project-li" );
+			var li = ss[ ( ++ssi > ss.length ) ? ( ssi = 0 ) : ssi  ];
+			window.scrollTo( { top: li.offsetTop, behavior: 'smooth' } );
+		});
+	}
+
 });

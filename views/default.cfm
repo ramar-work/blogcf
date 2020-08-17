@@ -4,7 +4,23 @@
 		<ul class="project">
 		<cfloop array=#model.projects# item=t>
 			<li class="project-li">
-				<div class="full">
+				<div class="backdrop">
+					<img src=#t.images[1]#>
+				</div> 
+
+				<div class="description">
+					<h3>#t.title#</h3>
+					<p><a class="link" href="#t.link#">See Project</a></p>
+
+					<h6>Description</h6>
+					#t.description#	
+
+					<h6>Tech Stack</h6>
+					#t.tech#
+				</div>
+
+				<div class="next"><span>next</span></div>
+<!---
 					<div class="half">
 					<cfif t.logo neq "">
 						<div class="logo-img">
@@ -18,21 +34,20 @@
 					</cfif>
 						<h6>Description</h6>
 						#t.description#	
-
 					<cfif t.tech neq "">
 						<br />
 						<h6>Tech Stack</h6>
 						<p>#t.tech#</p>
 					</cfif>
 					</div>
+--->
 
-					<div class="images">
-						<ul>
-						<cfloop array=#t.images# item="file">
-							<li><img src="#file#"></li>
-						</cfloop>
-						</ul>
-					</div>
+				<div class="images">
+					<ul>
+					<cfloop array=#t.images# item="file">
+						<li><img src="#file#"></li>
+					</cfloop>
+					</ul>
 				</div>
 			</li>
 		</cfloop>
