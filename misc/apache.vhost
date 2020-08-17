@@ -1,17 +1,17 @@
-# Apache virtual host for site titled 'collinsdesign.local', generated Wed Jun 19 11:58:27 EDT 2019
+# Apache virtual host for site titled 'ramar.local', generated Wed Jun 19 11:58:27 EDT 2019
 <VirtualHost *:80>
 	# Admin email, Server Name (domain name) and any aliases
-	ServerName  collinsdesign.local
-	ServerAlias www.collinsdesign.local
+	ServerName  ramar.local
+	ServerAlias www.ramar.local
 
 	# Index file and Document Root (where the public files are located)
-	DocumentRoot htdocs/collinsdesign.local/
+	DocumentRoot htdocs/ramar.local/
 
 	# Custom log file locations
 	LogLevel warn
-	ErrorLog  htdocs/collinsdesign.local/log/srvError.log
-	CustomLog htdocs/collinsdesign.local/log/srvAccess.log combined
+	ErrorLog  htdocs/ramar.local/log/srvError.log
+	CustomLog htdocs/ramar.local/log/srvAccess.log combined
 
 	# Auto directory
-	DirectoryIndex index.cfm index.html
+	DirectoryIndex index.cfm
 </VirtualHost>

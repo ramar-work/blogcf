@@ -1,4 +1,5 @@
 <cfoutput>
+	<link rel="stylesheet" href="#link( 'assets/project.css' )#">
 	<div class="projects">
 		<ul class="project">
 		<cfloop array=#model.projects# item=t>
