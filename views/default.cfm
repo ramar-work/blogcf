@@ -11,10 +11,10 @@
 				<div class="description js-no-show">
 					<h3>#t.title#</h3>
 
-					<h6>Description</h6>
+					<h4>Description</h4>
 					#t.description#	
 
-					<h6>Tech Stack</h6>
+					<h4>Tech Stack</h4>
 					#t.tech#
 				</div>
 

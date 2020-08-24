@@ -41,7 +41,7 @@ component name="projects" extends="std.base.model" {
 				//Get images by selecting on paths that end with screenshots
 				var ii = myst.dbExec( 
 					query=files
-				, string="select name as iname, directory from _mem_ where directory LIKE '%screenshots'"  
+				, string="select name as iname, directory from _mem_ where directory LIKE '%screenshots' order by iname asc"  
 				);
 				//Format these from here
 				for ( var img in ii.results ) {
