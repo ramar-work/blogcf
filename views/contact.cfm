@@ -7,8 +7,8 @@
 	</p>
 
 	<p>
-	I also tackle Android projects through my development consultancy.
-	My team and I tackle larger projects like mobile applications and API development.  
+	I also tackle Android/iOS projects through my development consultancy.
+	I am usually a one-man show, but have no problem assembling a team where the business needs require it.
 	</p>
 	</section>
 
