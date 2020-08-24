@@ -27,10 +27,12 @@
 		<span>collins</span>
 		<span>design</span>
 	</div>
+<!---
 	<div class="switch-theme">
 		<p>Choose Theme</p>
 		<a class="js-light">Light</a> | <a class="js-dark">Dark</a>
 	</div>
+--->
 
 	<ul>
 <!---
@@ -40,7 +42,7 @@
 --->
 		<li><a href="#link( '' )#">work</a></li>
 		<li><a href="#link( 'contact' )#">contact</a></li>
-		<li><a href="#link( 'blog/list' )#">blog</a></li>
+		<!--- <li><a href="#link( 'blog/list' )#">blog</a></li> --->
 		<!--- <li><a href="#link( '.cfm' )#">about</a></li> --->
 	</ul>
 

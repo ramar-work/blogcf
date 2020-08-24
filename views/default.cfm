@@ -3,14 +3,13 @@
 	<div class="projects">
 		<ul class="project">
 		<cfloop array=#model.projects# item=t>
-			<li class="project-li">
+			<li class="project-li" style="background:#t.background#">
 				<div class="backdrop">
 					<img src=#t.images[1]#>
 				</div> 
 
-				<div class="description">
+				<div class="description js-no-show">
 					<h3>#t.title#</h3>
-					<p><a class="link" href="#t.link#">See Project</a></p>
 
 					<h6>Description</h6>
 					#t.description#	
@@ -19,28 +18,23 @@
 					#t.tech#
 				</div>
 
-				<div class="next"><span>next</span></div>
-<!---
-					<div class="half">
-					<cfif t.logo neq "">
-						<div class="logo-img">
-							<img src="#t.logo#">
-						</div>
-					<cfelse>
-						<h1>#t.title#</h1>
+				<div class="more">
+				<cfif StructKeyExists(t,"adjust") && t.logo neq "">
+					<img style="#t.adjust#" src="#t.logo#">
+				<cfelseif t.logo neq "">
+					<img src="#t.logo#">
+				<cfelseif StructKeyExists(t,"name")>
+					<h2>#t.name#</h2>
+				</cfif>
+					<ul>
+						<a class="descinfo"><li>Info</li></a>
+					<cfif StructKeyExists(t, "github")>
+						<a target="_blank" href="#t.github#"><li>Github</li></a>
 					</cfif>
-					<cfif t.link neq "">
-						<p><a class="link" href="#t.link#">See Project</a></p>
-					</cfif>
-						<h6>Description</h6>
-						#t.description#	
-					<cfif t.tech neq "">
-						<br />
-						<h6>Tech Stack</h6>
-						<p>#t.tech#</p>
-					</cfif>
-					</div>
---->
+						<a target="_blank" href="#t.link#"><li>Link to Work</li></a>
+					</ul>
+					<div class="next"></div>
+				</div>
 
 				<div class="images">
 					<ul>

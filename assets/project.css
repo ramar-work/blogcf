@@ -1,7 +1,5 @@
 /*project styling*/
 
-/*pop up, yah*/
-
 @keyframes js-anim {
  0% { ; }
  50% { ; }
@@ -71,9 +69,6 @@
 	position: relative;
 }
 
-
-
-
 ul.project li.project-li {
 	position: relative;	
 	height: 100%;
@@ -94,6 +89,7 @@ ul.project li.project-li div.backdrop {
 	-webkit-backface-visibility: hidden;
 	transition: transform 1s;
 /*
+	filter: blur(0.1rem);
 	border-top-left-radius: 60%;
 	-moz-border-top-left-radius: 60%;
 	-gecko-border-top-left-radius: 60%;
@@ -105,40 +101,91 @@ ul.project li.project-li div.backdrop {
 
 ul.project li.project-li div.backdrop img {
 	height: 100%;
+	/*
+	left: 50%;
+	position: relative;
+	margin: 0 auto;
+	*/
+	display: block;
 }
 
 ul.project li.project-li div.description {
-	/*margin-top: 22%*/
 	z-index: 99;
-	height: auto;
-	max-height: 200px;
-	width: 86%;
+	color: white;
+	height: 100%;
+	width: 20%;
 	position: absolute;	
 	display: inline-block;
-	top: 50%;
-	left: 5%;
+	top: 0px;
 	min-width: 125px;
-	background-color: white;
+	/*background: rgba( 100, 100, 100, 0.9 );*/
+	background-color: black;
 	overflow: auto;
 	padding: 2%;
+	font-size: 1.1em;
+	transition: opacity 0.2s;
+	padding-top: 100px;
+	padding-left: 0px;
 }
 
+.js-no-show {
+	opacity: 0;
+}
+
+ul.project li.project-li div.more {
+	position: absolute;
+	min-width: 150px;
+	width: 20%;
+	bottom: 40px;
+	font-size: 0.8em;
+	left: 10px;
+	z-index: 9999;
+	display: inline-block;
+	height: auto;
+}
+
+ul.project li.project-li div.more img {
+	/*width: 150px;*/
+	height: 40px;
+	position: relative;
+	margin-bottom: 5px;
+	display: block;
+}
+
+ul.project li.project-li div.more li {
+  background: rgba(0, 7, 17, 0.7);
+	transition: background-color 0.3s, color 0.3s;
+	width: 65px;
+	margin-top: 5px;
+	font-family: 'EB Garamond', serif;
+	padding: 2px;
+}
+
+ul.project li.project-li div.more a {
+	color: white;
+	text-transform: lowercase;
+	text-decoration: none;
+}
+
+ul.project li.project-li div.more li:hover {
+	color: black;
+	background: rgba(255,255,255,0.7);
+}
+
+ul.project li.project-li div.more a:hover {
+	color: white;
+}
+
+
 ul.project li.project-li div.next {
+	position: relative;
+	left: 10px;
 	border-right: 10px solid white;
 	border-bottom: 10px solid white;
 	transform: rotate(45deg);
-	z-index: 9999;
-	position: absolute;
 	width: 40px;
 	height: 40px;
-	bottom: 40px;
-	left: 5%;
-	margin-left: 2%; 
-	display: inline-block;
-}
-
-ul.project li.project-li div.next span {
-	color: white;
+	transition: border 0.2s;
 }
 
 ul.project li.project-li div.next:hover {
@@ -183,10 +230,10 @@ ul.project li.project-li div.description h6{
 	font-family: "Arial";
 	letter-spacing: -1px;
 	font-size: 1.6em;
-	margin-bottom: 0px;
+	margin-bottom: 5px;
 }
 
-ul.project li.project-li div.description h3{ font-size:1.6em; }
+ul.project li.project-li div.description h3{ font-size:1.6em; margin-bottom: 20px; }
 ul.project li.project-li div.description h4{ font-size:1.3em; }
 ul.project li.project-li div.description h5{ font-size:1.0em; }
 ul.project li.project-li div.description h6{ font-size:0.7em; }
@@ -200,14 +247,20 @@ ul.project li.project-li div.description .stack {
 	text-align: justify;	
 }
 
+ul.project li.project-li div.description a {
+	color: white;
+	display: inline;
+	text-decoration: underline;
+}
 
 @media screen and (min-width: 677px) {
 	ul.project li.project-li div.description {
-		width: 20%;
-		min-width: 150px;
-		height: 30%;
-		min-height: 200px;
-		top: 60%;
+		color: white;
+		line-height: 1.2em;
+		top: 0%;
+		max-width: 200px;
+		padding-left: 100px;
+		padding-top: 130px;
 	}
 
 	ul.project li.project-li div.images {
@@ -216,13 +269,16 @@ ul.project li.project-li div.description .stack {
 		bottom: 80px;
 	}
 
-	ul.project li.project-li div.next {
-		left: 90%;
-	}
-
 	ul.project li.project-li div.backdrop {
 		left: 0px;
 		transform: rotate(0deg);
+	}
+
+	ul.project li.project-li div.backdrop img {
+		position: relative;
+		height: 50%;
+		top: 25%;
+		margin: 0 auto;
 	}
 
 	ul.project li.project-li div.images ul li {
@@ -235,50 +291,6 @@ ul.project li.project-li div.description .stack {
 }
 
 
-/*
-.project li {
-	margin-bottom: 100px;
-}
-
-.project li .half ,
-.project li .images {
-	width: 100%;
-	float: none;
-}
-
-.project li .images {
-	width: 80%;
-	position: relative;
-	left: 10%;
-}
-
-.project li .images li {
-	width: 20%;
-}
-
-.project li .half img {
-	margin: 0 auto; 
-	width: 75%;
-	margin-left: 12.5%;
-}
-
-.project li .half { 
-	max-height: 300px;
-	margin-bottom: 30px;
-	overflow: auto;
-	padding-bottom: 10px;
-	padding-right: 20px;
-}
-*/
-
-/*
-.project li .half .container-full { 
-	display: block;
-	position: absolute;
-	bottom: 0px;
-	height: 10px;
-}
-*/
 
 
 /* Track */

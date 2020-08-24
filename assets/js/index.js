@@ -108,8 +108,24 @@ function activate_all_thumbnails() {
 }
 
 
+function activate_info() {
+	//Simply unhide all description divs
+	var ii = [].slice.call( document.querySelectorAll( "a.descinfo" ) );
+	const className = "js-no-show";
+	for ( var i in ii ) {
+		ii[i].addEventListener( "click", function(ev) {
+			ev.preventDefault();
+			var c = ev.currentTarget.parentElement.parentElement.parentElement.querySelector(".description");
+			c.classList.contains( className ) ? c.classList.remove( className ) : c.classList.add( className );
+			return false;
+		});
+	}	
+}
+
+
 document.addEventListener( "DOMContentLoaded", function(ev) {
 	switch_themes();
 	scroll_through_portfolio();
 	activate_all_thumbnails();
+	activate_info();
 });
