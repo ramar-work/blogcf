@@ -21,45 +21,5 @@
 
 
 <body>
-<cfoutput>
-<header>
-	<div class="icon">
-		<span>collins</span>
-		<span>design</span>
-	</div>
-<!---
-	<div class="switch-theme">
-		<p>Choose Theme</p>
-		<a class="js-light">Light</a> | <a class="js-dark">Dark</a>
-	</div>
---->
-
-	<ul>
-<!---
-		<cfloop collection=#data.routes# item="w">
-		<li><a href="/">#w#</a></li>
-		</cfloop>
---->
-		<li><a href="#link( '' )#">work</a></li>
-		<li><a href="#link( 'contact' )#">contact</a></li>
-		<!--- <li><a href="#link( 'blog/list' )#">blog</a></li> --->
-		<!--- <li><a href="#link( '.cfm' )#">about</a></li> --->
-	</ul>
-
-<!---
-	<div class="social">
-		<a class="" href="http://facebook.com/antonio.r.collins" alt="Find Me on Facebook">
-			<img class="icon" src="#link( "assets/facebook-logo_318-49940.jpg" )#"></img></a>
-		
-		<a class="" href="http://twitter.com/CollinsRamar" alt="Tweet With Me, Bro">
-			<img class="icon" src="#link( "assets/twitter-logo_318-40459.jpg" )#"></img></a>
-
-		<a class="" href="https://www.linkedin.com/in/antonio-collins-8391ba19" alt="Find Me on LinkedIn">
-			<img class="icon" src="#link( "assets/linkedin-1.png" )#"></img></a>
-	</div>
---->
-
-</header>
-</cfoutput>
 
 <div class="container">
