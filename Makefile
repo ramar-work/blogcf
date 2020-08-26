@@ -37,27 +37,9 @@ check:
 	@which sed >/dev/null 2>/dev/null || printf "sed not in path...\n"
 	@which sed > /dev/null
 
-#deploy-mssql - Create databases for a Microsoft SQL Server backend
-deploy-mssql: SQLBIN=sqlcmd
-deploy-mssql: assemble
-deploy-mssql:
-	@echo '$(SQLBIN) is not yet supported...'	
-	@test -z "bob"
-	@$(SQLBIN) -S $(DBSERVER) -i $(SQLFILE) -U $(DBUSER) -P $(DBPASSWORD)
-
-#deploy-mysql - Create databases for a MySQL server backend
-deploy-mysql: SQLBIN=mysql
-deploy-mysql: assemble
-deploy-mysql:
-	@$(SQLBIN) -e 'CREATE DATABASE IF NOT EXISTS $(DATASOURCE)' -u $(DBUSER) --password=$(DBPASSWORD)
-	@$(SQLBIN) -D $(DATASOURCE) -u $(DBUSER) --password=$(DBPASSWORD) < $(SQLFILE)
-
-#deploy-pgsql - Create databases for a PostgreSQL server backend
-deploy-pgsql: SQLBIN=psql
-deploy-pgsql: assemble
-deploy-pgsql:
-	@echo 'PostgreSQL is not yet supported...'	
-	@test -z "bob"
+#pkg - Make an archive of files.
+pkg:
+	git archive --format=tar dev | gzip > /tmp/$$(basename $$(pwd))-$$(date +%F).tar.gz
 
 #assemble - Put all static SQL into one file and load it
 assemble:
