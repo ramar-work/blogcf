@@ -1,1 +1,0 @@
-<cfscript>cms.insertUser()</cfscript>

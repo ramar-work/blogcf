@@ -1,4 +1,6 @@
 component name="projects" extends="std.base.model" {
+	property name="files" default="description.html,link,background,logo.png,tech,title,adjust,github" type="string";
+
 	private string function stripLast( required string filename ) {
 		return RemoveChars( filename, Len(filename) - 1, 1 );
 	}
@@ -7,12 +9,22 @@ component name="projects" extends="std.base.model" {
 		return Replace( filename, Chr(10), "" );
 	}
 
+	private void function loadFileToKey( required struct tt, required string path ) {
+		var parts = ListToArray( path, "/" );
+		var name = myst.getNamePart( parts[ Len(parts) ] );
+//writeoutput( "'#name#'" ); abort;
+		if ( FileExists( path ) ) {
+			tt[ name ] = FileRead( path );
+		}
+	}
+
 	function init( myst, model ) {
 		Super.init( myst );
 		var rootdir = myst.getRootDir();
 		var projdir = "assets/projects";
 		var dirs = DirectoryList( "#rootdir##projdir#", false, 'name', "", "", "dir" );
 		var records = [];
+		var presort = {};
 
 		//Do another for, because recursing sucks...
 		for ( var d in dirs ) {
@@ -22,8 +34,17 @@ component name="projects" extends="std.base.model" {
 			if ( xx.prefix.recordCount == 0 ) {
 				var t = { title=d, description="", link="/", logo="", tech="", images=[] };
 				var basepath = "#rootdir#/#projdir#/#d#/";
+/*
+				for ( var f in variables.files )
+					loadFileToKey( t, basepath & "description.html" );
+				//TODO: Only the 'background' key does this...	
+				if ( FileExists( basepath & "background" ) )
+					t.background = cutNewLine( FileRead( basepath & "background" ) );
+*/
 				if ( FileExists( basepath & "description.html" ) ) 
 					t.description = FileRead( basepath & "description.html" );
+				if ( FileExists( basepath & "sort" ) ) 
+					t.sort = FileRead( basepath & "sort" );
 				if ( FileExists( basepath & "link" ) ) 
 					t.link = FileRead( basepath & "link" );
 				if ( FileExists( basepath & "background" ) ) 
@@ -47,8 +68,12 @@ component name="projects" extends="std.base.model" {
 				for ( var img in ii.results ) {
 					ArrayAppend( t.images, myst.link( '#projdir#/#t.title#/screenshots/#img.iname#' ) );
 				}
-				ArrayAppend( records, t );
+				presort[ t.sort ] = t;
 			}
+		}
+
+		for ( var i in presort ) {
+			ArrayAppend( records, presort[ i ] );
 		}
 		return records;
 	}

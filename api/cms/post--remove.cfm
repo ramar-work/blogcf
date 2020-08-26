@@ -1,1 +1,0 @@
-<cfset a=cms.qDeletePost()>

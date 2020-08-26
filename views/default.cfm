@@ -27,11 +27,15 @@
 					<h2>#t.name#</h2>
 				</cfif>
 					<ul>
+					<cfif !StructKeyExists(t, "noinfo")>
 						<a class="descinfo"><li>Info</li></a>
+					</cfif>
 					<cfif StructKeyExists(t, "github")>
 						<a target="_blank" href="#t.github#"><li>Github</li></a>
 					</cfif>
+					<cfif StructKeyExists(t, "link")>
 						<a target="_blank" href="#t.link#"><li>Link to Work</li></a>
+					</cfif>
 					</ul>
 					<div class="next"></div>
 				</div>

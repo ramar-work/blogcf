@@ -693,13 +693,23 @@ accessors=true
 	 * getExtension( ) 
 	 *
    **/
-	private string function getExtension( required string filename ) {
+	public string function getExtension( required string filename ) {
 		var arr = ListToArray(filename, ".");
 		if ( Len(arr) > 1 ) {
 			return arr[ Len(arr) ];	
 		}
 		return "";
 	}
+
+	public string function getNamePart( required string filename ) {
+		var arr = ListToArray(filename, ".");
+		if ( Len(arr) > 1 ) {
+			ArrayDeleteAt( arr, Len(arr) );
+			return ArrayToList( arr, "." );	
+		}
+		return "";
+	}
+
 
 
 	/**
@@ -2025,7 +2035,7 @@ abort;
 				return this.sendResponse( 403, "text/html", "Error: Access Forbidden" );	
 			}
 
-			extension = this.GetExtension( spath );
+			extension = this.getExtension( spath );
 			if ( extension eq "" || !StructKeyExists( getCommonExtensionsToMimeTypes(), extension ) )
 				mimetype = "application/octet-stream"; 
 			else {

@@ -1,1 +1,0 @@
-<cfscript>cms.insertKeyword()</cfscript>

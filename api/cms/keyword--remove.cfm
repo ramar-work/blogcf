@@ -1,1 +1,0 @@
-<cfscript>cms.removeKeyword()</cfscript>
