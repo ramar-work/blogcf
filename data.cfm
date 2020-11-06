@@ -34,7 +34,7 @@ manifest = {
 ,"hosts"  = [ ]
 
 /*Select a datasource*/
-,"source" = "rcdb"
+,"source" = "cdesign_db"
 
 /*All requests will use this as the base directory*/
 ,"base"   = "/"
@@ -72,13 +72,15 @@ manifest = {
 /*Here are the application's routes or endpoints.*/
 ,"routes" = {
 
-	"default"= { model="projects", view = ["head","default","tail"] }
-, "contact"= { model="contact", view = ["head","contact","tail"] }
-, "blog"= {
-		"list" = { model="blog", view = ["head","blog","tail"] }
-	, "show" = { model="blog-get", view = ["head","blog-get","tail"] }
+  "default"= { model="projects", view = ["head","default","tail"] }
+, "work"= {
+		model = "projects"
+	, view = "work"
+	, ".*" = {
+			model = "work-single"
+		, view = "work-single"
+		}
 	}
-//, "blog"= {model="blog", view = ["head","blog","tail"]}
  } /*end routes*/
 };
 </cfscript>

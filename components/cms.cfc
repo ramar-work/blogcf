@@ -1,33 +1,49 @@
-/* 
-----------------------------------------
+/* ----------------------------------------
 cms.cfc
 
 This is a management system that runs
 via ColdFusion/Lucee.
-----------------------------------------
-*/
-component 
-accessors=true
+---------------------------------------- */
+component
 name="cms"
-extends="Base"
+extends="base"
+accessors="true"
 {
-	//A password to stop random people from adding users.
-	property name="nonce" default="somePassword";
+	//The title of our stupid component thing.
+	property name="adminTitle" default="mystCMS"; 
 
-	//How to store authentication details 
-	property name="authStorage" default="db"; //cookie, session and other options exist...
+	//How to store authentication details [cookie, db or session]
+	property name="authStorage" default="session";
 
-	//A salt
-	property name="salt" default="juicem4in";
+	//Different content type constants
+	property name="constOctetStream" default=1;
 
-	//The type of datasource in use (mysql/postgres will allow different things than MSsql)
-	property name="sourceType" default="";
+	property name="constText" default=2;
 
-	//..
-	property name="postCount" default=5;
+	property name="constAudio" default=3;
 
-	//..
-	property name="endpoint" default="cms";
+	property name="constImage" default=4;
+
+	property name="constVideo" default=5;
+
+	property name="constMessage" default=6;
+
+	property name="constApplication" default=7;
+
+	//???
+	property name="constants" default="1,2,3,4,5,6,7";
+
+	//...
+	property name="contentIdType" default="varchar";
+
+	//
+	property name="cssFilelist" default="zero,core,list-li,list-table";
+
+	//...
+	property name="dbTable" default="cms";
+
+	//An expiry time (in seconds) for started sessions.
+	property name="expiry" type="number" default="3000";
 
 	//The name of a binary post field
 	property name="fieldName" default="lucy";
@@ -35,87 +51,123 @@ extends="Base"
 	//The name of the text field.
 	property name="fieldText" default="lucy-text";
 
-	//...
-	property name="dbPrefix" default="cms";
+	//Pages for user presentation
+	property name="pageFront" default="blog";
+	property name="pageSingle" default="blog";
+	property name="pageArchive" default="archives";
+	property name="pageRecallStyle" default="lucy";
 
-	//...
-	property name="dbTable" default="cms";
-
-	//...
-	property name="contentIdType" default="varchar"; //can also be varchar or alphanum
+	//?
+	property name="js" default="core,list-li,list-table";
 
 	//A spot for the Myst object.
 	property name="mask" default="YYYY-MM-dd HH:nn:ss";
 
-	//The title of our stupid component thing.
-	property name="adminTitle" default="mystCMS"; 
+	//A password to stop random people from adding users.
+	property name="nonce" default="somePassword";
 
-	//
-	property name="cssFilelist" default="zero,core,list-li,list-table";
+	//...
+	property name="prefix" default="cms_";
 
-	//
-	property name="js" default="core,list-li,list-table";
+	//..
+	property name="postCount" default=5;
 
-	//Different content type constants
-	property name="constOctetStream" default=1;
-	property name="constText" default=2;
-	property name="constAudio" default=3;
-	property name="constImage" default=4;
-	property name="constVideo" default=5;
-	property name="constMessage" default=6;
-	property name="constApplication" default=7;
+	//A salt
+	property name="salt" default="juicem4in";
+
+	//The type of datasource in use (mysql/postgres will allow different things than MSsql)
+	property name="sourceType" default="";
+
+	//Weird content handling list
+	property name="typeList" default="octet-stream,text,audio,image,video,message,application";
 
 	//Return a generated numeric ID 
 	public string function genContentId( ) {
 		return "#getMyst().randNum(10)#";
 	}
 
+
 	//Return a generated string
 	public string function getRandomString( ) {
 		return "#getMyst().randStr(32)#";
 	}
 
-	/*
-	//Return the full asset path w/o using link()	
-	public string function getAssetPath( required String type, required String file ) {
-		return "#getMyst().getUrlBase()#assets/#arguments.type#/#getEndpoint()#/#arguments.file#";
-	}
-
-	//Return the path to what should be an endpoint.
-	public string function getPublicPath( required String file ) {
-		return "#getMyst().getUrlBase()##getNamespace()#/#arguments.file#";
-	}
-	
-	//Return the path to what should be an endpoint.
-	public string function getPrivatePath( required String file ) {
-		return "#getMyst().getUrlBase()#files/#getEndpoint()#/#arguments.file#";
-	}
-	*/
-
-	//...
-	public string function getCssImagePath( Required string img ) {
-		return "background-image:url( #getAssetPath('img',img)# ); background-size: 100%;";	
-	}
 
 	//Private date string... for no particular reason...
-	private function getCurrentDatestamp( string mask ) {
+	public function getCurrentDatestamp( string mask ) {
 		var myMask = StructKeyExists( arguments,"mask" ) ? mask : getMask();
 		return { value = DateTimeFormat( Now(), myMask ), type="timestamp" };
 	}
 
+
 	//Check the scope for parameters, fail if not there...	
 	//This is a way to solve this, though not quite ideal.
-	private void function trap ( Required scope, Required Numeric hStatus, Array keys ) {
+	private struct function trap ( Required scope, Required Numeric hStatus, Array keys ) {
 		for ( var n=1; n<ArrayLen(keys); n++ ) {
 			if ( !StructKeyExists( scope, keys[n] ) || keys[n] eq "" ) {
-				getMyst().sendAsJson( 
+				return {	
 					status=0
 			  , httpStatus=arguments.hStatus
 				, message="Key '#keys[n]#' is required but not specified." 
-				);
+				};
 			}
 		}
+		return {
+			status = 1
+		}
 	}	
+
+
+	//...
+	public string function getMimeCategory( required string mimetype ) {
+		return Left( mimetype, Find( "/", mimetype ) - 1 );
+	}
+
+
+	public string function getMimetype( required string filetype ) {
+		var constant = "text/html";
+		if ( StructKeyExists( myst.getCommonExtensionsToMimeTypes(), filetype ) ) {
+			return myst.getCommonExtensionsToMimeTypes()[ filetype ];
+		}
+		return constant;
+	}
+
+
+	public numeric function getMimeCategoryIndex( required string filetype ) {
+		var constant = 2;
+		if ( StructKeyExists( myst.getCommonExtensionsToMimeTypes(), filetype ) ) {
+			var mm = myst.getCommonExtensionsToMimeTypes()[ filetype ];
+			constant = ListFind( getTypeList(), getMimeCategory( mm ) );
+		}
+		return constant;
+	}
+
+
+	private query function duplicateBaseQuery ( required struct qd ) {
+		var qset;
+		var typeset = "";
+		for ( var _ in qd.prefix.columnList ) {
+			typeset = ListAppend( typeset, "varchar" );
+		}
+		return QueryNew( qd.prefix.columnList, typeset ); 
+	}
+
+
+	//Convert paths
+	public query function convertResultSetToFullPaths( required struct qd, required string col ) {
+		var bquery = duplicateBaseQuery( qd );
+		//Need to be able to construct a query and reconstruct...
+		for ( var qs in qd.results ) {
+			var st = qs;
+			//TODO: You can convert to base64 or you can serve a private path
+			if ( ListFind( "image,audio,video", getMimeCategory( qs.content_type ) ) ) {
+				st[ col ] = "/#getNamespace()#/file/#qs[ col ]#";
+			}
+			QueryAddRow( bquery, st );	
+		}
+		return bquery;
+	}
+
 
 	//check against the nonce
 	private void function compareNonce( Required String text ) {
@@ -128,30 +180,157 @@ extends="Base"
 		}
 	}
 
+
 	//encode passwords
-	private string function encPass( required string pwd ) {
-		return hash( "#pwd##getSalt()#", "SHA-384", "UTF-8", 1000 );
+	public string function encPass( required string pwd ) {
+		return hash( "#pwd##getSalt()#", "SHA-384" );
 	}
+
+
+	//Start a user session
+	public boolean function createUserSession( required string username ) {
+		try {
+			var status;
+			//If session, just add it
+			if ( getAuthStorage() eq "session" ) {
+				//To keep all of this seperate, it might bge a good idea to make another folder in components/
+				session.username = username;	
+				session.token = myst.randStr( 64 );	
+				session.startDate = Now();	
+			}	
+			else if ( getAuthStorage() eq "db" ) {
+				status = myst.dbExec(
+					string = "INSERT INTO #prefix#session VALUES ( :trkr, :start )"
+				, bindArgs = { trkr = myst.randstr(32), start = getCurrentDatestamp() } 	
+				);
+			
+				if ( !status ) {
+					//TODO: Many failures could happen, but I don't want to return a struct...
+					return false;
+				}
+			}
+		}
+		catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
+
+	//Delete a user session
+	public boolean function destroyUserSession( string token ) {
+		if ( getAuthStorage() eq "session" ) {	
+			StructDelete( session, "username" );
+			StructDelete( session, "token" );
+			StructDelete( session, "startDate" );
+		}
+		else if ( getAuthStorage() eq "db" ) {
+			var del = myst.dbExec(
+				string = "DELETE FROM #prefix#session WHERE session_tracker = :trkr )"
+			, bindArgs = { trkr = token }
+			);
+	
+			if ( !del.status ) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	//Check for a valid source of authentication
+	public boolean function checkUserToken( string token ) {
+		//Check sessions, database, and url, depending on method chosen...
+		if ( getAuthStorage() eq "session" ) {
+			if ( !StructKeyExists( session, "startDate" ) || !StructKeyExists( session, "username" ) ) {
+				return false;
+			}
+			if ( DateDiff( "s",  session.startDate, now() ) > getExpiry() ) {
+				destroyUserSession();
+			}
+		}
+		else if ( getAuthStorage() eq "db" ) {
+			//TODO: Many failures could happen, but I don't want to return a struct...
+			var del;
+			var get;
+
+			if ( !token ) {
+				//no token supplied, fail
+				return false;
+			} 
+
+			get = myst.dbExec(
+				string = "SELECT * FROM #prefix#session WHERE session_tracker = :trkr )"
+			, bindArgs = { trkr = token }
+			);
+	
+			if ( !get.status || get.prefix.recordCount == 0 || get.prefix.recordCount > 1 ) {
+				//getting token in db failed
+				return false;
+			}
+
+			if ( DateDiff( "s", get.results.session_startdate, now() ) > getExpiry() ) {
+				destroyUserSession( get.results.session_tracker );
+			}
+		}
+		else {
+			return false;
+		}
+		return true;
+	}
+
 
 	//Handle authentication
-	public string function authorize () {
-		var c = getMyst(); var r;
-		trap( form, 401, [ "username", "password" ] ); 	
+	public struct function checkAuthorization() {
+		var r;
+		var c = getMyst();
+		var t = trap( form, 401, [ "username", "password" ] );
+
+		if ( !t.status ) {
+			//Need to return a 401 here...
+			return t;
+		}
+
+		//Find the username and password if it exists...
 		r = c.dbExec(
 			datasource = getDatasource()
-		, string = "SELECT * FROM login WHERE login_usr = :usrid AND login_pwd = :pwd"
+		, string = "SELECT * FROM #prefix#login WHERE login_usr = :usrid AND login_pwd = :pwd"
 		, bindArgs = { usrid=form.username, pwd=encPass( form.password ) }
 		);
+
+		//...
 		if ( !r.status ) {
-			return c.sendAsJson( status=r.status, httpStatus=401, message=r.message );
+			return myst.failure( 500, r.message );
 		}
+
+		if ( !r.prefix.recordCount ) {
+			return myst.failure( 401, "No username/password combination found for this user." );
+		}
+
 		//add to session (since this is over JS, I"m not sure that this works...)
-		return c.sendAsJson( status=1, httpStatus=200, message=r.message );
+		return {
+			status = true
+		, message = r.message 
+		};
 	}
 
+
+	//Get the collections
+	public array function getCollections() {
+		var dir = "#myst.getRootDir()#app/cms/shared/collection";
+		var loc = DirectoryList( dir, false, 'name', "", "", "file" );
+		var arr = [];
+		for ( var n in loc ) {
+			ArrayAppend( arr, Replace( n, ".cfc", "" ) );	
+		}
+		//return "#getMyst().randStr(32)#";
+		return arr;
+	}
+
+
+/*
 	//Retrieve basic metas, eventually feed from datasource
 	public query function qGetStandardMetas() {
-
 		//You can use a validator to catch arguments
 
 		//Return a query	
@@ -181,6 +360,8 @@ extends="Base"
 			]
 		);
 	}
+*/
+
 
 	//Get columns as a query (when things fail, return this)
 	private query function _qGetColumns( Required tableName ) {
@@ -198,26 +379,29 @@ extends="Base"
 		return QueryNew( "a,b", "varchar,varchar" );
 	}
 
+
 	//Get columns as a query (when things fail, return this)
-	private query function _qExecute( Required string, bindArgs ) {
+	private query function _qExecute( Required string string, bindArgs ) {
 		var c = getMyst();
 		var r = c.dbExec(
 			datasource = getDatasource()
 	  ,	string = arguments.string
 		, bindArgs = ( StructKeyExists(arguments,"bindArgs") ) ? bindArgs : {}
 		);
-
 		return ( r.status ) ? r.results : _qGetColumns( arguments.table );
 	}
 
+
+/*
+	all()
 	//Retrieve all the posts.
 	public query function qGetAllPosts() {
 		return _qExecute(
 	   	string = "
 			SELECT * FROM
-				( SELECT * FROM cms_post ) AS p
+				( SELECT * FROM #prefix#post ) AS p
 			INNER JOIN
-				( SELECT * FROM cms_post_metadata ) AS m
+				( SELECT * FROM #prefix#post_metadata ) AS m
 			ON p.post_long_id = m.pmd_postmatch_id
 			ORDER BY post_date_added DESC
 			"
@@ -225,14 +409,16 @@ extends="Base"
 		);
 	}
 
+
 	//Retrieve all the posts.
+	published()
 	public query function qGetPublishedPosts() {
 		return _qExecute(
 	   	string = "
 			SELECT * FROM
-				( SELECT * FROM cms_post ) AS p
+				( SELECT * FROM #prefix#post ) AS p
 			INNER JOIN
-				( SELECT * FROM cms_post_metadata WHERE pmd_isdraft = 0 ) AS m
+				( SELECT * FROM #prefix#post_metadata WHERE pmd_isdraft = 0 ) AS m
 			ON p.post_long_id = m.pmd_postmatch_id
 			ORDER BY post_date_added DESC
 			"
@@ -240,19 +426,24 @@ extends="Base"
 		);
 	}
 
+
 	//Retrieve all categories
+	//category.cfc -> all()
 	public query function qGetCategories() {
 		return _qExecute(
-	   	string = "SELECT * FROM cms_category"
+	   	string = "SELECT * FROM #prefix#category"
 		, table = "post"
 		);
 	}
+
+*/
 
 
 	//Retrieve a "post" type, and submit that... for components this should work too.
 	public string function findPostType( Required String type ) {
 		return "";
 	}
+
 
 	//Retrieve summary of posts.
 	public query function qGetSummary( Numeric postcount, Numeric sumcount ) {
@@ -274,13 +465,13 @@ extends="Base"
 			string = "	
 			SELECT * FROM (
 				SELECT * FROM
-				( SELECT * FROM cms_post ) AS ap
+				( SELECT * FROM #prefix#post ) AS ap
 				INNER JOIN
-				( SELECT * FROM cms_post_metadata WHERE pmd_isdraft = 0 ) AS pm
+				( SELECT * FROM #prefix#post_metadata WHERE pmd_isdraft = 0 ) AS pm
 				ON ap.post_long_id = pm.pmd_postmatch_id
 			) as p
 			INNER JOIN
-				( SELECT * FROM cms_content WHERE content_order < :sumcount ) as c
+				( SELECT * FROM #prefix#content WHERE content_order < :sumcount ) as c
 			ON p.post_long_id	= c.content_postmatch_id
 			ORDER BY p.post_id, c.content_order ASC
 			"
@@ -295,7 +486,7 @@ extends="Base"
 
 		//let's do a qoq to sort this
 		var cc = c.dbExec(
-			string = "SELECT * FROM _mem_ ORDER BY post_date_added DESC"
+			string = "SELECT * FROM __mem__ ORDER BY post_date_added DESC"
 		, query = b.results 
 		);
 
@@ -306,9 +497,11 @@ extends="Base"
 		return cc.results;
 	}
 
+
 	//Retrieve one single post by the appropriate filter.
 	public query function qGetSinglePost( Numeric id, String lid ) {
-		var pid; var plid;
+		var pid; 
+		var plid;
 		var c = getMyst();
 		//
 		if ( StructKeyExists( arguments, "id" ) ) 
@@ -351,13 +544,13 @@ extends="Base"
 			SELECT * FROM
 				(
 					SELECT * FROM
-					( SELECT * FROM cms_post WHERE post_id = :pid OR post_long_id = :plid ) AS ap
+					( SELECT * FROM #prefix#post WHERE post_id = :pid OR post_long_id = :plid ) AS ap
 					INNER JOIN
-					( SELECT * FROM cms_post_metadata ) AS pm
+					( SELECT * FROM #prefix#post_metadata ) AS pm
 					ON ap.post_long_id = pm.pmd_postmatch_id
 				) as p
 			INNER JOIN
-				( SELECT * FROM cms_content ) as c
+				( SELECT * FROM #prefix#content ) as c
 			ON p.post_long_id	= c.content_postmatch_id
 			ORDER BY p.post_id, c.content_order ASC 
 			"
@@ -368,18 +561,22 @@ extends="Base"
 		);
 
 		if ( !r.status ) {
-			writedump(r);
+			//writedump( r );
 			//return c.sendAsJson( status=r.status, httpStatus=500, message="#r.message#" );
 			return QueryNew("a,b","varchar,varchar");
 		}
-		return r.results;
+
+		//return r.results;
+		var a = convertResultSetToFullPaths( r );
+//writedump( a );abort;
+return a;
 	}
 
 
 	//Insert Meta 
 	public string function qInsertMeta ( ) {
 		var c = getMyst();
-		var vs = c.cmValidate( form, {
+		var vs = c.validate( form, {
 			/*The name of the record is what should exist in POST or GET*/
 		  parent_id = { req = true }
 		, title = { req = true }
@@ -400,7 +597,7 @@ extends="Base"
 	//Insert Keyword 
 	public string function qInsertKeyword ( ) {
 		var c = getMyst();
-		var vs = c.cmValidate( form, {
+		var vs = c.validate( form, {
 			/*The name of the record is what should exist in POST or GET*/
 		  parent_id = { req = true }
 		, title = { req = true }
@@ -421,7 +618,7 @@ extends="Base"
 	//Insert FeatureImage 
 	public string function qInsertFeatureImage ( ) {
 		var c = getMyst();
-		var vs = c.cmValidate( form, {
+		var vs = c.validate( form, {
 			/*The name of the record is what should exist in POST or GET*/
 		  parent_id = { req = true }
 		, title = { req = true }
@@ -436,279 +633,9 @@ extends="Base"
 		}
 		
 		return c.sendAsJson( status=1, httpStatus=200, message="SUCCESS @ featureImage" );
-
-
 	}
 
-	//Delete post
-	public string function qDeletePost( ) {
-		//Remove the post and all the content
-		var c = getMyst();
-		var vs = c.cmValidate( form, {
-			post_id = { req = true }
-		});
-
-		var d = c.dbExec(
-			string = 'DELETE FROM cms_content WHERE content_postmatch_id = :pid'
-		, datasource = getDatasource()
-		, bindArgs = { pid = vs.results.post_id }
-		);
-
-		if ( !d.status ) {
-			return c.sendAsJson( status=d.status, httpStatus=500, message=d.message );
-		}
-		
-		d = c.dbExec(
-			string = 'DELETE FROM cms_post WHERE post_long_id = :pid'
-		, datasource = getDatasource()
-		, bindArgs = { pid = vs.results.post_id }
-		);
-
-		if ( !d.status ) {
-			return c.sendAsJson( status=d.status, httpStatus=500, message=d.message );
-		}
-
-		return c.sendAsJson( status=1, httpStatus=200, message="SUCCESS @ DeletePost" );
-	}
 	
-	//Insert post
-	public string function qInsertPost( ) {
-		var c = getMyst();
-		var vs = c.cmValidate( form, {
-			/*The name of the record is what should exist in POST or GET*/
-		  parent_id = { req = true }
-		, title = { req = true }
-		, draft = { req = false, ifNone = 0 }
-		, footer = { req = false, ifNone = 0 }
-		, previewimg = { req = false, ifNone = 0 }
-		, comments = { req = false, ifNone = 0 }
-		});
-
-		if ( !vs.status ) {
-			return c.sendAsJson( status=vs.status, httpStatus=500, message=vs.message );
-		}
-
-		//Make the insert
-		var r = c.dbExec(
-			datasource = getDatasource()
-		,	string = "INSERT INTO cms_post VALUES ( NULL,:plong_id,:pname,:ptype,:pda,:pdm )"
-		, bindArgs = {
-				//pid = { value=getRandomString(), type="varchar" }
-			 	plong_id = { value=vs.results.parent_id, type="varchar" }
-			,	pname = { value=vs.results.title, type="varchar" }
-			,	ptype = { value=0, type="integer" }
-			,	pda = getCurrentDatestamp()
-			,	pdm = getCurrentDatestamp()
-			,	draft = { value=vs.results.draft, type = "bit" }
-			}
-		);
-
-		if ( !r.status ) {
-			return c.sendAsJson( status=r.status, httpStatus=500, message="#r.message#" );
-		}
-
-		//Make the insert
-		r = c.dbExec(
-			datasource = getDatasource()
-		,	string = "INSERT INTO cms_post_metadata VALUES (
-				NULL
-			,	:plong_id
-			, :draft
-			, :footer
-			, :previewimg
-			, :comments
-			)"
-		, bindArgs = {
-			 	plong_id = { value=vs.results.parent_id, type="varchar" }
-			,	draft = { value=vs.results.draft, type = "bit" }
-			,	footer = { value=vs.results.footer, type = "bit" }
-			,	previewimg = { value=vs.results.previewimg, type = "bit" }
-			,	comments = { value=vs.results.comments, type = "bit" }
-/*
-			,	footer = { value=0, type = "bit" }
-			,	previewimg = { value=0, type = "bit" }
-			,	comments = { value=0, type = "bit" }
-*/
-			}
-		);
-
-		if ( !r.status ) {
-			return c.sendAsJson( status=r.status, httpStatus=500, message="#r.message#" );
-		}
-
-		return c.sendAsJson( status=1, httpStatus=200, message="Everything is successful." );
-	}
-
-
-	//Adds content node
-	//TODO: Hopefully, it's a little easier to see how you can actually bypass model files completely.
-	//save = { insertNode( ... ) }
-	public string function qInsertNode( ) {
-		var c = getMyst();
-		var ft = getFieldtext();
-		var fn = getFieldName();
-		//The index of these mimetypes will tell a lot about what type of media is here.
-		var t = [ "application", "text", "audio","image","video","message" ];
-
-		//Make sure that at least these fields are here.
-		var vStruct = { //c.cmValidate( form, {
-			order = { req = true }
-		, parent_id = { req = true }
-		};
-
-		//For the submitted field, make a distinction between text and binary
-		if ( StructKeyExists( form, ft ) )
-			vStruct[ ft ] = { req = true };
-		else if ( StructKeyExists( form, fn ) ) {
-			vStruct[ fn ] = { req = true, file = true };
-		}
-
-		//Validate
-		var vs = c.cmValidate( form, vStruct );
-
-		//Die if things are missing.
-		if ( !vs.status ) {
-			return c.sendAsJson( status=vs.status, message=vs.message );
-		}
-
-		//Have to do some things first...
-		//This ought to be a method call
-		var mimes = createObject("component","std.components.mimes").init();
-		var mm = "text/html";
-		var contentTypeConstant = getConstText();
-		var writeableCont;
-		//var ab="";
-		//Fork again, and... 
-		if ( StructKeyExists( form, ft ) )
-			writeableCont = vs.results[ ft ];
-		else if ( StructKeyExists( form, fn ) ) {
-			//Figure out mimetype and extension
-			var xy = vs.results[ fn ];
-			var serverExt = xy.serverfileext;
-			var extension = serverExt;
-			if ( StructKeyExists( mimes, serverExt ) ) {
-				mm = mimes[ serverExt ];
-				//var contentMainType = REReplace(mm,"/[a-z]*","");
-				var contentMainType = Left( mm, Find( "/", mm ) - 1 );  
-				for ( var ij=1; ij <= ArrayLen(t); ij++ ) {
-					//ab=ListAppend(ab,"#contentMainType# => #t[ij]#" );
-					if ( contentMainType eq t[ij] ) {
-						contentTypeConstant = ij; 
-						break;
-					}
-				}
-			} 
-
-			//Read content in and write it to a random file...
-			try {
-				var contents = FileRead( xy.fullpath );
-				var bc = BinaryDecode( contents, "Base64" );
-				var fpath = c.getConstantMap()["files"];
-				var rndFilename = c.randStr( 32 ) & "." & extension;
-				//TODO: Writing to memory is the best option, this is stupid...
-				if ( 0 ) 
-					0;
-				else {
-					//Write new file and delete the original afterwards...
-					FileWrite( "#fpath#/#rndFilename#", bc );
-					FileDelete( xy.fullpath );
-				}
-				writeableCont = rndFilename;
-			}
-			catch ( any e ) {
-				return c.sendAsJson( 
-					status=0
-				, httpStatus=500
-				, exception=e
-				, message="Failed to write stream to file."
-				);
-			}
-			
-			/*
-			return c.sendAsJson(
-				filename = writeableCont
-			, cttest = ab 
-			, originalFile = xy.fullpath
-			, ctconst = contentTypeConstant
-			, newFile = "#fpath#/#rndFilename#"
-			, mimelong= mm	
-			);
-			*/
-		}
-
-		//This writes to the content table
-		vs = c.dbExec(
-			string = "INSERT INTO cms_content VALUES ( :cid,:pid,:ctype,:ctfull,NULL,:oid,:file,:da,:dm )"
-		, datasource = getDatasource()
-		, bindArgs = {
-			//TODO: the sqltype doesn't have to be specified if I know it's going to be varchar
-				cid    = { value = getRandomString(), type = "varchar" }
-			,	ctype  = { value = contentTypeConstant, type = "integer" }
-			,	ctfull = { value = mm, type = "varchar" }
-			,	ctencoding = { value = 0, type = "varchar" }
-			,	oid    = { value = vs.results.order, type = "varchar" }
-			,	pid    = { value = vs.results.parent_id, type = "varchar" }
-			,	file   = { value = writeableCont, type = "varchar" }
-			,	da     = getCurrentDatestamp()
-			,	dm     = getCurrentDatestamp()
-			}
-		);
-
-		//Die if the write was unsuccessful.
-		if ( !vs.status ) {
-			return c.sendAsJson( status=vs.status, httpStatus=500, message=vs.message );
-		}
-
-		//This is just here as a test...
-		return c.sendAsJson( status=1, httpStatus=200, message="Everything is successful." );
-	}
-
-
-	//Retrieve posts by some custom filter.
-	public string function deleteNode( ) {
-		var c = getMyst();
-		var vs = c.cmValidate( form, {
-			node_id = { req = true }
-		});
-
-		if ( !vs.status ) {
-			return c.sendAsJson( status=vs.status, httpStatus=500, message=vs.message );
-		}
-
-		var vv = c.dbExec( 
-			string = "DELETE FROM cms_content WHERE content_id = :cid"
-		, bindArgs = { cid = vs.results.node_id }
-		, datasource = getDatasource()
-		); 
-
-		if ( !vv.status ) 
-			return c.sendAsJson( status=vv.status, httpStatus=500, message=vv.message );
-		else {
-			return c.sendAsJson( status=1, httpStatus=200, message="Everything is successful." );
-		}
-	}
-
-
-	//Updates content node
-	public string function updateNode( node_id ) {
-		var c = getMyst();
-		var vs = c.cmValidate( form, {
-			{ node_id = { req = true } }
-		});
-
-		var vv = c.dbExec( 
-			string = "UPDATE cms_content SET content_id = :cid WHERE xid = :ixd"
-		, bindArgs = { cid = vs.results.node_id }
-		, datasource = getDatasource()
-		); 
-
-		if ( !vv.status ) 
-			return c.sendAsJson( status=vv.status, httpStatus=500, message=vv.message );
-		else {
-			return c.sendAsJson( status=1, httpStatus=200, message="Everything is successful." );
-		}
-	}
-
 	//This should extract the value from the proper scope
 	//also, arguments[0] vs arguments[name] should ...
 	private function scopecheck( ) {
@@ -720,8 +647,9 @@ extends="Base"
 
 	//A reusable registration function
 	public string function insertUser() {
-		var c = getMyst(); var r;
-		trap( form, 417, [ "username", "password", "nonce" ] ); 	
+		var r;
+		var c = getMyst(); 
+		var t = trap( form, 417, [ "username", "password", "nonce" ] );
 		compareNonce( form.nonce );
 
 		//this should also be private funct
@@ -736,7 +664,7 @@ extends="Base"
 		//check for any users that match
 		r = c.dbExec(
 			datasource = getDatasource()
-		, string = "SELECT * FROM cms_login WHERE username = :usrid"
+		, string = "SELECT * FROM #prefix#login WHERE username = :usrid"
 		, bindArgs = { usrid=form.username }
 		);
 
@@ -747,7 +675,7 @@ extends="Base"
 		//if no one exists, add them
 		r = c.dbExec(
 			datasource = getDatasource()
-		, string = "INSERT INTO cms_login VALUES ( NULL, :usrid, :pwd )"
+		, string = "INSERT INTO #prefix#login VALUES ( NULL, :usrid, :pwd )"
 		, bindArgs = { usrid=form.username, pwd=encPass( form.password ) }
 		);
 
@@ -762,14 +690,14 @@ extends="Base"
 	//users - most of these serve other purposes... 
 	public string function removeUser( string uid ) {
 		var c = getMyst();
-		var vs = c.cmValidate( scopecheck(), {
+		var vs = c.validate( scopecheck(), {
 			uid = { req = true }
 		});
 
 		//removal... can kind of be wrapped...
 		var r = c.dbExec(
 			datasource = getDatasource()
-		, string = "DELETE FROM cms_login WHERE username = :uid "
+		, string = "DELETE FROM #prefix#login WHERE username = :uid "
 		, bindArgs = { usrid=vs.results.uid }
 		);
 	
@@ -788,14 +716,14 @@ extends="Base"
 	//Comments	
 	public string function removeComment( string cid ) {
 		var c = getMyst();
-		var vs = c.cmValidate( scopecheck(), {
+		var vs = c.validate( scopecheck(), {
 			cid = { req = true }
 		});
 
 		//removal... can kind of be wrapped...
 		var r = c.dbExec(
 			datasource = getDatasource()
-		, string = "DELETE FROM cms_comments WHERE comment_id = :cid"
+		, string = "DELETE FROM #prefix#comments WHERE comment_id = :cid"
 		, bindArgs = { cid=vs.results.cid }
 		);
 	
@@ -815,7 +743,7 @@ extends="Base"
 	//metas
 	public string function insertComment( string pid, string ctext, string owner, string oavatar ) {
 		var c = getMyst();
-		var vs = c.cmValidate( form, {
+		var vs = c.validate( form, {
 		 	pid = { req = true }
 		, commenttext = { req = true }
 		, oavatar = { req = false, ifNone = "" }
@@ -829,7 +757,7 @@ extends="Base"
 		//removal... can kind of be wrapped...
 		var r = c.dbExec(
 			datasource = getDatasource()
-		, string = "INSERT INTO cms_comments VALUES 
+		, string = "INSERT INTO #prefix#comments VALUES 
 				( NULL, :pid, :owner, :oavatar, :ctext, :da, :dm )"
 		, bindArgs = { 
 				pid = { value=vs.results.pid, type="varchar" }
@@ -910,7 +838,7 @@ Miscellaneous http-equiv
 	public string function insertMeta( string pid, string name, string content ) {
 
 		var c = getMyst();
-		var vs = c.cmValidate( scopecheck(), {
+		var vs = c.validate( scopecheck(), {
 			pid = { req = true }
 		, name = { req = true }	
 		, content = { req = true }	
@@ -923,7 +851,7 @@ Miscellaneous http-equiv
 		//removal... can kind of be wrapped...
 		var r = c.dbExec(
 			datasource = getDatasource()
-		, string = "INSERT INTO cms_metas VALUES ( NULL, :pid, :name, :content )"
+		, string = "INSERT INTO #prefix#metas VALUES ( NULL, :pid, :name, :content )"
 		, bindArgs = { 
 				pid = { value=vs.results.pid, type="varchar" }
 			, name = { value=vs.results.name, type="varchar" }
@@ -947,14 +875,14 @@ Miscellaneous http-equiv
 	public string function removeMeta( string mid ) {
 
 		var c = getMyst();
-		var vs = c.cmValidate( scopecheck(), {
+		var vs = c.validate( scopecheck(), {
 			mid = { req = true }
 		});
 
 		//removal... can kind of be wrapped...
 		var r = c.dbExec(
 			datasource = getDatasource()
-		, string = "DELETE FROM cms_metas WHERE meta_id = :mid" 
+		, string = "DELETE FROM #prefix#metas WHERE meta_id = :mid" 
 		, bindArgs = { 
 				mid = { value=vs.results.mid, type="varchar" }
 			}
@@ -977,7 +905,7 @@ Miscellaneous http-equiv
 	public string function insertKeyword( string pid, string keyword ) {
 
 		var c = getMyst();
-		var vs = c.cmValidate( scopecheck(), {
+		var vs = c.validate( scopecheck(), {
 			pid = { req = true }
 		, keyword = { req = true }
 		});
@@ -985,7 +913,7 @@ Miscellaneous http-equiv
 		//removal... can kind of be wrapped...
 		var r = c.dbExec(
 			datasource = getDatasource()
-		, string = "INSERT INTO cms_keywords VALUES ( NULL, :pid, :kwd )"
+		, string = "INSERT INTO #prefix#keywords VALUES ( NULL, :pid, :kwd )"
 		, bindArgs = { 
 				pid = { value=vs.results.pid, type="varchar" }
 			, kwd = { value=vs.results.keyword, type="varchar" }
@@ -1009,14 +937,14 @@ Miscellaneous http-equiv
 	//keyword removal
 	public string function removeKeyword( string kid ) {
 		var c = getMyst();
-		var vs = c.cmValidate( scopecheck(), {
+		var vs = c.validate( scopecheck(), {
 			kid = { req = true }
 		});
 
 		//removal... can kind of be wrapped...
 		var r = c.dbExec(
 			datasource = getDatasource()
-		, string = "DELETE FROM cms_keywords WHERE keyword_id = :kid" 
+		, string = "DELETE FROM #prefix#keywords WHERE keyword_id = :kid" 
 		, bindArgs = { 
 				kid = { value=vs.results.kid, type="varchar" }
 			}
@@ -1034,25 +962,13 @@ Miscellaneous http-equiv
 		}
 	} 
 
-	//Retrieve posts by some custom filter.
-	public query function qGetCustomPosts() {
-		var c = getMyst();
-	}
 
-	/*
+/*
 	//When initializing, always throw an instance of myst in as 
 	//a dependency so I can use it's features.
-	function init( mystObject ) {
-		setMyst( mystObject );
-		return this;
-	}
-	*/
-
-	
-
 	//Return the JSON reference list 
 	//TODO: (converting from Query to JSON would speed you WAY up)
-	public string function reference () {
+	public string function Reference () {
 		//If the request is just for reference
 		getMyst().sendAsJson(
 			"savePost"= "post--save.cfm"
@@ -1070,4 +986,9 @@ Miscellaneous http-equiv
 		, "home"="#getPublicPath( 'list.cfm' )#" 
 		);	
 	}
+	function init(myst,model) {
+		Super.init(myst);
+		return this;
+	}
+*/
 }

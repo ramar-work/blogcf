@@ -1,145 +1,101 @@
 //base.cfc - should never actually be initialized, but serves as a template for all of the other components
 component
 name="base"
-accessors=true
+accessors="true"
 {
+	//The current Myst instance
+	property name="myst";
+
 	//The actual name of the component
 	property name="realname" type="string"; 
 
 	//The endpoint name used by the component
 	property name="namespace" type="string"; 
 
-	//Be extra verbose and let the developer know everything that is going on.
-	property name="debuggable" type="boolean" default=0; 
-
-	//Tell me everything
-	property name="verbose" type="boolean" default=0; 
+	//Debuggable?
+	property name="debug" type="boolean" default=0; 
 
 	//Datasource used by a component
-	property name="datasource" type="string" default="#application.defaultdatasource#"; 
+	property name="datasource" type="string" default="";
 
 	//Prefix for tables used by a component
 	property name="dbPrefix" type="string";
 
-	//The current Myst instance
-	property name="myst";
+	//Prefix for tables used by a component
+	property name="fileNotFoundError" type="string" default="";
+
+	//the reference function should probably be here for JS purposes...
+	public string function reference () {
+		//returns a JSON string with all of the API endpoints 
+		//(and possibly normal endpoints) used by the component	
+		//Find the routes file for the component in question (it's actual name)
+		return "";
+	}
 
 	//Run a setup function, should be accessible remotely to keep it easy
-	public string function setup ( string datasource ) {
-		//All of your component's setup scripts/files go here
-		var ds = getDatasource(); var ns = getNamespace();
+	public string function setup () {
+		//put all of your component's setup scripts/files in here
 
-		//if this is part of a module, handle that, setupfiles can be an array
-		var fname = "#getMyst().getRootDir()#setup/#ns#/setup.sql";
+		//more than likely, the datasource needs to be changed to accept multiple queries.
+		//then you need to run any SQL statements
+		//not sure how hard find and replace is here
+		//now change the ddatabase back to it's original OR
+		//report any errors via a page
 
-		//check for the file
-		if ( !FileExists( fname ) )
-			getMyst().sendAsJson(status=500, mime="text/html", content="Couldn't find setup file for #ns#");
-			 
-		//choose a datasource
-		if ( StructKeyExists( arguments, "datasource" ) )
-			ds = arguments.datasource;
-		else {
-			//Instantiate Application just to see where things are
-			//TODO: There must be a way to just get the ds name...
-			var a = createObject("component","Application" );
-
-			//check in application scope for ds, then other places
-			if ( StructKeyExists( a, "datasource" ) )
-				getMyst().sendAsJson(status=200,mime="text/html",content="application.datasource = #a.datasource#" );
-			else if ( StructKeyExists( a, "defaultdatasource" ) )
-				getMyst().sendAsJson(status=200,mime="text/html",content="application.defaultdatasource = #a.defaultdatasource#" );
-			else if ( StructKeyExists( a, "datasources" ) ) {
-				//unless myst has run, if there is only one ds there...
-				//this should probably use it...
-				//load application.datasources and if only one member, 
-				//use that....
-				if ( StructCount( a.datasources ) gt 1 ) {
-					getMyst().sendAsJson(status=500,mime="text/html",content="No default datasource was found.  Additionally, there is more than one datasource specified for this instance.  Please explicitly denote which one to use when setting up." );
-				}
-
-				//crudely loop to get the first index	
-				for ( var tds in a.datasources ) {
-					ds = tds;
-					break;
-				}
-			}
-		}
-
-		//open it and read it's content
-		var fbuf = FileRead( fname );
-
-		//execute as a query (I guess a big ass string)
-		var res = getMyst().dbExec(
-			string = fbuf
-		, datasource = ds 
-		);
-	
-		//return a status
-		if ( !res.status ) 
-			getMyst().sendAsJson( status=500, mime="text/html", content="Failed to create data tables for #ns# in database '#getDatasource()#'" );	
-		else {
-			getMyst().sendAsJson( status=200, mime="text/html", content="All is well" );	
-		}
+		//TODO: Obviously, anyone being able to call this is a bad idea.
+		//A) try 'production mode', where in a user has to explicitly allow updates
+		//B) ...? 
+		return "";
 	}
 
-	//Return the component's full asset path w/o using link()	
-	public string function getAssetPath( required String type, required String file ) {
-		return "#getMyst().getUrlBase()#assets/#arguments.type#/#getNamespace()#/#arguments.file#";
+	//Return the full asset path w/o using link()	
+	public string function getAssetPath( required string type, required string file ) {
+		return "#getMyst().getUrlBase()#assets/#type#/#getNamespace()#/#file#";
 	}
 
-	//Return the component's endpoint path
+	//Return the path to what should be an endpoint.
 	public string function getPublicPath( required String file ) {
-		return "#getMyst().getUrlBase()##getNamespace()#/#arguments.file#";
+		return "#getMyst().getUrlBase()##getNamespace()#/#file#";
 	}
 	
-	//Return the component's private file path
-	public string function getPrivatePath( required String file ) {
-		return "#getMyst().getUrlBase()#files/#getNamespace()#/#arguments.file#";
+	//Return the path to what should be an endpoint.
+	public function getPrivatePath( required string file ) {
+		return "#getMyst().getUrlBase()#files/#getNamespace()#/#file#";
 	}
 
-	//TODO: Get CSS image path (??? not sure if this should be a base method or not)
-	/*
-	public string function getCssImagePath( Required string img ) {
-		return "background-image:url( #getAssetPath('img',img)# ); background-size: 100%;";	
-	}
-	*/
-
-	//TODO: Get JS image path (??? not sure if this should be a base method or not)
-	/*
-	public string function getJsPath( Required string img ) {
-		return "background-image:url( #getAssetPath('img',img)# ); background-size: 100%;";	
-	}
-	*/
-
-	//TODO: Inject dependencies here (setters should automatically be done)
-	public void function inject ( ) {
-
+	public function getPrivatePathAsStatic( required string file ) {
+		return getMyst().serveStaticResource([], getPrivatePath( file ), getFileNotFoundError());
 	}
 
-	//TODO: Return a JSON string with all of the API endpoints 
-	public string function reference ( ) {
-		//TODO: Locate routes and anything under routes that is under the 
-		//current component's namespace
+	public function getPassivePath() {
+		return getPrivatePathAsStatic( route.active );
 	}
 
-	public Base function init ( required mystObject, string realname, string namespace, string datasource, Boolean debuggable, Boolean verbose ) {
+	//Inject dependencies (setters should automatically be done)
+	//A dynamic property could be added within this method...
+	public void function inject () {}
+
+	public function init ( required mystObject, string realname, string namespace, string dbPrefix, Boolean debuggable, Boolean showInitialization ) {
 		//Always tell me what module this is
 		var c = getMetadata( this );
 
-		//Set myst object and all other base properties. 
+		//Set a reference to Myst before starting
 		setMyst( mystObject );
-		//variables.myst = mystObject;
+		variables.myst = mystObject;
 
-		//Set all other base properties
-		for ( var vv in ListToArray("realname,namespace,debuggable,datasource")) {
-			if ( /*!StructKeyExists(variables,vv) && */StructKeyExists(arguments, vv) && arguments[vv] neq "" ) variables[vv] = arguments[vv];
-		}
+		//Set all of the things...
+		if ( StructKeyExists( arguments, "realname" ) )
+			variables.realname = arguments.realname ;	
+		if ( StructKeyExists( arguments, "namespace" ) )
+			variables.namespace = arguments.namespace ;	
+		if ( StructKeyExists( arguments, "dbPrefix" ) )
+			variables.DBPrefix = arguments.dbPrefix ;	
+		if ( StructKeyExists( arguments, "debuggable" ) )
+			variables.debug = arguments.debuggable ;	
 
-		//Finally tell me (in a window) which module this is
-		if ( StructKeyExists( arguments, "verbose" ) && arguments.verbose ) { 
-			writeoutput( "Module #c.name# initialized.<br />" );
-		}
+		//Set the datasource
+		variables.datasource = myst.getAppdata().source;
 		return this;
 	}
+
 } 

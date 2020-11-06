@@ -1,9 +1,5 @@
 /*cms.css*/
-html {
-
-}
-
-.head /*header*/ {
+.head {
 	display: inline-block;
 	width: 100%;
 	height: 30px;
@@ -112,7 +108,7 @@ footer {
 	min-width: 320px; 
 	min-height: 90%;
 	margin: 0 auto;
-	top: 60px;
+	top: 100px;
 	font-family: Helvetica, sans-serif;
 	margin-bottom: 100px;
 }
@@ -142,11 +138,7 @@ ul.container-navigation li a:hover {
 }
 
 .container-section {
-	font-size: 0.7em;
-	border: 3px solid black;
 	margin-bottom: 20px;	
-	padding-left: 30px;
-	padding-right: 30px;
 	padding-bottom: 30px;
 	padding-top: 20px;
 	height: auto;
@@ -167,24 +159,18 @@ ul.container-navigation li a:hover {
 	padding-left: 10px;
 	padding-right: 10px;
 	font-weight: bold;
-	font-size: 1.3em;
 	letter-spacing: -1px;
 }
 
 .container h1 {
-	color: #ccc;
 	z-index: -99;
 	font-size: 5em;
 	position: relative;
-	left: -25px;
 	height: 50px;
 	top: -20px;
-	font-style: italic;
 	font-weight: bold;
 	letter-spacing: -5px;
-	/*
-	text-transform: capitalize;
-	*/
+	text-align: center;
 }
 
 /*
@@ -294,7 +280,6 @@ ul.container-navigation li a:hover {
 	border-radius: 3px;
 	-moz-border-radius: 3px;
 	-gecko-border-radius: 3px;
-	font-size: 0.7em;
 	box-shadow: 5px 5px 5px 2px #999;
 	margin-right: 10px;
 	margin-bottom: 8px;
@@ -325,6 +310,12 @@ ul.container-navigation li a:hover {
 	width: 100%;
 }
 
+.input-group div.bg {
+	min-height: 50px;
+	width: 100%;
+	display: block;
+	background-color: #ccc;
+}
 
 .content-group {
 	margin-bottom: 10px;
@@ -333,6 +324,7 @@ ul.container-navigation li a:hover {
 
 label.input-member {
 	flex: 1 0 0;
+	vertical-align: top;
 }
 
 input.input-member {
@@ -375,8 +367,7 @@ input.check {
 	transition: /*flex 0.2s,*/ font-size 0.2s, border-color 0.3s, height 0.4s;
 }
 
-#drop:focus
-{
+#drop:focus {
 	font-size: 2.0em;
 	border-color: blue;
 	height: 400px;
@@ -388,37 +379,56 @@ input.input-member:focus {
 	font-size: 1.7em;
 }
 
-input.metas 
-{ font-size: 0.8em; width: 100%; }
+input.metas { 
+	font-size: 0.8em; 
+	width: 100%; 
+}
 
-input.title 
-{
-	padding-left: 1%;
+input.title {
 	font-size: 1.5em; 
 	position: relative; 
 	padding-top: 10px; 
 	padding-bottom: 10px; 
+}
+
+input.full {
 	width: 100%; 
 }
 
 select.input-member {
 	flex: 3 0 0;
 	padding: 1%; 
-	font-size: 1.0em; 
 	width: 50%; 
 }
 
-button.input-member
-{
+button.input-member {
 	position: relative;
 	background-color: #aaa;
 	border: 0px;
 	border-radius: 5px;
 	-moz-border-radius: 5px;
 	-gecko-border-radius: 5px;
-	font-size: 1.3em;
-	width: 150px;
+	width: 50px;
 	height: 50px;
+	transition: background-color 0.3s;
+}
+
+button.input-member#reset {
+	background-color: red;
+}
+
+button.input-member#reset:hover {
+	background-color: green;
+}
+
+button.input-member#post-submit {
+	width: 150px;
+	position: relative;
+	float: right;
+}
+
+button.input-member:hover {
+	background-color: #ddd;
 }
 
 ul.admin-selection {
@@ -503,7 +513,6 @@ img.content-regular {
 }
 
 input.admin-search {
-	font-size: 1.3em;
 	width: 60%;
 	border: 0;
 	margin-bottom: 10;
@@ -594,7 +603,6 @@ input.admin-search {
 
 
 .admin h3 {
-	font-size: 1.3em;
 	display: block;
 	font-weight:bold;
 	margin-bottom: 20px;
@@ -653,7 +661,6 @@ video.content-regular ,
 }
 
 .content-regular p {
-	font-size: 1.3em;
 	line-height: 20px;
 	font-family: "Times New Roman", serif;
 }
@@ -664,7 +671,6 @@ video.content-regular ,
 
 .content-active {
 	position: relative;
-	font-size: 1.6em;
 	width: 120%;
 	left: -10%;
 	z-index: 99;
