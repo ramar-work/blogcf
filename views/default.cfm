@@ -1,17 +1,14 @@
 <style>
 .grindreel {
 	z-index:9999;
-	color: white;
+	color: #eef;
 	position: relative;
-	top: 5%;
+	top: 10%;
 	left: 100px;
 	width: 80%;
 }
 
-.project-li:nth-child(1) .grindreel {
-	top: 20%;
-}
-
+.project-li:nth-child(1) .grindreel,
 .project-li:last-child .grindreel {
 	top: 30%;
 }
@@ -30,7 +27,7 @@
 
 table {
 	color: white;
-	font-size: 1.6em;
+	font-size: 1.5em;
 }
 
 table td {
@@ -47,8 +44,9 @@ table td a {
 }
 
 .grindreel h1 {
+	color: white;
 	letter-spacing: -2px;
-	font-size: 5.0em;
+	font-size: 4.0em;
 	font-weight: bold;
 	font-family: 'Open Sans';
 	text-shadow: 5px 5px 5px rgb(44,44,44);
@@ -61,8 +59,8 @@ p {
 	width: 100%;
 	min-width: 300px;
 	max-width: 800px;
-	font-size: 20px;
-	line-height: 1.5em;
+	font-size: 1.0em;
+	line-height: 1.2em;
 	margin-bottom: 20px;
 }
 
@@ -86,13 +84,29 @@ ul.looped li,
 p.left-side a {
 	color: white;
 	display: block;
-	font-size: 1.1em;
+	font-size: 0.9em;
 	margin-bottom: 10px;
 }
 
+p.left-side {
+	text-align: right;
+}
+
 p.left-side a {
-	font-size: 1.5em;
+	display: inline-block;
+	font-size: 1.2em;
 	margin-top: 10px;
+	margin-right: 30px;
+	font-weight: bold;
+	transition: color 0.1s;
+}
+
+p.left-side a:hover {
+	color: #aaa;
+}
+
+p.left-side a:nth-child(1) {
+	/*margin-top: 10%;*/
 }
 
 ul.looped {
@@ -103,7 +117,8 @@ ul.looped {
 
 ul.looped li {
 	display: inline-block;
-	padding-right: 40px;
+	vertical-align:top; 
+	padding-right: 30px;
 	margin-bottom: 0px;
 }
 
@@ -128,10 +143,6 @@ ul.list li a:visited {
 
 ul.work {
 	font-size: 1.1em;
-}
-
-.project-li:nth-child(1) p {
-	width: 50%;	
 }
 
 .grindreel div {
