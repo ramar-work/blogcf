@@ -96,8 +96,9 @@ p.left-side a {
 }
 
 ul.looped {
+	padding: 5px;
 	background-color: #111;
-	text-align: center;
+	text-align: left;
 }
 
 ul.looped li {
@@ -158,6 +159,10 @@ ul.work {
 
 	table {
 		font-size: 1.0em;
+	}
+
+	ul.looped {
+		line-height: 1.0em !important;
 	}
 
 	ul.list li {
