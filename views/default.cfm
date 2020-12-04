@@ -1,11 +1,11 @@
 <style>
 .grindreel {
 	z-index:9999;
-	margin: 0 auto;
 	color: white;
 	position: relative;
+	top: 5%;
 	left: 100px;
-	top: 10%;
+	width: 80%;
 }
 
 .project-li:nth-child(1) .grindreel {
@@ -34,7 +34,12 @@ table {
 }
 
 table td {
-	padding: 10px;
+	padding-bottom: 10px;
+	padding-top: 10px;
+}
+
+table td:nth-child(1) {
+	padding-right: 10px;
 }
 
 table td a {
@@ -48,41 +53,6 @@ table td a {
 	font-family: 'Open Sans';
 	text-shadow: 5px 5px 5px rgb(44,44,44);
 	margin-bottom: 20px;
-}
-
-@media screen and (max-width: 666px) {
-	.grindreel {
-		left: 0px;
-		text-align: center;
-	}
-
-	.grindreel .top {
-		top: 10px;
-		width: 330px;
-		margin: 0 auto;
-		text-align: left;
-	}
-
-	.grindreel h1 {
-		font-size: 4.0em;
-		margin: 0 auto;
-		margin-bottom: 60px;
-		position: relative;
-		display: block;
-		max-width: 330px;
-		text-align: center;
-	}
-
-	.grindreel .banner {
-		left: 5px;
-		font-size: 0.8em;
-	}
-	.grindreel p {
-		width: 330px;
-		margin: 0 auto;
-		text-align: left;
-		line-height: 1.0em;
-	}
 }
 
 ul.list,
@@ -101,8 +71,12 @@ ul.looped {
 	margin-bottom: 40px;
 }
 
-ul.list a,
 ul.looped a {
+	color: white;
+	text-decoration: none;
+}
+
+ul.list a {
 	font-weight: bold;
 	letter-spacing: 1px;	
 }
@@ -121,10 +95,15 @@ p.left-side a {
 	margin-top: 10px;
 }
 
+ul.looped {
+	background-color: #111;
+	text-align: center;
+}
+
 ul.looped li {
 	display: inline-block;
 	padding-right: 40px;
-	margin-bottom: 10px;
+	margin-bottom: 0px;
 }
 
 ul.looped li:hover {
@@ -132,9 +111,7 @@ ul.looped li:hover {
 }
 
 ul.looped li:nth-child(even) {
-	background-color: white;
-	padding-left: 5px;
-	color: black;
+	color: #ccc;
 }
 
 ul.list li {
@@ -159,6 +136,36 @@ ul.work {
 .grindreel div {
 	margin-bottom: 20px;
 }
+
+@media screen and (max-width: 717px) {
+	.grindreel h1 {
+		font-size: 2.0em;
+	}
+
+	.grindreel p {
+		font-size: 0.9em;
+	}
+
+	.grindreel li {
+		font-size: 0.7em !important;
+	}
+
+	.grindreel {
+		left: 0px;
+		margin: 0 auto;
+		width: 80%;
+	}
+
+	table {
+		font-size: 1.0em;
+	}
+
+	ul.list li {
+		line-height: 1.4em;
+		margin-bottom: 20px !important;
+	}
+}
+
 </style>
 
 <cfoutput>
@@ -195,20 +202,19 @@ ul.work {
 					<p>I have gained skill in a variety of languages, tools and frameworks across my 13 years of programming.  
 					A sampling of some of the tools I use are below:</p>
 					<ul class="looped">
-						<li>PHP</li>
-						<li>Flutter</li>
-						<li>C</li>
+						<li><a target="_blank" href="https://flutter.dev">Flutter</a></li>
+						<li>C / C++</li>
 						<li>Java</li>
-						<li>Angular (7+)</li>
-						<li>Dart</li>
+						<li><a target="_blank" href="https://www.php.net">PHP</a></li>
+						<li><a target="_blank" href="">Angular (7+)</a></li>
+						<li><a target="_blank" href="https://dart.dev">Dart</a></li>
+						<li><a target="_blank" href="https://www.lua.org">Lua</a></li>
 						<li>MySQL</li>
-						<li>SQL Server</li>
+						<li>SQL Server</a></li>
 						<li>SQLite</li>
-						<li>Lua</li>
 						<li>Apache</li>
-						<li>Coldfusion</li>
-						<li>Lucee</li>
-						<li>Git</li>
+						<li><a target="_blank" href="https://www.lucee.org">Coldfusion / Lucee</a></li>
+						<li><a target="_blank" href="https://git-scm.com">Git</a></li>
 					</ul>
 
 					<p>A few of my favorite projects are listed below, and can be seen by clicking on the respective links.</p>

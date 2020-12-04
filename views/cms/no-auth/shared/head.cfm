@@ -24,7 +24,7 @@
 
 <style>
 .container {
-	width: 60%;
+	width: 80%;
 	min-width: 300px;
 	max-width: 800px;
 	margin: 0 auto;
@@ -50,6 +50,16 @@
 .content-regular h5 a,
 .content-regular h6 a {
 	text-decoration: none;
+	transition: color 0.1s;
+}
+
+.content-regular h1 a:hover,
+.content-regular h2 a:hover,
+.content-regular h3 a:hover,
+.content-regular h4 a:hover,
+.content-regular h5 a:hover,
+.content-regular h6 a:hover {
+	color: #999;	
 }
 
 .content-regular p {
@@ -77,7 +87,7 @@ pre {
 	background-color: white;
 	margin: 0 auto;
 	padding-top: 150px;
-	width: 60%;
+	width: 80%;
 	min-width: 300px;
 	max-width: 800px;
 	padding-bottom: 20px;
