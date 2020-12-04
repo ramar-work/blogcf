@@ -1,7 +1,7 @@
 <cfoutput>
 <div class="collection single">
 	<h2>#model.collection.set.title#</h2>
-	<p>Written by #model.collection.author#</p>
+	<br /><p>Written by Antonio R. Collins II<!--- #model.collection.author# ---></p><br />
 	<p>#model.collection.date#</p>
 <cfloop query=model.collection.set>
 	<div class="content-regular">
