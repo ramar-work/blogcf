@@ -3,6 +3,12 @@
  * --------
  * This contains all the Javascript for my portfolio page.
  * 
+ * TODO
+ * Could use a real router.  Not to mention a real library.
+ *
+ * CHANGELOG
+ * 12/04/20 - Completely reworked the home page. 
+ *          - Removed bad endpoints.
  * --------------------------------------------------------- */
 
 /*
@@ -63,6 +69,33 @@ function activate_set_of_thumbnails( selector ) {
 		});
 	}
 }
+
+
+//
+function activate_all_thumbnails() {
+	//Apply on all selectors here with this odd loop of doom...
+	var images = [].slice.call( document.querySelectorAll( ".images" ) );
+	for ( var i in images ) {
+		activate_set_of_thumbnails( images[i] );	
+	}
+}
+
+
+//
+function activate_info() {
+	//Simply unhide all description divs
+	var ii = [].slice.call( document.querySelectorAll( "a.descinfo" ) );
+	const className = "js-no-show";
+	for ( var i in ii ) {
+		ii[i].addEventListener( "click", function(ev) {
+			ev.preventDefault();
+			var c = ev.currentTarget.parentElement.parentElement.parentElement.querySelector(".description");
+			c.classList.contains( className ) ? c.classList.remove( className ) : c.classList.add( className );
+			return false;
+		});
+	}	
+}
+
 */
 
 
@@ -82,8 +115,8 @@ function scroll_through_portfolio() {
 
 
 //Set up smooth scrolling on hashes
-function scroll_to_link() {
-	var id, str =	location.hash.substr( 1, String(location.hash).length ) + "_"; 	
+function scroll_to_link( stub ) {
+	var id, str =	String(stub).substr( 1, String(stub).length ) + "_"; 	
 	if ( ( id = document.getElementById( str ) ) ) { 
 		var count = 0, p = id.parentElement;
 		while ( p = p.previousSibling ) count += ( p.nodeType == 1 ) ? 1 : 0;
@@ -95,34 +128,33 @@ function scroll_to_link() {
 }
 
 
-function activate_all_thumbnails() {
-	//Apply on all selectors here with this odd loop of doom...
-	var images = [].slice.call( document.querySelectorAll( ".images" ) );
-	for ( var i in images ) {
-		activate_set_of_thumbnails( images[i] );	
+//Set up click override
+function setup_hash_override() {
+	for ( var l of [].slice.call( document.querySelectorAll( "a" ) ) ) {
+		if ( l.hash ) {
+			l.addEventListener( "click", (function() { 
+				var hash = l.hash;
+				return function(ee) {
+					location.href = hash;
+					location.reload();
+				}
+			})() );
+		}
 	}
 }
 
 
-function activate_info() {
-	//Simply unhide all description divs
-	var ii = [].slice.call( document.querySelectorAll( "a.descinfo" ) );
-	const className = "js-no-show";
-	for ( var i in ii ) {
-		ii[i].addEventListener( "click", function(ev) {
-			ev.preventDefault();
-			var c = ev.currentTarget.parentElement.parentElement.parentElement.querySelector(".description");
-			c.classList.contains( className ) ? c.classList.remove( className ) : c.classList.add( className );
-			return false;
-		});
-	}	
-}
-
 
 document.addEventListener( "DOMContentLoaded", function(ev) {
-scroll_to_link();
+	if ( location.pathname == "/" ) { 
+		setup_hash_override();
+	}
+	if ( location.hash ) {
+		scroll_to_link( location.hash );
+	}
+	//On all links with a #, we need a listener
 	//switch_themes();
 	scroll_through_portfolio();
-	activate_all_thumbnails();
-	activate_info();
+	//activate_all_thumbnails();
+	//activate_info();
 });
