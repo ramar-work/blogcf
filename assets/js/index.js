@@ -1,9 +1,11 @@
-/*
-index.js
---------
-grab all the things, move the list up?
-*/
+/* ---------------------------------------------------------
+ * index.js
+ * --------
+ * This contains all the Javascript for my portfolio page.
+ * 
+ * --------------------------------------------------------- */
 
+/*
 function ugly_quick_popup( cb ) {
 	var node, shadenode, span, xout;
 	shadenode = document.createElement( "div" );
@@ -28,36 +30,6 @@ function ugly_quick_popup( cb ) {
 	return shadenode;
 }
 
-
-function switch_themes() {
-	//Switch themes
-	var switchThemes = [].slice.call( document.querySelectorAll( ".switch-theme a" ) );
-	var head = document.getElementsByTagName( "head" )[0];
-	//console.log( head );
-	//console.log( head.querySelector( "link" ) );
-	var link = head.querySelector( "link#theme" );
-	for ( var st of switchThemes ) {
-		st.addEventListener( "click", function (ev) {
-			link.href = ( ev.target.className == "js-dark" ) ? "/assets/dark.css" : "/assets/light.css"; 
-		});
-	}
-}
-
-
-function scroll_through_portfolio() {
-	//Scroll through snapshots
-	var pp = [].slice.call( document.querySelectorAll( ".next" ) );
-	var ss = [].slice.call( document.querySelectorAll( "li.project-li" ) );
-	var ssi = 0;
-	for ( var p in pp ) {
-		pp[p].addEventListener( "click", function (ev) {
-			var li = ss[ ( ++ssi >= ss.length ) ? ( ssi = 0 ) : ssi ];
-			window.scrollTo( { top: li.offsetTop, behavior: 'smooth' } );
-		});
-	}
-}
-
-
 function activate_set_of_thumbnails( selector ) {
 	//...
 	var isActivated = 0;
@@ -78,12 +50,6 @@ function activate_set_of_thumbnails( selector ) {
 			else {
 				//???uh
 				div = ugly_quick_popup( deadly );
-				/*
-				//This way is preferred, but I wonder if it works everywhere...
-				div.addEventListener( "hi", function(ev) {
-					isActivated = 0;	
-				});
-				*/
 				//if there were a way to apply an onDestroy event, we'd be gucci
 				//yet another way is using an eventEmitter, and I refuse to use Angular for this...
 				isActivated = 1;
@@ -96,6 +62,36 @@ function activate_set_of_thumbnails( selector ) {
 			( ++index >= imgArray.length ) ? index = 0 : 0; 
 		});
 	}
+}
+*/
+
+
+//Arrow clicks to scroll through the ol' portfolio
+function scroll_through_portfolio() {
+	//Scroll through snapshots
+	var pp = [].slice.call( document.querySelectorAll( ".next" ) );
+	var ss = [].slice.call( document.querySelectorAll( "li.project-li" ) );
+	var ssi = 0;
+	for ( var p in pp ) {
+		pp[p].addEventListener( "click", function (ev) {
+			var li = ss[ ( ++ssi >= ss.length ) ? ( ssi = 0 ) : ssi ];
+			window.scrollTo( { top: li.offsetTop, behavior: 'smooth' } );
+		});
+	}
+}
+
+
+//Set up smooth scrolling on hashes
+function scroll_to_link() {
+	var id, str =	location.hash.substr( 1, String(location.hash).length ) + "_"; 	
+	if ( ( id = document.getElementById( str ) ) ) { 
+		var count = 0, p = id.parentElement;
+		while ( p = p.previousSibling ) count += ( p.nodeType == 1 ) ? 1 : 0;
+		window.scrollTo( {
+			behavior: 'smooth' 
+		,	top: ( count * window.innerHeight ) + id.offsetTop - 100
+		} );
+	}	
 }
 
 
@@ -124,7 +120,8 @@ function activate_info() {
 
 
 document.addEventListener( "DOMContentLoaded", function(ev) {
-	switch_themes();
+scroll_to_link();
+	//switch_themes();
 	scroll_through_portfolio();
 	activate_all_thumbnails();
 	activate_info();

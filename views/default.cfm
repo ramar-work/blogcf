@@ -88,12 +88,23 @@ table td a {
 ul.list,
 ul.looped ,
 p {
-	width: 60%;
+	width: 100%;
 	min-width: 300px;
 	max-width: 800px;
 	font-size: 20px;
 	line-height: 1.5em;
 	margin-bottom: 20px;
+}
+
+ul.list,
+ul.looped {
+	margin-bottom: 40px;
+}
+
+ul.list a,
+ul.looped a {
+	font-weight: bold;
+	letter-spacing: 1px;	
 }
 
 ul.list li,
@@ -137,6 +148,14 @@ ul.list li a:visited {
 	color: white;
 }
 
+ul.work {
+	font-size: 1.1em;
+}
+
+.project-li:nth-child(1) p {
+	width: 50%;	
+}
+
 .grindreel div {
 	margin-bottom: 20px;
 }
@@ -171,7 +190,7 @@ ul.list li a:visited {
 			</li>
 
 			<li class="project-li" style="background:black;">
-				<div id="experience" class="grindreel"> 
+				<div id="experience_" class="grindreel"> 
 					<h1>Experience</h1>
 					<p>I have gained skill in a variety of languages, tools and frameworks across my 13 years of programming.  
 					A sampling of some of the tools I use are below:</p>
@@ -192,11 +211,11 @@ ul.list li a:visited {
 						<li>Git</li>
 					</ul>
 
-					<p>A few of my best projects are listed below</p>
-					<ul class="reel">
-						<li><img src=""></img></li>	
-						<li><img src=""></img></li>	
-						<li><img src=""></img></li>	
+					<p>A few of my favorite projects are listed below, and can be seen by clicking on the respective links.</p>
+					<ul class="list work">
+						<li><a href="http://ncat.edu/transfer-articulation">North Carolina A&T</a> - I was contracted to build an application to help students evaluate their transfer credits.  The school are big users of PHP, so it was fun to hook something up that works with Oracle and affects such a large group of users.</li>
+						<li><a href="http://gogarbanzo.com/demo">Garbanzo</a> - Garbanzo is an application I wrote to help manage finances.  It expanded to become a mobile app as well.</li>
+						<li><a href="http://mystframework.com">Myst</a> - For about 4 years, I informally maintained a web framework to make ColdFusion apps a bit easier to maintain.  It arose from a need I found at one of my previous positions to be able to seperate different types of code.  The framework ended up being quite useful on a variety of projects throughout the years, and even powers this website in its current form.</li>
 					</ul>
 				</div>
 				<div class="more">
@@ -205,7 +224,7 @@ ul.list li a:visited {
 			</li>
 
 			<li class="project-li" style="background:black;">
-				<div id="tools" class="grindreel"> 
+				<div id="tools_" class="grindreel"> 
 					<h1>Tools</h1>
 					<p>I also write tools to solve problems in my spare time.  The use cases vary from simple text processing
 					to a full blown http library.  A few of these are listed below:</p>
@@ -224,7 +243,7 @@ ul.list li a:visited {
 			</li>
 
 			<li class="project-li" style="background:black;">
-				<div id="contact" class="grindreel"> 
+				<div id="contact_" class="grindreel"> 
 					<h1>Connect with me</h1>
 					<table>
 						<tr>

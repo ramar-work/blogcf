@@ -22,10 +22,10 @@ manifest = {
 /*Turn on debugging, yes or no?*/
 ,"debug"  = 0
 
-,"host"  = "collinsdesign.net"
+,"host"  = "ramar.work"
 
 /*Set a description for this new application*/
-,"description"  = "All About Design & Development" 
+,"description"  = "Development for Linux and more" 
 
 /*Set a primary author for SEO purposes*/
 ,"author"  = "Antonio Ramar Collins II" 
@@ -40,10 +40,10 @@ manifest = {
 ,"base"   = "/"
 
 /*This is a symbolic name for the application*/
-,"name"   = "collinsdesign.local"
+,"name"   = "ramar.local"
 
 /*Set a global site title from here for SEO purposes*/
-,"title"  = "collinsdesign.local"
+,"title"  = "ramar.work"
 
 /*This is used to control how much logging to do where*/
 ,"settings" = {
@@ -73,6 +73,7 @@ manifest = {
 ,"routes" = {
 
   "default"= { model="projects", view = ["head","default","tail"] }
+/*
 , "work"= {
 		model = "projects"
 	, view = "work"
@@ -81,6 +82,7 @@ manifest = {
 		, view = "work-single"
 		}
 	}
+*/
  } /*end routes*/
 };
 </cfscript>
