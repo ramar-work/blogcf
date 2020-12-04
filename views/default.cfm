@@ -4,8 +4,16 @@
 	margin: 0 auto;
 	color: white;
 	position: relative;
-	top: 30%;
 	left: 100px;
+	top: 10%;
+}
+
+.project-li:nth-child(1) .grindreel {
+	top: 20%;
+}
+
+.project-li:last-child .grindreel {
+	top: 30%;
 }
 
 .grindreel .tiny { font-size: 0.9em; }
@@ -17,13 +25,11 @@
 .grindreel .large { font-size: 2em; }
 
 .grindreel p {
-	font-family: 'EB Garamond';
 	position:relative; 
 }
 
 table {
 	color: white;
-	font-family: 'EB Garamond';
 	font-size: 1.6em;
 }
 
@@ -79,31 +85,60 @@ table td a {
 	}
 }
 
-/*...*/
-.grindreel .work {
-	height: 200%;
-	width: 50%;
-	background-color: white;
-	border: 2px solid white;
-	position: absolute;
-	top: -100px;
-	left: 40%;
-	z-index: 9999;
+ul.list,
+ul.looped ,
+p {
+	width: 60%;
+	min-width: 300px;
+	max-width: 800px;
+	font-size: 20px;
+	line-height: 1.5em;
+	margin-bottom: 20px;
 }
 
-.grindreel .work li.project-inner {
-	width: 100px;
-	display: inline-block;
-	position: relative;
-	top: 0px;
-}
-
+ul.list li,
+ul.looped li,
 p.left-side a {
 	color: white;
 	display: block;
-	font-size: 1.5em;
+	font-size: 1.1em;
 	margin-bottom: 10px;
+}
+
+p.left-side a {
+	font-size: 1.5em;
 	margin-top: 10px;
+}
+
+ul.looped li {
+	display: inline-block;
+	padding-right: 40px;
+	margin-bottom: 10px;
+}
+
+ul.looped li:hover {
+	text-decoration: underline;
+}
+
+ul.looped li:nth-child(even) {
+	background-color: white;
+	padding-left: 5px;
+	color: black;
+}
+
+ul.list li {
+	display: inline-block;
+	margin-bottom: 20px;
+}
+
+ul.list li a ,
+ul.list li a:visited {
+	text-decoration: underline;
+	color: white;
+}
+
+.grindreel div {
+	margin-bottom: 20px;
 }
 </style>
 
@@ -122,23 +157,12 @@ p.left-side a {
 					<p class="left-side">
 						<a href="/resume.pdf">Resume</a>
 						<a href="/blog">Blog</a> <!--- Use a nofollow here, b/c my blog is the same --->
+						<a href="##experience">Work</a>
+						<a href="##tools">Tools</a>
 						<a href="##contact">Contact</a>
-						<a href="/work">Work</a>
+						<a href="https://github.com/zaiah-dj">Github</a>
 					</p>
 
-					<!--- Show the first post here --->
-					<!--- Load others via a different menu --->
-					<div class="work">
-					<ul>
-					<cfloop array=#model.projects# item=t>
-						<li class="project-inner"> 
-							<div class="backdrop">
-								<img src=#t.images[1]#>
-							</div> 
-						</li>
-					</cfloop>
-					</ul>
-					</div>
 				</div>
 				<div class="more">
 					<p style="font-size:0.7em;color:white;font-family:'EB Garamond'; top: 10px;left: 10px; position:relative;">(click to scroll)</p>
@@ -146,55 +170,59 @@ p.left-side a {
 				</div>
 			</li>
 
-<!---
-		<cfloop array=#model.projects# item=t>
-			<li class="project-inner" style="background:#t.background#">
-				<div class="backdrop">
-					<img src=#t.images[1]#>
-				</div> 
-
-				<div class="description js-no-show">
-					<h3>#t.title#</h3>
-
-					<h4>Description</h4>
-					#t.description#	
-
-					<h4>Tech Stack</h4>
-					#t.tech#
-				</div>
-
-				<div class="more">
-				<cfif StructKeyExists(t,"adjust") && t.logo neq "">
-					<img style="#t.adjust#" src="#t.logo#">
-				<cfelseif t.logo neq "">
-					<img src="#t.logo#">
-				<cfelseif StructKeyExists(t,"name")>
-					<h2>#t.name#</h2>
-				</cfif>
-					<ul>
-					<cfif !StructKeyExists(t, "noinfo")>
-						<a class="descinfo"><li>Info</li></a>
-					</cfif>
-					<cfif StructKeyExists(t, "github")>
-						<a target="_blank" href="#t.github#"><li>Github</li></a>
-					</cfif>
-					<cfif StructKeyExists(t, "link")>
-						<a target="_blank" href="#t.link#"><li>Link to Work</li></a>
-					</cfif>
+			<li class="project-li" style="background:black;">
+				<div id="experience" class="grindreel"> 
+					<h1>Experience</h1>
+					<p>I have gained skill in a variety of languages, tools and frameworks across my 13 years of programming.  
+					A sampling of some of the tools I use are below:</p>
+					<ul class="looped">
+						<li>PHP</li>
+						<li>Flutter</li>
+						<li>C</li>
+						<li>Java</li>
+						<li>Angular (7+)</li>
+						<li>Dart</li>
+						<li>MySQL</li>
+						<li>SQL Server</li>
+						<li>SQLite</li>
+						<li>Lua</li>
+						<li>Apache</li>
+						<li>Coldfusion</li>
+						<li>Lucee</li>
+						<li>Git</li>
 					</ul>
+
+					<p>A few of my best projects are listed below</p>
+					<ul class="reel">
+						<li><img src=""></img></li>	
+						<li><img src=""></img></li>	
+						<li><img src=""></img></li>	
+					</ul>
+				</div>
+				<div class="more">
 					<div class="next"></div>
 				</div>
+			</li>
 
-				<div class="images">
-					<ul>
-					<cfloop array=#t.images# item="file">
-						<li><img src="#file#"></li>
-					</cfloop>
+			<li class="project-li" style="background:black;">
+				<div id="tools" class="grindreel"> 
+					<h1>Tools</h1>
+					<p>I also write tools to solve problems in my spare time.  The use cases vary from simple text processing
+					to a full blown http library.  A few of these are listed below:</p>
+					<p>
+					<ul class="list">
+						<li><a href="https://github.com/zaiah-dj/zhttp">zhttp</a> - An HTTP parser and response builder written in C with virtually no dependencies.</li>
+						<li><a href="https://github.com/zaiah-dj/briggs">briggs</a> - Filtering tool to convert CSV and other list style data into popular formats such as JSON, XML and C structures.</a></li>
+						<li><a href="https://github.com/zaiah-dj/assault">assault</a> - A web server stress testing tool which utilizes <a href="https://curl.se">libcurl</a> to generate random requests.</a></li>
+						<li><a href="http://mystframework.com">myst</a> - A (now-defunct) web framework for Lucee to streamline the development of MVC apps.</a></li>
 					</ul>
+					</p>
+				</div>
+				<div class="more">
+					<div class="next"></div>
 				</div>
 			</li>
-		</cfloop>
---->
+
 			<li class="project-li" style="background:black;">
 				<div id="contact" class="grindreel"> 
 					<h1>Connect with me</h1>

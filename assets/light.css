@@ -43,33 +43,6 @@ footer a:visited {
   background-image: linear-gradient(to top, rgba(0,3,7,0), rgba(0,3,7,1));
 }
 
-.project li .half .container-full { 
-  background: rgba(0,3,7,1);
-}
-
-.project li a.link ,
-.project li a.link:visited {
-	color: black;
-	text-decoration: none;
-}
-
-.project li .images li:nth-child(1) {
-	filter: sepia(0%);
-	transition: filter 0.2s background-color 0.2s;
-}
-
-.project li .images li:not(:nth-child(1)):hover {
-	opacity: 0.8;
-	filter: sepia(60%);
-	background-color: orange;
-}
-
-.project li .logo-img {
-	width: 100%;
-	background: rgba( 200, 200, 200, 0.8 );
-  background: rgba(0,3,7,0.7);
-}
-
 .blog h1 a,
 .blog h2 a,
 .blog h3 a,
@@ -83,10 +56,6 @@ footer a:visited {
 .blog div.post a.comments {
 	color: black;	
 	font-size: 0.8em;
-}
-
-.contact section {
-	border-bottom: 1px solid white;
 }
 
 .switch-theme {

@@ -4,6 +4,7 @@ drafts/
 files/
 log/
 misc/
+tmp/
 WEB-INF/
 _myst.cfc
 log.txt

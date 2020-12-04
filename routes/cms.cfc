@@ -100,14 +100,14 @@ component name="cms" extends="base" {
 			//This is the summary page
 			"#components.cms.getPageFront()#" = {
 				model = path.public( "summary" )
-			, view = path.public( "summary" ) 
+			, view = path.public( "shared/head", "summary", "shared/tail" ) 
 			, archives = {
 					model = path.public("@")
-				, view = path.public("@")
+				, view = path.public("shared/head", "archives", "shared/tail" )
 				}
 			, ".*" = {
 					model = path.public( "single" )
-				, view = path.public( "single" )
+				, view = path.public( "shared/head", "single", "shared/tail" )
 				}
 			}
 		}

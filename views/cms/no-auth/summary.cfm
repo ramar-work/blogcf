@@ -1,5 +1,5 @@
 <!--- summary.cfm --->
-<div class="collection">
+<div class="collection summary">
 <cfoutput>
 <cfloop query=model.collection.set>
 	<div class="content-regular">
@@ -26,7 +26,7 @@
 		<a href="#content_text#">#content_text#</a>
 	</cfif>
 		<a class="comments" href="#link("blog/#collection_long_id#")#">Click to Read More</a>
-		<a class="comments" href="">xx Comments</a>
+		<!--- <a class="comments" href="">xx Comments</a> --->
 	</div>
 </cfloop>
 </cfoutput>

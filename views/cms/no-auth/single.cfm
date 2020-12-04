@@ -1,5 +1,5 @@
 <cfoutput>
-<div class="collection">
+<div class="collection single">
 	<h2>#model.collection.set.title#</h2>
 	<p>Written by #model.collection.author#</p>
 	<p>#model.collection.date#</p>

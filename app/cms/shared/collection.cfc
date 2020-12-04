@@ -304,8 +304,7 @@ component name="collection" extends="base" accessors=true {
 				p.collection_long_id = c.content_collection_match_id
 			ORDER BY 
 				p.collection_id
-			, c.content_order 
-			ASC
+			DESC
 			"
 		);
 

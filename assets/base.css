@@ -80,7 +80,7 @@ pre {
 }
 
 h1,h2,h3,h4,h5,h6 {
-	font-family: 'EB Garamond', serif;
+	font-weight: bold;
 	margin-bottom: 10px;
 }
 
@@ -222,16 +222,6 @@ footer a:visited {
 	margin-bottom: 40px;
 }
 
-.middle ul.contact {
-	font-size: 1.2em;
-}
-
-.middle ul.contact li:nth-child(1) {
-	font-weight: bold;
-	text-decoration: underline;
-	line-height: 1.7em;
-}
-
 .middle p {
 	margin-bottom: 10px;
 }
@@ -302,38 +292,6 @@ footer a:visited {
 	font-size: 1.8em;	
 }
 
-
-/*The text itself*/
-.contact p {
-	line-height: 1.2em;	
-	font-size: 1.6em;	
-	margin-top: 40px;
-	margin-bottom: 40px;
-}
-
-.contact {
-	position: relative;
-	padding-bottom: 10px;
-}
-
-.contact ul {
-	margin-bottom: 40px;	
-}
-
-.contact ul li {
-	list-style-type: none;	
-}
-
-.contact ul li li {
-	font-size: 1.3em;	
-	margin-left: 20px;	
-	line-height: 1.3em;
-}
-
-.contact section {
-	margin-bottom: 80px;	
-	border-bottom: 1px solid white;
-}
 
 .switch-theme {
 	margin-top: 12px; 
