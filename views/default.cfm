@@ -152,7 +152,103 @@ ul.work {
 	margin-bottom: 20px;
 }
 
+img.grindreel-img {
+	position: absolute;
+	right: 0px;
+	width: 100%;
+}
+
+b {
+	font-weight: bold;
+}
+
+a.wiffle:visited, 
+a.wiffle {
+	color: white;
+	font-weight: bold;
+}
+
+ul.project li.project-li {
+	position: relative;	
+	height: 100%;
+	min-height: 500px;
+	overflow: hidden;
+	background-color: black;
+	background-position: center;
+	background-size: 110%;
+	background-repeat: no-repeat;
+}
+
+ul.project li.project-li div.more {
+	position: absolute;
+	background-color: rgba( 30, 30, 30, 0.9 );
+	bottom: 10px;
+	font-size: 0.8em;
+	left: 50%;
+	margin-left: -40px;
+	z-index: 9999;
+	display: inline-block;
+	height: 80px;
+	width: 80px;
+	border-radius: 40px;
+	-moz-border-radius: 40px;
+	-gecko-border-radius: 40px;
+}
+
+ul.project li.project-li div.more li {
+  background: rgba(0, 7, 17, 0.7);
+	transition: background-color 0.3s, color 0.3s;
+	width: 65px;
+	margin-top: 5px;
+	font-family: 'EB Garamond', serif;
+	padding: 2px;
+}
+
+ul.project li.project-li div.more a {
+	color: white;
+	text-transform: lowercase;
+	text-decoration: none;
+}
+
+ul.project li.project-li div.more li:hover {
+	color: black;
+	background: rgba(255,255,255,0.7);
+}
+
+ul.project li.project-li div.more a:hover {
+	color: white;
+}
+
+ul.project li.project-li div.next {
+	position: relative;
+	left: 20px;
+	border-right: 10px solid white;
+	border-bottom: 10px solid white;
+	transform: rotate(45deg);
+	width: 30px;
+	height: 30px;
+	top: 15px;
+	transition: border 0.2s;
+}
+
+ul.project li.project-li div.next:hover {
+	border-right: 10px solid green;
+	border-bottom: 10px solid green;
+}
+
+@media screen and (max-height: 660px) {
+	ul.work li:last-child {
+		display: none;	
+	}
+}
+
 @media screen and (max-width: 717px) {
+	ul.project li.project-li div.more {
+		left: 80%;
+		background: #000;
+		margin-left: -20px;
+	}
+
 	.grindreel h1 {
 		font-size: 2.0em;
 	}
@@ -187,12 +283,11 @@ ul.work {
 	ul.work li:last-child {
 		display: none;	
 	}
-}
 
-img.grindreel-img {
-	position: absolute;
-	right: 0px;
-	height: 100%;
+	ul.project li.project-li {
+		background-position: right;
+		background-size: auto 100%;
+	}
 }
 
 /*
@@ -203,34 +298,29 @@ ul.project li.project-li:nth-child(1) img.grindreel-img {
 }
 */
 
-b {
-	font-weight: bold;
-}
-
-a.wiffle:visited, 
-a.wiffle {
-	color: white;
-	font-weight: bold;
-}
 </style>
 
 <cfoutput>
-	<link rel="stylesheet" href="#link( 'assets/project.css' )#">
 	<div class="projects">
 		<ul class="project">
+<!---
 			<li class="project-li" style="background:black;">
 				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_graham_3096x2322_bw.jpg"></img>
+--->
+			<li class="project-li" style="background-image:url(/assets/img/grindreel/charlotte_uptown_graham_3096x2322_bw.jpg)">
 				<div class="grindreel"> 
 					<p class="small offwhite top">Welcome to</p>
 					<h1>ramar.work</h1>
 					<p>The digital home of full-stack developer <b>Antonio Ramar Collins II</b>.</p>
 					<p>
-					I have been programming for 13 years and I am currently located in Charlotte, North Carolina.  
+					I have been programming for 13 years and am currently located in Charlotte, North Carolina.  
 					I specialize in building apps for 
 					<b>business</b>, 
 					<b>endurance</b> and 
-					<a class="wiffle" href="https://ncat.edu/transfer-articulation">higher-education</a>.  
+					<a class="wiffle" href="https://ncat.edu/transfer-articulation">higher education</a>.  
 					And I would love to build your next product...
+					</p>
+					<p>
 					</p>
 					<p class="left-side">
 						<a href="/resume.pdf">Resume</a>
@@ -248,8 +338,8 @@ a.wiffle {
 				</div>
 			</li>
 
-			<li class="project-li" style="background:black;">
-				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_3096x2322_bw.jpg"></img>
+			<li class="project-li" style="background-image:url(/assets/img/grindreel/charlotte_uptown_3096x2322_bw.jpg)">
+				<!--- <img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_3096x2322_bw.jpg"></img> --->
 				<div id="experience_" class="grindreel"> 
 					<h1>Experience</h1>
 					<p>I have gained skill in a variety of languages, tools and frameworks across my 13 years of programming.  
@@ -282,8 +372,8 @@ a.wiffle {
 				</div>
 			</li>
 
-			<li class="project-li" style="background:black;">
-				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_spectrum_3096x2322_bw.jpg"></img>
+			<li class="project-li" style="background-image:url(/assets/img/grindreel/charlotte_uptown_spectrum_3096x2322_bw.jpg)">
+				<!--- <img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_spectrum_3096x2322_bw.jpg"></img> --->
 				<div id="tools_" class="grindreel"> 
 					<h1>Tools</h1>
 					<p>I also write tools to solve problems in my spare time.  The use cases vary from simple text processing
@@ -302,8 +392,8 @@ a.wiffle {
 				</div>
 			</li>
 
-			<li class="project-li" style="background:black;">
-				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_innervision_3096x2322_bw.jpg"></img>
+			<li class="project-li" style="background-image:url(/assets/img/grindreel/charlotte_uptown_innervision_3096x2322_bw.jpg)">
+				<!--- <img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_innervision_3096x2322_bw.jpg"></img>--->
 				<div id="contact_" class="grindreel"> 
 					<h1>Connect with me</h1>
 					<table>
