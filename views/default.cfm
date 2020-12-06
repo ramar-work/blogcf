@@ -290,14 +290,6 @@ ul.project li.project-li div.next:hover {
 	}
 }
 
-/*
-ul.project li.project-li:nth-child(1) img.grindreel-img {
-	height: 100%;
-	left: 50%;
-	margin-left: -570px;	
-}
-*/
-
 </style>
 
 <cfoutput>
