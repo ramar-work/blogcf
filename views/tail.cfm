@@ -1,9 +1,8 @@
 
 
 	<footer>
-	&copy; 2019 Tubular Modular, Inc. dba Collins Design<br />All Rights Reserved 
+	&copy; 2020 Tubular Modular, Inc. dba Collins Design<br />All Rights Reserved 
 	<br />
-	This site runs on <a href="http://mystframework.com">Myst</a>, the best damned CMS in the South.
 	</footer>
 
 </div>

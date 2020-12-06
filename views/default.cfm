@@ -4,8 +4,11 @@
 	color: #eef;
 	position: relative;
 	top: 10%;
-	left: 100px;
+	/*left: 80px;*/
+	margin: 0 auto;
 	width: 80%;
+	padding: 20px;
+	background: rgba( 30, 30, 30, 0.9 );
 }
 
 .project-li:nth-child(1) .grindreel,
@@ -180,8 +183,35 @@ ul.work {
 		line-height: 1.4em;
 		margin-bottom: 20px !important;
 	}
+	
+	ul.work li:last-child {
+		display: none;	
+	}
 }
 
+img.grindreel-img {
+	position: absolute;
+	right: 0px;
+	height: 100%;
+}
+
+/*
+ul.project li.project-li:nth-child(1) img.grindreel-img {
+	height: 100%;
+	left: 50%;
+	margin-left: -570px;	
+}
+*/
+
+b {
+	font-weight: bold;
+}
+
+a.wiffle:visited, 
+a.wiffle {
+	color: white;
+	font-weight: bold;
+}
 </style>
 
 <cfoutput>
@@ -189,12 +219,18 @@ ul.work {
 	<div class="projects">
 		<ul class="project">
 			<li class="project-li" style="background:black;">
+				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_graham_3096x2322_bw.jpg"></img>
 				<div class="grindreel"> 
 					<p class="small offwhite top">Welcome to</p>
 					<h1>ramar.work</h1>
-					<p>The digital home of full-stack developer Antonio Ramar Collins II.</p>
+					<p>The digital home of full-stack developer <b>Antonio Ramar Collins II</b>.</p>
 					<p>
-					I specialize in building apps for business, gaming and higher-education.
+					I have been programming for 13 years and I am currently located in Charlotte, North Carolina.  
+					I specialize in building apps for 
+					<b>business</b>, 
+					<b>endurance</b> and 
+					<a class="wiffle" href="https://ncat.edu/transfer-articulation">higher-education</a>.  
+					And I would love to build your next product...
 					</p>
 					<p class="left-side">
 						<a href="/resume.pdf">Resume</a>
@@ -207,12 +243,13 @@ ul.work {
 
 				</div>
 				<div class="more">
-					<p style="font-size:0.7em;color:white;font-family:'EB Garamond'; top: 10px;left: 10px; position:relative;">(click to scroll)</p>
+					<!--- <p style="font-size:0.7em;color:white;font-family:'EB Garamond'; top: 10px;left: 10px; position:relative;">(click to scroll)</p> --->
 					<div class="next"></div>
 				</div>
 			</li>
 
 			<li class="project-li" style="background:black;">
+				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_3096x2322_bw.jpg"></img>
 				<div id="experience_" class="grindreel"> 
 					<h1>Experience</h1>
 					<p>I have gained skill in a variety of languages, tools and frameworks across my 13 years of programming.  
@@ -237,7 +274,7 @@ ul.work {
 					<ul class="list work">
 						<li><a href="http://ncat.edu/transfer-articulation">North Carolina A&T</a> - I was contracted to build an application to help students evaluate their transfer credits.  The school are big users of PHP, so it was fun to hook something up that works with Oracle and affects such a large group of users.</li>
 						<li><a href="http://gogarbanzo.com/demo">Garbanzo</a> - Garbanzo is an application I wrote to help manage finances.  It expanded to become a mobile app as well.</li>
-						<li><a href="http://mystframework.com">Myst</a> - For about 4 years, I informally maintained a web framework to make ColdFusion apps a bit easier to maintain.  It arose from a need I found at one of my previous positions to be able to seperate different types of code.  The framework ended up being quite useful on a variety of projects throughout the years, and even powers this website in its current form.</li>
+						<li><a href="http://mystframework.com">Myst</a> - For about 4 years, I informally maintained a web framework to make ColdFusion apps a bit easier to maintain.  It arose from a need I found at one of my previous positions to be able to seperate different types of code.</li>
 					</ul>
 				</div>
 				<div class="more">
@@ -246,6 +283,7 @@ ul.work {
 			</li>
 
 			<li class="project-li" style="background:black;">
+				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_spectrum_3096x2322_bw.jpg"></img>
 				<div id="tools_" class="grindreel"> 
 					<h1>Tools</h1>
 					<p>I also write tools to solve problems in my spare time.  The use cases vary from simple text processing
@@ -265,6 +303,7 @@ ul.work {
 			</li>
 
 			<li class="project-li" style="background:black;">
+				<img class="grindreel-img" src="/assets/img/grindreel/charlotte_uptown_innervision_3096x2322_bw.jpg"></img>
 				<div id="contact_" class="grindreel"> 
 					<h1>Connect with me</h1>
 					<table>
