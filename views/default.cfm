@@ -305,12 +305,8 @@ ul.project li.project-li div.next:hover {
 					<h1>ramar.work</h1>
 					<p>The digital home of full-stack developer <b>Antonio Ramar Collins II</b>.</p>
 					<p>
-					I have been programming for 13 years and am currently located in Charlotte, North Carolina.  
-					I specialize in building apps for 
-					<b>business</b>, 
-					<b>endurance</b> and 
-					<a class="wiffle" href="https://ncat.edu/transfer-articulation">higher education</a>.  
-					And I would love to build your next product...
+					I have been programming for 13 years and am currently located in Charlotte, North Carolina.  I work full-time for <a target="_blank" style="color:white;" href="">North Carolina Agricultural & Technical State University</a>, and pursue contract work from my consultancy <a style="color:white;" href="http://ironhead.io">Ironhead Design</a>.
+					I also fancy a bit of DJ'ing and music production.
 					</p>
 					<p>
 					</p>
